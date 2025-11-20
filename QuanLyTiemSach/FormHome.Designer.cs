@@ -25,95 +25,141 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-
-            this.lblDateTime = new System.Windows.Forms.Label();
-            this.statsPanel = new System.Windows.Forms.Panel();
-            this.recentOrdersPanel = new System.Windows.Forms.Panel();
-            this.topBooksPanel = new System.Windows.Forms.Panel();
-            this.lowStockPanel = new System.Windows.Forms.Panel();
-
-            this.SuspendLayout();
-
-            this.lblDateTime.AutoSize = true;
-            this.lblDateTime.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblDateTime.Location = new System.Drawing.Point(15, 10);
-            this.lblDateTime.Name = "lblDateTime";
-            this.lblDateTime.Size = new System.Drawing.Size(100, 23);
-            this.lblDateTime.TabIndex = 0;
-            this.lblDateTime.Text = "Ngày";
-
-
-            this.statsPanel.Location = new System.Drawing.Point(15, 40);
-            this.statsPanel.Name = "statsPanel";
-            this.statsPanel.Size = new System.Drawing.Size(1000, 130);
-            this.statsPanel.TabIndex = 1;
-            this.statsPanel.BackColor = System.Drawing.Color.WhiteSmoke;
-
-
-            var lblStats = new System.Windows.Forms.Label();
-            lblStats.Text = "Thống kê";
-            lblStats.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            lblDateTime = new Label();
+            statsPanel = new Panel();
+            lblStats = new Label();
+            recentOrdersPanel = new Panel();
+            lblRecent = new Label();
+            topBooksPanel = new Panel();
+            lblTopBooks = new Label();
+            lowStockPanel = new Panel();
+            lblLowStock = new Label();
+            statsPanel.SuspendLayout();
+            recentOrdersPanel.SuspendLayout();
+            topBooksPanel.SuspendLayout();
+            lowStockPanel.SuspendLayout();
+            SuspendLayout();
+            // 
+            // lblDateTime
+            // 
+            lblDateTime.AutoSize = true;
+            lblDateTime.Font = new Font("Segoe UI", 10F);
+            lblDateTime.Location = new Point(13, 8);
+            lblDateTime.Name = "lblDateTime";
+            lblDateTime.Size = new Size(41, 19);
+            lblDateTime.TabIndex = 0;
+            lblDateTime.Text = "Ngày";
+            // 
+            // statsPanel
+            // 
+            statsPanel.BackColor = Color.WhiteSmoke;
+            statsPanel.Controls.Add(lblStats);
+            statsPanel.Location = new Point(13, 30);
+            statsPanel.Margin = new Padding(3, 2, 3, 2);
+            statsPanel.Name = "statsPanel";
+            statsPanel.Size = new Size(875, 98);
+            statsPanel.TabIndex = 1;
+            // 
+            // lblStats
+            // 
             lblStats.AutoSize = true;
-            lblStats.Location = new System.Drawing.Point(10, 10);
-            this.statsPanel.Controls.Add(lblStats);
-
-            this.recentOrdersPanel.Location = new System.Drawing.Point(15, 180);
-            this.recentOrdersPanel.Name = "recentOrdersPanel";
-            this.recentOrdersPanel.Size = new System.Drawing.Size(450, 200);
-            this.recentOrdersPanel.TabIndex = 2;
-            this.recentOrdersPanel.BackColor = System.Drawing.Color.WhiteSmoke;
-
-            var lblRecent = new System.Windows.Forms.Label();
-            lblRecent.Text = "Đơn hàng vừa đặt";
-            lblRecent.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            lblStats.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblStats.Location = new Point(9, 8);
+            lblStats.Name = "lblStats";
+            lblStats.Size = new Size(81, 21);
+            lblStats.TabIndex = 0;
+            lblStats.Text = "Thống kê";
+            // 
+            // recentOrdersPanel
+            // 
+            recentOrdersPanel.BackColor = Color.WhiteSmoke;
+            recentOrdersPanel.Controls.Add(lblRecent);
+            recentOrdersPanel.Location = new Point(13, 135);
+            recentOrdersPanel.Margin = new Padding(3, 2, 3, 2);
+            recentOrdersPanel.Name = "recentOrdersPanel";
+            recentOrdersPanel.Size = new Size(394, 150);
+            recentOrdersPanel.TabIndex = 2;
+            // 
+            // lblRecent
+            // 
             lblRecent.AutoSize = true;
-            lblRecent.Location = new System.Drawing.Point(10, 10);
-            this.recentOrdersPanel.Controls.Add(lblRecent);
-
-            this.topBooksPanel.Location = new System.Drawing.Point(480, 180);
-            this.topBooksPanel.Name = "topBooksPanel";
-            this.topBooksPanel.Size = new System.Drawing.Size(450, 200);
-            this.topBooksPanel.TabIndex = 3;
-            this.topBooksPanel.BackColor = System.Drawing.Color.WhiteSmoke;
-
-            var lblTopBooks = new System.Windows.Forms.Label();
-            lblTopBooks.Text = "Top Sách ";
-            lblTopBooks.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            lblRecent.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblRecent.Location = new Point(9, 8);
+            lblRecent.Name = "lblRecent";
+            lblRecent.Size = new Size(147, 21);
+            lblRecent.TabIndex = 0;
+            lblRecent.Text = "Đơn hàng vừa đặt";
+            // 
+            // topBooksPanel
+            // 
+            topBooksPanel.BackColor = Color.WhiteSmoke;
+            topBooksPanel.Controls.Add(lblTopBooks);
+            topBooksPanel.Location = new Point(420, 135);
+            topBooksPanel.Margin = new Padding(3, 2, 3, 2);
+            topBooksPanel.Name = "topBooksPanel";
+            topBooksPanel.Size = new Size(468, 150);
+            topBooksPanel.TabIndex = 3;
+            // 
+            // lblTopBooks
+            // 
             lblTopBooks.AutoSize = true;
-            lblTopBooks.Location = new System.Drawing.Point(10, 10);
-            this.topBooksPanel.Controls.Add(lblTopBooks);
-
-            this.lowStockPanel.Location = new System.Drawing.Point(15, 400);
-            this.lowStockPanel.Name = "lowStockPanel";
-            this.lowStockPanel.Size = new System.Drawing.Size(1000, 140);
-            this.lowStockPanel.TabIndex = 4;
-            this.lowStockPanel.BackColor = System.Drawing.Color.WhiteSmoke;
-
-
-            var lblLowStock = new System.Windows.Forms.Label();
-            lblLowStock.Text = "Sách sắp hết hàng";
-            lblLowStock.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            lblTopBooks.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblTopBooks.Location = new Point(9, 8);
+            lblTopBooks.Name = "lblTopBooks";
+            lblTopBooks.Size = new Size(82, 21);
+            lblTopBooks.TabIndex = 0;
+            lblTopBooks.Text = "Top Sách ";
+            // 
+            // lowStockPanel
+            // 
+            lowStockPanel.BackColor = Color.WhiteSmoke;
+            lowStockPanel.Controls.Add(lblLowStock);
+            lowStockPanel.Location = new Point(13, 300);
+            lowStockPanel.Margin = new Padding(3, 2, 3, 2);
+            lowStockPanel.Name = "lowStockPanel";
+            lowStockPanel.Size = new Size(875, 105);
+            lowStockPanel.TabIndex = 4;
+            // 
+            // lblLowStock
+            // 
             lblLowStock.AutoSize = true;
-            lblLowStock.Location = new System.Drawing.Point(10, 10);
-            this.lowStockPanel.Controls.Add(lblLowStock);
-
-
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1040, 560);
-            this.Controls.Add(this.lblDateTime);
-            this.Controls.Add(this.statsPanel);
-            this.Controls.Add(this.recentOrdersPanel);
-            this.Controls.Add(this.topBooksPanel);
-            this.Controls.Add(this.lowStockPanel);
-            this.Name = "FormHome";
-            this.Text = "Dashboard - Quản Lý Tiệm Sách";
-
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            lblLowStock.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblLowStock.Location = new Point(9, 8);
+            lblLowStock.Name = "lblLowStock";
+            lblLowStock.Size = new Size(148, 21);
+            lblLowStock.TabIndex = 0;
+            lblLowStock.Text = "Sách sắp hết hàng";
+            // 
+            // FormHome
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(910, 420);
+            Controls.Add(lblDateTime);
+            Controls.Add(statsPanel);
+            Controls.Add(recentOrdersPanel);
+            Controls.Add(topBooksPanel);
+            Controls.Add(lowStockPanel);
+            Margin = new Padding(3, 2, 3, 2);
+            Name = "FormHome";
+            Text = "Dashboard - Quản Lý Tiệm Sách";
+            statsPanel.ResumeLayout(false);
+            statsPanel.PerformLayout();
+            recentOrdersPanel.ResumeLayout(false);
+            recentOrdersPanel.PerformLayout();
+            topBooksPanel.ResumeLayout(false);
+            topBooksPanel.PerformLayout();
+            lowStockPanel.ResumeLayout(false);
+            lowStockPanel.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label lblStats;
+        private Label lblRecent;
+        private Label lblTopBooks;
+        private Label lblLowStock;
     }
 }
