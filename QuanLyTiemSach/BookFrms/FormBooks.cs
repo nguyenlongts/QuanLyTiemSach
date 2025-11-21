@@ -1,5 +1,6 @@
 ﻿using QuanLyTiemSach.BookFrms;
 using QuanLyTiemSach.Model;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace QuanLyTiemSach
 {
@@ -52,19 +53,50 @@ namespace QuanLyTiemSach
 
 
             if (updateForm.ShowDialog() == DialogResult.OK)
-                {
-                    row.Cells["Title"].Value = selectedBook.Title;
-                    row.Cells["Author"].Value = selectedBook.Author;
-                    row.Cells["Price"].Value = selectedBook.Price;
-                }
+            {
+                row.Cells["Title"].Value = selectedBook.Title;
+                row.Cells["Author"].Value = selectedBook.Author;
+                row.Cells["Price"].Value = selectedBook.Price;
+            }
         }
 
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvBooks.SelectedRows.Count > 0) 
-            { 
-                dgvBooks.Rows.Remove(dgvBooks.SelectedRows[0]); 
+            if (dgvBooks.SelectedRows.Count > 0)
+            {
+                dgvBooks.Rows.Remove(dgvBooks.SelectedRows[0]);
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void SearchBook()
+        {
+            string keyword = txtSearchBook.Text.Trim().ToLower();
+
+            foreach (DataGridViewRow row in dgvBooks.Rows)
+            {
+                if (!row.IsNewRow)
+                {
+                    bool match =
+                        row.Cells[0].Value.ToString().ToLower().Contains(keyword) ||
+                        row.Cells[1].Value.ToString().ToLower().Contains(keyword) ||
+                        row.Cells[2].Value.ToString().ToLower().Contains(keyword);
+
+                    row.Visible = match;
+                }
+            }
+
+        }
+        private void txtSearchBook_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {   
+                SearchBook();
+                e.SuppressKeyPress = true; 
             }
         }
     }

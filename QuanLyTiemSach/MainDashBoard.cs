@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿
+using System.Windows.Forms;
 
 namespace QuanLyTiemSach
 {
@@ -11,7 +12,7 @@ namespace QuanLyTiemSach
         }
         private void OpenChildForm(Form childForm)
         {
-     
+
             if (activeForm != null)
                 activeForm.Close();
 
@@ -45,6 +46,16 @@ namespace QuanLyTiemSach
         private void btnOrders_Click(object sender, EventArgs e)
         {
             OpenChildForm(new FormOrders());
+        }
+
+        private void btnManageCase_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormManagerShift());
+        }
+
+        private void btnCategory_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormCategory());
         }
     }
 }
