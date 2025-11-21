@@ -59,7 +59,7 @@ namespace QuanLyTiemSach
             var row = dgvCategory.SelectedRows[0];
             Category selectedCategory = new Category
             {
-                Id =(int) row.Cells["CategoryID"].Value,
+                Id = (int)row.Cells["CategoryID"].Value,
                 Name = row.Cells["CategoryName"].Value.ToString(),
                 Description = row.Cells["Description"].Value.ToString(),
             };
@@ -75,6 +75,12 @@ namespace QuanLyTiemSach
             }
         }
 
-
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvCategory.SelectedRows.Count > 0)
+            {
+                dgvCategory.Rows.Remove(dgvCategory.SelectedRows[0]);
+            }
+        }
     }
 }

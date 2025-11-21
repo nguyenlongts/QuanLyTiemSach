@@ -31,7 +31,7 @@
             lblCateogy = new Label();
             btnCategoryMain = new Button();
             btnEditCategory = new Button();
-            button3 = new Button();
+            btnDelete = new Button();
             dgvCategory = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dgvCategory).BeginInit();
             SuspendLayout();
@@ -62,7 +62,8 @@
             // 
             // btnEditCategory
             // 
-            btnEditCategory.BackColor = Color.Yellow;
+            btnEditCategory.BackColor = Color.Goldenrod;
+            btnEditCategory.ForeColor = Color.White;
             btnEditCategory.Location = new Point(169, 376);
             btnEditCategory.Name = "btnEditCategory";
             btnEditCategory.Size = new Size(111, 43);
@@ -71,15 +72,17 @@
             btnEditCategory.UseVisualStyleBackColor = false;
             btnEditCategory.Click += btnEditCategoryMain_Click;
             // 
-            // button3
+            // btnDelete
             // 
-            button3.BackColor = Color.Red;
-            button3.Location = new Point(286, 376);
-            button3.Name = "button3";
-            button3.Size = new Size(110, 43);
-            button3.TabIndex = 3;
-            button3.Text = "Xóa";
-            button3.UseVisualStyleBackColor = false;
+            btnDelete.BackColor = Color.Red;
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(286, 376);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(110, 43);
+            btnDelete.TabIndex = 3;
+            btnDelete.Text = "Xóa";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
             // dgvCategory
             // 
@@ -97,7 +100,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(dgvCategory);
-            Controls.Add(button3);
+            Controls.Add(btnDelete);
             Controls.Add(btnEditCategory);
             Controls.Add(btnCategoryMain);
             Controls.Add(lblCateogy);
@@ -112,7 +115,7 @@
         private Label lblCateogy;
         private Button btnCategoryMain;
         private Button btnEditCategory;
-        private Button button3;
+        private Button btnDelete;
         private DataGridView dgvCategory;
     }
 }
