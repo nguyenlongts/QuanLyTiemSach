@@ -1,4 +1,4 @@
-﻿namespace QuanLyTiemSach
+namespace QuanLyTiemSach
 {
     partial class MainDashboard
     {
@@ -25,6 +25,7 @@
         private void InitializeComponent()
         {
             menuPanel = new Panel();
+            btnThongKe = new Button();
             btnCategory = new Button();
             btnManageCase = new Button();
             lblUser = new Label();
@@ -34,7 +35,6 @@
             btnOrders = new Button();
             btnLogout = new Button();
             mainPanel = new Panel();
-            btnThongKe = new Button();
             menuPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -55,13 +55,23 @@
             menuPanel.Size = new Size(200, 600);
             menuPanel.TabIndex = 0;
             // 
+            // btnThongKe
+            // 
+            btnThongKe.Location = new Point(0, 440);
+            btnThongKe.Name = "btnThongKe";
+            btnThongKe.Size = new Size(200, 50);
+            btnThongKe.TabIndex = 9;
+            btnThongKe.Text = "Thống kê";
+            btnThongKe.UseVisualStyleBackColor = true;
+            btnThongKe.Click += btnThongKe_Click;
+            // 
             // btnCategory
             // 
             btnCategory.Location = new Point(0, 371);
             btnCategory.Name = "btnCategory";
             btnCategory.Size = new Size(200, 50);
             btnCategory.TabIndex = 8;
-            btnCategory.Text = "Danh mục";
+            btnCategory.Text = "Quản lý danh mục";
             btnCategory.UseVisualStyleBackColor = true;
             btnCategory.Click += btnCategory_Click;
             // 
@@ -82,7 +92,7 @@
             lblUser.ForeColor = Color.White;
             lblUser.Location = new Point(10, 10);
             lblUser.Name = "lblUser";
-            lblUser.Size = new Size(123, 23);
+            lblUser.Size = new Size(104, 19);
             lblUser.TabIndex = 1;
             lblUser.Text = "Xin chào, User";
             // 
@@ -102,7 +112,7 @@
             btnBooks.Name = "btnBooks";
             btnBooks.Size = new Size(200, 50);
             btnBooks.TabIndex = 3;
-            btnBooks.Text = "Sách";
+            btnBooks.Text = "Quản lý sách";
             btnBooks.UseVisualStyleBackColor = true;
             btnBooks.Click += btnBooks_Click;
             // 
@@ -112,7 +122,7 @@
             btnUsers.Name = "btnUsers";
             btnUsers.Size = new Size(200, 50);
             btnUsers.TabIndex = 4;
-            btnUsers.Text = "Người dùng";
+            btnUsers.Text = "Quản lý người dùng";
             btnUsers.UseVisualStyleBackColor = true;
             btnUsers.Click += btnUsers_Click;
             // 
@@ -122,7 +132,7 @@
             btnOrders.Name = "btnOrders";
             btnOrders.Size = new Size(200, 50);
             btnOrders.TabIndex = 5;
-            btnOrders.Text = "Hóa đơn";
+            btnOrders.Text = "Quản lý hóa đơn";
             btnOrders.UseVisualStyleBackColor = true;
             btnOrders.Click += btnOrders_Click;
             // 
@@ -142,16 +152,6 @@
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(800, 600);
             mainPanel.TabIndex = 7;
-            // 
-            // btnThongKe
-            // 
-            btnThongKe.Location = new Point(0, 440);
-            btnThongKe.Name = "btnThongKe";
-            btnThongKe.Size = new Size(200, 50);
-            btnThongKe.TabIndex = 9;
-            btnThongKe.Text = "Thống kê";
-            btnThongKe.UseVisualStyleBackColor = true;
-            btnThongKe.Click += btnThongKe_Click;
             // 
             // MainDashboard
             // 
