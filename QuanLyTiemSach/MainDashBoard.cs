@@ -1,4 +1,5 @@
 ﻿
+using QuanLyTiemSach.StatisticFrms;
 using System.Windows.Forms;
 
 namespace QuanLyTiemSach
@@ -56,6 +57,11 @@ namespace QuanLyTiemSach
         private void btnCategory_Click(object sender, EventArgs e)
         {
             OpenChildForm(new FormCategory());
+        }
+
+        private void btnThongKe_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormStatistic());
         }
     }
 }

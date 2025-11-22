@@ -34,12 +34,14 @@
             btnOrders = new Button();
             btnLogout = new Button();
             mainPanel = new Panel();
+            btnThongKe = new Button();
             menuPanel.SuspendLayout();
             SuspendLayout();
             // 
             // menuPanel
             // 
             menuPanel.BackColor = Color.FromArgb(41, 128, 185);
+            menuPanel.Controls.Add(btnThongKe);
             menuPanel.Controls.Add(btnCategory);
             menuPanel.Controls.Add(btnManageCase);
             menuPanel.Controls.Add(lblUser);
@@ -126,7 +128,7 @@
             // 
             // btnLogout
             // 
-            btnLogout.Location = new Point(3, 447);
+            btnLogout.Location = new Point(0, 505);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(200, 50);
             btnLogout.TabIndex = 6;
@@ -140,6 +142,16 @@
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(800, 600);
             mainPanel.TabIndex = 7;
+            // 
+            // btnThongKe
+            // 
+            btnThongKe.Location = new Point(0, 440);
+            btnThongKe.Name = "btnThongKe";
+            btnThongKe.Size = new Size(200, 50);
+            btnThongKe.TabIndex = 9;
+            btnThongKe.Text = "Thống kê";
+            btnThongKe.UseVisualStyleBackColor = true;
+            btnThongKe.Click += btnThongKe_Click;
             // 
             // MainDashboard
             // 
@@ -157,5 +169,6 @@
 
         private Button btnManageCase;
         private Button btnCategory;
+        private Button btnThongKe;
     }
 }
