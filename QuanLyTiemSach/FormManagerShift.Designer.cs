@@ -1,4 +1,4 @@
-﻿namespace QuanLyTiemSach
+namespace QuanLyTiemSach
 {
     partial class FormManagerShift
     {
@@ -127,6 +127,8 @@
             gridShift.RowHeadersWidth = 51;
             gridShift.Size = new Size(726, 188);
             gridShift.TabIndex = 8;
+            gridShift.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Các cột sẽ tự động điều chỉnh để chiếm hết chiều rộng
+
             // 
             // Column1
             // 

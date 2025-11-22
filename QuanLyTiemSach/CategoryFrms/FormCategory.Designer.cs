@@ -1,4 +1,4 @@
-﻿namespace QuanLyTiemSach
+namespace QuanLyTiemSach
 {
     partial class FormCategory
     {
@@ -93,6 +93,7 @@
             dgvCategory.RowHeadersWidth = 51;
             dgvCategory.Size = new Size(775, 282);
             dgvCategory.TabIndex = 4;
+            dgvCategory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             // 
             // FormCategory
             // 
