@@ -1,102 +1,106 @@
-﻿using QuanLyTiemSach.BookFrms;
-using QuanLyTiemSach.Model;
-using static System.Reflection.Metadata.BlobBuilder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using QuanLyTiemSach.BLL.Services;
+using QuanLyTiemSach.Domain.Model;
+using QuanLyTiemSach.BookFrms;
 
 namespace QuanLyTiemSach
 {
     public partial class FormBooks : Form
     {
+        private readonly BookService _bookService;
+
         public FormBooks()
         {
             InitializeComponent();
-            LoadSampleData();
+            _bookService = new BookService();
+            LoadData();
         }
 
-        private void LoadSampleData()
+        private void LoadData()
         {
+            dgvBooks.Rows.Clear();
+            dgvBooks.Columns.Clear();
+
             dgvBooks.Columns.Add("BookID", "ID");
             dgvBooks.Columns.Add("Title", "Tên sách");
             dgvBooks.Columns.Add("Author", "Tác giả");
             dgvBooks.Columns.Add("Price", "Giá");
 
-            dgvBooks.Rows.Add("1", "C# cơ bản", "Nguyễn Văn A", "200000");
-            dgvBooks.Rows.Add("2", "WinForms nâng cao", "Trần Thị B", "250000");
-            dgvBooks.Rows.Add("3", "SQL Server", "Lê Văn C", "180000");
+            List<Book> books = _bookService.GetAll();
+
+            foreach (var b in books)
+            {
+                dgvBooks.Rows.Add(b.BookID, b.Title, b.Author, b.Price);
+            }
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            FormAddBook addBookForm = new FormAddBook();
-
-            if (addBookForm.ShowDialog() == DialogResult.OK)
+            var frm = new FormAddBook();
+            if (frm.ShowDialog() == DialogResult.OK)
             {
-                Book newBook = addBookForm.Book;
-                dgvBooks.Rows.Add(newBook.BookID, newBook.Title, newBook.Author, newBook.Price);
+                _bookService.Add(frm.Book);
+                LoadData();
             }
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if (dgvBooks.SelectedRows.Count == 0)
-                return;
+            if (dgvBooks.SelectedRows.Count == 0) return;
 
             var row = dgvBooks.SelectedRows[0];
-            Book selectedBook = new Book
+            var book = new Book
             {
                 BookID = row.Cells["BookID"].Value.ToString(),
                 Title = row.Cells["Title"].Value.ToString(),
                 Author = row.Cells["Author"].Value.ToString(),
-                Price = decimal.Parse(row.Cells["Price"].Value.ToString())
+                Price = Convert.ToDecimal(row.Cells["Price"].Value)
             };
 
-            FormUpdateBook updateForm = new FormUpdateBook(selectedBook);
-
-
-            if (updateForm.ShowDialog() == DialogResult.OK)
+            var frm = new FormUpdateBook(book);
+            if (frm.ShowDialog() == DialogResult.OK)
             {
-                row.Cells["Title"].Value = selectedBook.Title;
-                row.Cells["Author"].Value = selectedBook.Author;
-                row.Cells["Price"].Value = selectedBook.Price;
+                _bookService.Update(book);
+                LoadData();
             }
         }
-
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvBooks.SelectedRows.Count > 0)
+            if (dgvBooks.SelectedRows.Count == 0) return;
+
+            var id = dgvBooks.SelectedRows[0]
+                        .Cells["BookID"].Value.ToString();
+
+            if (MessageBox.Show("Xóa sách này?",
+                "Confirm",
+                MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                dgvBooks.Rows.Remove(dgvBooks.SelectedRows[0]);
+                _bookService.Delete(id);
+                LoadData();
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void SearchBook()
-        {
-            string keyword = txtSearchBook.Text.Trim().ToLower();
-
-            foreach (DataGridViewRow row in dgvBooks.Rows)
-            {
-                if (!row.IsNewRow)
-                {
-                    bool match =
-                        row.Cells[0].Value.ToString().ToLower().Contains(keyword) ||
-                        row.Cells[1].Value.ToString().ToLower().Contains(keyword) ||
-                        row.Cells[2].Value.ToString().ToLower().Contains(keyword);
-
-                    row.Visible = match;
-                }
-            }
-
-        }
         private void txtSearchBook_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {   
-                SearchBook();
-                e.SuppressKeyPress = true; 
+            if (e.KeyCode != Keys.Enter) return;
+
+            string keyword = txtSearchBook.Text.Trim().ToLower();
+            dgvBooks.Rows.Clear();
+
+            var result = _bookService.GetAll()
+                .Where(b =>
+                    b.BookID.ToLower().Contains(keyword) ||
+                    b.Title.ToLower().Contains(keyword) ||
+                    b.Author.ToLower().Contains(keyword))
+                .ToList();
+
+            foreach (var b in result)
+            {
+                dgvBooks.Rows.Add(b.BookID, b.Title, b.Author, b.Price);
             }
         }
     }

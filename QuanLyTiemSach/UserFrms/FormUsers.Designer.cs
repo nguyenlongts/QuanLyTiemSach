@@ -295,7 +295,7 @@
             cboRole.DropDownStyle = ComboBoxStyle.DropDownList;
             cboRole.Font = new Font("Segoe UI", 9F);
             cboRole.FormattingEnabled = true;
-            cboRole.Items.AddRange(new object[] { "Admin", "Manager", "User" });
+            cboRole.Items.AddRange(new object[] { "Admin", "Staff" });
             cboRole.Location = new Point(502, 103);
             cboRole.Margin = new Padding(3, 4, 3, 4);
             cboRole.Name = "cboRole";

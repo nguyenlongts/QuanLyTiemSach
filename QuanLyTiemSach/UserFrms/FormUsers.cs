@@ -1,5 +1,6 @@
-﻿using QuanLyTiemSach.BookFrms;
-using QuanLyTiemSach.Model;
+﻿using QuanLyTiemSach.BLL.Services;
+using QuanLyTiemSach.BookFrms;
+using QuanLyTiemSach.Domain.Model;
 using System;
 using System.Data;
 using System.Linq;
@@ -9,37 +10,45 @@ namespace QuanLyTiemSach.UserFrms
 {
     public partial class FormUsers : Form
     {
+
         private DataTable dtUsers;
         private bool isEditing = false;
+        private readonly UserService _userService;
         private int selectedUserId = -1;
+
 
         public FormUsers()
         {
             InitializeComponent();
-            LoadSampleData();
+            _userService = new UserService();
+            LoadUsers();
         }
 
-        private void LoadSampleData()
+
+        private void LoadUsers()
         {
-            // Khởi tạo DataTable
-            dtUsers = new DataTable();
-            dtUsers.Columns.Add("UserID", typeof(int));
-            dtUsers.Columns.Add("Username", typeof(string));
-            dtUsers.Columns.Add("FullName", typeof(string));
-            dtUsers.Columns.Add("Email", typeof(string));
-            dtUsers.Columns.Add("Role", typeof(string));
-            dtUsers.Columns.Add("Status", typeof(string));
-            dtUsers.Columns.Add("CreatedDate", typeof(DateTime));
-
-            // Thêm dữ liệu mẫu
-            dtUsers.Rows.Add(1, "admin", "Nguyễn Văn A", "admin@gmail.com", "Admin", "Active", DateTime.Now.AddMonths(-6));
-            dtUsers.Rows.Add(2, "user001", "Trần Thị B", "trantb@gmail.com", "User", "Active", DateTime.Now.AddMonths(-3));
-            dtUsers.Rows.Add(3, "manager01", "Lê Văn C", "levanc@gmail.com", "Manager", "Active", DateTime.Now.AddMonths(-1));
-            dtUsers.Rows.Add(4, "user002", "Phạm Thị D", "phamthid@gmail.com", "User", "Inactive", DateTime.Now.AddDays(-15));
-
-            dgvUsers.DataSource = dtUsers;
-            FormatDataGridView();
+            dgvUsers.DataSource = _userService.GetAll();
+            dgvUsers.ClearSelection();
+            selectedUserId = -1;
         }
+
+        private void dgvUsers_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var row = dgvUsers.Rows[e.RowIndex];
+            selectedUserId = (int)row.Cells["UserID"].Value;
+
+            txtUsername.Text = row.Cells["Username"].Value.ToString();
+            txtFullName.Text = row.Cells["FullName"].Value.ToString();
+            txtEmail.Text = row.Cells["Email"].Value.ToString();
+            cboRole.Text = row.Cells["Role"].Value.ToString();
+            cboStatus.Text = row.Cells["Status"].Value.ToString();
+
+            btnUpdate.Enabled = true;
+            btnDelete.Enabled = true;
+        }
+
 
         private void FormatDataGridView()
         {
@@ -68,143 +77,66 @@ namespace QuanLyTiemSach.UserFrms
             }
         }
 
-        private void dgvUsers_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dgvUsers.Rows[e.RowIndex];
-                selectedUserId = Convert.ToInt32(row.Cells["UserID"].Value);
 
-                txtUsername.Text = row.Cells["Username"].Value.ToString();
-                txtFullName.Text = row.Cells["FullName"].Value.ToString();
-                txtEmail.Text = row.Cells["Email"].Value.ToString();
-                cboRole.Text = row.Cells["Role"].Value.ToString();
-                cboStatus.Text = row.Cells["Status"].Value.ToString();
-
-                isEditing = true;
-                btnAdd.Text = "Hủy";
-                btnUpdate.Enabled = true;
-                btnDelete.Enabled = true;
-            }
-        }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (isEditing)
+            if (!ValidateInputs()) return;
+
+            var user = new User
             {
-                // Hủy chế độ chỉnh sửa
-                ClearInputs();
-                isEditing = false;
-                btnAdd.Text = "Thêm mới";
-                btnUpdate.Enabled = false;
-                btnDelete.Enabled = false;
-            }
-            else
-            {
-                // Thêm người dùng mới
-                if (ValidateInputs())
-                {
-                    int newId = dtUsers.AsEnumerable().Max(r => r.Field<int>("UserID")) + 1;
+                Username = txtUsername.Text.Trim(),
+                FullName = txtFullName.Text.Trim(),
+                Email = txtEmail.Text.Trim(),
+                Password = txtPassword.Text.Trim(),
+                Role = cboRole.Text,
+                Status = cboStatus.Text
+            };
 
-                    DataRow newRow = dtUsers.NewRow();
-                    newRow["UserID"] = newId;
-                    newRow["Username"] = txtUsername.Text.Trim();
-                    newRow["FullName"] = txtFullName.Text.Trim();
-                    newRow["Email"] = txtEmail.Text.Trim();
-                    newRow["Role"] = cboRole.Text;
-                    newRow["Status"] = cboStatus.Text;
-                    newRow["CreatedDate"] = DateTime.Now;
-
-                    dtUsers.Rows.Add(newRow);
-
-                    MessageBox.Show("Thêm người dùng thành công!", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    ClearInputs();
-                }
-            }
+            _userService.Add(user);
+            MessageBox.Show("Thêm người dùng thành công!");
+            LoadUsers();
+            ClearInputs();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (selectedUserId == -1)
-            {
-                MessageBox.Show("Vui lòng chọn người dùng cần cập nhật!", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (selectedUserId == -1) return;
 
-            if (ValidateInputs())
-            {
-                DataRow[] rows = dtUsers.Select($"UserID = {selectedUserId}");
-                if (rows.Length > 0)
-                {
-                    rows[0]["Username"] = txtUsername.Text.Trim();
-                    rows[0]["FullName"] = txtFullName.Text.Trim();
-                    rows[0]["Email"] = txtEmail.Text.Trim();
-                    rows[0]["Role"] = cboRole.Text;
-                    rows[0]["Status"] = cboStatus.Text;
+            var user = _userService.GetById(selectedUserId);
+            if (user == null) return;
 
-                    MessageBox.Show("Cập nhật thông tin thành công!", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+            user.Username = txtUsername.Text.Trim();
+            user.FullName = txtFullName.Text.Trim();
+            user.Email = txtEmail.Text.Trim();
+            user.Password = txtPassword.Text.Trim();
+            user.Role = cboRole.Text;
+            user.Status = cboStatus.Text;
 
-                    ClearInputs();
-                    isEditing = false;
-                    btnAdd.Text = "Thêm mới";
-                    btnUpdate.Enabled = false;
-                    btnDelete.Enabled = false;
-                }
-            }
+            _userService.Update(user);
+            MessageBox.Show("Cập nhật thành công!");
+            LoadUsers();
+            ClearInputs();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (selectedUserId == -1)
+            if (selectedUserId == -1) return;
+
+            if (MessageBox.Show("Xóa người dùng này?", "Xác nhận",
+                MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                MessageBox.Show("Vui lòng chọn người dùng cần xóa!", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DialogResult result = MessageBox.Show(
-                "Bạn có chắc chắn muốn xóa người dùng này?",
-                "Xác nhận xóa",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                DataRow[] rows = dtUsers.Select($"UserID = {selectedUserId}");
-                if (rows.Length > 0)
-                {
-                    dtUsers.Rows.Remove(rows[0]);
-
-                    MessageBox.Show("Xóa người dùng thành công!", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    ClearInputs();
-                    isEditing = false;
-                    btnAdd.Text = "Thêm mới";
-                    btnUpdate.Enabled = false;
-                    btnDelete.Enabled = false;
-                }
+                _userService.Delete(selectedUserId);
+                LoadUsers();
+                ClearInputs();
             }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string searchText = txtSearch.Text.Trim().ToLower();
-
-            if (string.IsNullOrEmpty(searchText))
-            {
-                dgvUsers.DataSource = dtUsers;
-                return;
-            }
-
-            DataView dv = dtUsers.DefaultView;
-            dv.RowFilter = $"Username LIKE '%{searchText}%' OR FullName LIKE '%{searchText}%' OR Email LIKE '%{searchText}%'";
-            dgvUsers.DataSource = dv.ToTable();
+            dgvUsers.DataSource = _userService.Search(txtSearch.Text.Trim());
         }
+
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {

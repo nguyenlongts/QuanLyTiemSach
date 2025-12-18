@@ -1,112 +1,117 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace QuanLyTiemSach.BookFrms
 {
     partial class FormAddBook
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
-            {
                 components.Dispose();
-            }
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        private Label lblTitle;
+        private Label lblId;
+        private Label lblName;
+        private Label lblAuthor;
+        private Label lblPrice;
+        private Label lblCategory;
+
+        private TextBox txtId;
+        private TextBox txtName;
+        private TextBox txtAuthor;
+        private TextBox txtPrice;
+        private TextBox txtCategoryId;
+
+        private Button btnAdd;
+        private Button btnCancel;
 
         private void InitializeComponent()
         {
-            label1 = new Label();
+            lblTitle = new Label();
+            lblId = new Label();
+            lblName = new Label();
+            lblAuthor = new Label();
+            lblPrice = new Label();
+            lblCategory = new Label();
+
             txtId = new TextBox();
             txtName = new TextBox();
-            label2 = new Label();
             txtAuthor = new TextBox();
-            label3 = new Label();
             txtPrice = new TextBox();
-            label4 = new Label();
+            txtCategoryId = new TextBox();
+
             btnAdd = new Button();
+            btnCancel = new Button();
+
             SuspendLayout();
 
-            // label1
-            label1.AutoSize = true;
-            label1.Location = new Point(50, 40);
-            label1.Text = "Book ID";
+            // ===== Title =====
+            lblTitle.Text = "THÊM SÁCH MỚI";
+            lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTitle.Location = new Point(90, 15);
+            lblTitle.AutoSize = true;
 
-            // txtId
-            txtId.Location = new Point(150, 37);
-            txtId.Size = new Size(150, 23);
+            // ===== Labels =====
+            lblId.Text = "Book ID:";
+            lblName.Text = "Tên sách:";
+            lblAuthor.Text = "Tác giả:";
+            lblPrice.Text = "Giá:";
+            lblCategory.Text = "Category ID:";
 
-            // label2
-            label2.AutoSize = true;
-            label2.Location = new Point(50, 80);
-            label2.Text = "Name";
+            lblId.Location = new Point(40, 70);
+            lblName.Location = new Point(40, 110);
+            lblAuthor.Location = new Point(40, 150);
+            lblPrice.Location = new Point(40, 190);
+            lblCategory.Location = new Point(40, 230);
 
-            // txtName
-            txtName.Location = new Point(150, 77);
-            txtName.Size = new Size(150, 23);
+            // ===== TextBoxes =====
+            txtId.Location = new Point(150, 67);
+            txtName.Location = new Point(150, 107);
+            txtAuthor.Location = new Point(150, 147);
+            txtPrice.Location = new Point(150, 187);
+            txtCategoryId.Location = new Point(150, 227);
 
-            // label3
-            label3.AutoSize = true;
-            label3.Location = new Point(50, 120);
-            label3.Text = "Author";
+            txtId.Width = txtName.Width = txtAuthor.Width = txtPrice.Width = txtCategoryId.Width = 170;
 
-            // txtAuthor
-            txtAuthor.Location = new Point(150, 117);
-            txtAuthor.Size = new Size(150, 23);
-
-            // label4
-            label4.AutoSize = true;
-            label4.Location = new Point(50, 160);
-            label4.Text = "Price";
-
-            // txtPrice
-            txtPrice.Location = new Point(150, 157);
-            txtPrice.Size = new Size(150, 23);
-
-            // btnAdd
-            btnAdd.Location = new Point(150, 210);
+            // ===== Buttons =====
+            btnAdd.Text = "Lưu";
+            btnAdd.BackColor = Color.FromArgb(46, 204, 113);
+            btnAdd.ForeColor = Color.White;
+            btnAdd.FlatStyle = FlatStyle.Flat;
+            btnAdd.Location = new Point(90, 280);
             btnAdd.Size = new Size(100, 35);
-            btnAdd.Text = "Add Book";
             btnAdd.Click += btnAdd_Click;
 
-            // FormAddBook
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(380, 300);
-            Controls.Add(label1);
-            Controls.Add(txtId);
-            Controls.Add(label2);
-            Controls.Add(txtName);
-            Controls.Add(label3);
-            Controls.Add(txtAuthor);
-            Controls.Add(label4);
-            Controls.Add(txtPrice);
-            Controls.Add(btnAdd);
+            btnCancel.Text = "Hủy";
+            btnCancel.BackColor = Color.FromArgb(231, 76, 60);
+            btnCancel.ForeColor = Color.White;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Location = new Point(210, 280);
+            btnCancel.Size = new Size(100, 35);
+            btnCancel.Click += (s, e) => Close();
+
+            // ===== Form =====
+            ClientSize = new Size(380, 340);
+            Controls.AddRange(new Control[]
+            {
+                lblTitle,
+                lblId, lblName, lblAuthor, lblPrice, lblCategory,
+                txtId, txtName, txtAuthor, txtPrice, txtCategoryId,
+                btnAdd, btnCancel
+            });
+
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            StartPosition = FormStartPosition.CenterParent;
+            MaximizeBox = false;
             Text = "Add Book";
+
             ResumeLayout(false);
             PerformLayout();
         }
-
-        #endregion
-
-        private Label label1;
-        private TextBox txtId;
-        private TextBox txtName;
-        private Label label2;
-        private TextBox txtAuthor;
-        private Label label3;
-        private TextBox txtPrice;
-        private Label label4;
-        private Button btnAdd;
     }
 }

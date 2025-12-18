@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuanLyTiemSach.Model
+namespace QuanLyTiemSach.Domain.Model
 {
     public class Book
     {
@@ -10,7 +10,8 @@ namespace QuanLyTiemSach.Model
         public string Author { get; set; }
         public decimal Price { get; set; }
 
-
+        public int CategoryId { get; set; }
+        public Category Category { get; set; } = null!;
         public Book()
         {
         }

@@ -1,8 +1,9 @@
-
+﻿
 using QuanLyTiemSach.APP;
+using QuanLyTiemSach.Domain.Enums;
 using QuanLyTiemSach.StatisticFrms;
-using System.Windows.Forms;
 using QuanLyTiemSach.UserFrms;
+using System.Windows.Forms;
 namespace QuanLyTiemSach
 {
     public partial class MainDashboard : Form
@@ -11,6 +12,7 @@ namespace QuanLyTiemSach
         public MainDashboard()
         {
             InitializeComponent();
+            ApplyAuthorization();
         }
         private void OpenChildForm(Form childForm)
         {
@@ -63,6 +65,32 @@ namespace QuanLyTiemSach
         private void btnThongKe_Click(object sender, EventArgs e)
         {
             OpenChildForm(new FormStatistic());
+        }
+
+
+        private void ApplyAuthorization()
+        {
+            lblUser.Text = $"Xin chào, {AuthenSession.CurrentUser.Username}";
+
+            if (AuthenSession.IsAdmin ==false)
+            {
+                btnUsers.Visible = false;
+                btnThongKe.Visible = false;
+                btnManageCase.Visible = false;
+                btnBooks.Visible = true;
+                btnOrders.Visible = true;
+                btnCategory.Visible = true;
+            }
+            else 
+            {
+
+                btnUsers.Visible = true;
+                btnThongKe.Visible = true;
+                btnManageCase.Visible = true;
+                btnBooks.Visible = true;
+                btnOrders.Visible = true;
+                btnCategory.Visible = true;
+            }
         }
     }
 }

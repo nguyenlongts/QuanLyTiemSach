@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="QuanLyTiemSach.BLL/QuanLyTiemSach.BLL.csproj" Id="33df48ed-b900-40de-be49-b904e536735f" />
   <Project Path="QuanLyTiemSach.DAL/QuanLyTiemSach.DAL.csproj" Id="838c9b3c-3772-4c3e-8f8f-4f4826f3dfed" />
+  <Project Path="QuanLyTiemSach.Domain/QuanLyTiemSach.Domain.csproj" Id="60eb6303-1092-414a-8151-2cc28851ae00" />
   <Project Path="QuanLyTiemSach/QuanLyTiemSach.csproj" />
 </Solution>
