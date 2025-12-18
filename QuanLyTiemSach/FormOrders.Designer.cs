@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace QuanLyTiemSach
+namespace QuanLyTiemSach.APP
 {
     partial class FormOrders
     {

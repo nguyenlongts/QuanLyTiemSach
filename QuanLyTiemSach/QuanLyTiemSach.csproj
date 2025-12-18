@@ -37,4 +37,8 @@
     <PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\QuanLyTiemSach.BLL\QuanLyTiemSach.BLL.csproj" />
+  </ItemGroup>
+
 </Project>

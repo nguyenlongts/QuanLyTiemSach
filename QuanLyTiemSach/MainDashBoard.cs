@@ -1,7 +1,8 @@
 
+using QuanLyTiemSach.APP;
 using QuanLyTiemSach.StatisticFrms;
 using System.Windows.Forms;
-
+using QuanLyTiemSach.UserFrms;
 namespace QuanLyTiemSach
 {
     public partial class MainDashboard : Form
@@ -41,7 +42,7 @@ namespace QuanLyTiemSach
 
         private void btnUsers_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormUsers());
+            OpenChildForm(new UserFrms.FormUsers());
         }
 
         private void btnOrders_Click(object sender, EventArgs e)
