@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QuanLyTiemSach.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class addModels : Migration
+    public partial class initdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,9 +36,9 @@ namespace QuanLyTiemSach.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: false)
+                    Description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -70,18 +70,25 @@ namespace QuanLyTiemSach.DAL.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Username = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PasswordHash = table.Column<string>(type: "longtext", nullable: false)
+                    FullName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Password = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Role = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.UserID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -89,13 +96,17 @@ namespace QuanLyTiemSach.DAL.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    BookID = table.Column<string>(type: "varchar(255)", nullable: false)
+                    BookID = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Title = table.Column<string>(type: "longtext", nullable: false)
+                    Title = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Author = table.Column<string>(type: "longtext", nullable: false)
+                    Author = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Publisher = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PublishedYear = table.Column<int>(type: "int", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -106,7 +117,7 @@ namespace QuanLyTiemSach.DAL.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -139,7 +150,7 @@ namespace QuanLyTiemSach.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    BookID = table.Column<string>(type: "varchar(255)", nullable: false)
+                    BookID = table.Column<string>(type: "varchar(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
@@ -166,6 +177,17 @@ namespace QuanLyTiemSach.DAL.Migrations
                 name: "IX_Books_CategoryId",
                 table: "Books",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_Title",
+                table: "Books",
+                column: "Title");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Name",
+                table: "Categories",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_BookID",

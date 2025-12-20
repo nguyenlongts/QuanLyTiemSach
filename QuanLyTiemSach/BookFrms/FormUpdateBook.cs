@@ -10,21 +10,21 @@ namespace QuanLyTiemSach.BookFrms
         private readonly BookService _bookService;
         private Book _book;
 
-        public FormUpdateBook(Book book)
-        {
-            InitializeComponent();
+        //public FormUpdateBook(Book book)
+        //{
+        //    InitializeComponent();
 
-            _bookService = new BookService();
-            _book = book;
+        //    _bookService = new BookService();
+        //    _book = book;
 
-            // Bind data
-            txtId.Text = book.BookID;
-            txtName.Text = book.Title;
-            txtAuthor.Text = book.Author;
-            txtPrice.Text = book.Price.ToString();
+        //    // Bind data
+        //    txtId.Text = book.BookID;
+        //    txtName.Text = book.Title;
+        //    txtAuthor.Text = book.Author;
+        //    txtPrice.Text = book.Price.ToString();
 
-            txtId.ReadOnly = true;
-        }
+        //    txtId.ReadOnly = true;
+        //}
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -41,7 +41,7 @@ namespace QuanLyTiemSach.BookFrms
 
             try
             {
-                _bookService.Update(_book);
+                _bookService.UpdateBook(_book);
                 MessageBox.Show("Cập nhật sách thành công!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 

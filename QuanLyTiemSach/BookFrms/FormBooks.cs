@@ -1,107 +1,293 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using QuanLyTiemSach.BLL.Services;
+using QuanLyTiemSach.BookFrms;
+using QuanLyTiemSach.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using QuanLyTiemSach.BLL.Services;
-using QuanLyTiemSach.Domain.Model;
-using QuanLyTiemSach.BookFrms;
 
 namespace QuanLyTiemSach
 {
     public partial class FormBooks : Form
     {
-        private readonly BookService _bookService;
+        private readonly IBookService _bookService;
+        private readonly ICategoryService _categoryService;
+        private string _selectedBookId = string.Empty;
 
-        public FormBooks()
+        public FormBooks(IBookService bookService)
         {
             InitializeComponent();
-            _bookService = new BookService();
+            _bookService = bookService;
+            _categoryService = ServiceDI.GetCategoryService();
+
+            SetupEvents();
             LoadData();
+        }
+
+        private void SetupEvents()
+        {
+            dgvBooks.CellClick += dgvBooks_CellClick;
+            dgvBooks.DataBindingComplete += dgvBooks_DataBindingComplete;
+            btnRefresh.Click += btnRefresh_Click;
+            txtSearchBook.KeyDown += txtSearchBook_KeyDown;
+        }
+
+        private void dgvBooks_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dgvBooks.Columns.Count == 0) return;
+
+            // Cấu hình columns sau khi data binding hoàn tất
+            if (dgvBooks.Columns.Contains("BookID"))
+            {
+                dgvBooks.Columns["BookID"].HeaderText = "Mã sách";
+                dgvBooks.Columns["BookID"].FillWeight = 12;
+                dgvBooks.Columns["BookID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            if (dgvBooks.Columns.Contains("Title"))
+            {
+                dgvBooks.Columns["Title"].HeaderText = "Tên sách";
+                dgvBooks.Columns["Title"].FillWeight = 25;
+            }
+
+            if (dgvBooks.Columns.Contains("Author"))
+            {
+                dgvBooks.Columns["Author"].HeaderText = "Tác giả";
+                dgvBooks.Columns["Author"].FillWeight = 18;
+            }
+
+            if (dgvBooks.Columns.Contains("Publisher"))
+            {
+                dgvBooks.Columns["Publisher"].HeaderText = "NXB";
+                dgvBooks.Columns["Publisher"].FillWeight = 15;
+            }
+
+            if (dgvBooks.Columns.Contains("PublishedYear"))
+            {
+                dgvBooks.Columns["PublishedYear"].HeaderText = "Năm XB";
+                dgvBooks.Columns["PublishedYear"].FillWeight = 10;
+                dgvBooks.Columns["PublishedYear"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            if (dgvBooks.Columns.Contains("Price"))
+            {
+                dgvBooks.Columns["Price"].HeaderText = "Giá";
+                dgvBooks.Columns["Price"].FillWeight = 12;
+                dgvBooks.Columns["Price"].DefaultCellStyle.Format = "N0";
+                dgvBooks.Columns["Price"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+
+            if (dgvBooks.Columns.Contains("Quantity"))
+            {
+                dgvBooks.Columns["Quantity"].HeaderText = "Số lượng";
+                dgvBooks.Columns["Quantity"].FillWeight = 10;
+                dgvBooks.Columns["Quantity"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            if (dgvBooks.Columns.Contains("CategoryId"))
+            {
+                dgvBooks.Columns["CategoryId"].Visible = false;
+            }
+
+            // Ẩn các columns không cần thiết
+            string[] hiddenColumns = { "Category", "OrderDetails", "TotalValue", "IsAvailable" };
+            foreach (var colName in hiddenColumns)
+            {
+                if (dgvBooks.Columns.Contains(colName))
+                {
+                    dgvBooks.Columns[colName].Visible = false;
+                }
+            }
         }
 
         private void LoadData()
         {
-            dgvBooks.Rows.Clear();
-            dgvBooks.Columns.Clear();
-
-            dgvBooks.Columns.Add("BookID", "ID");
-            dgvBooks.Columns.Add("Title", "Tên sách");
-            dgvBooks.Columns.Add("Author", "Tác giả");
-            dgvBooks.Columns.Add("Price", "Giá");
-
-            List<Book> books = _bookService.GetAll();
-
-            foreach (var b in books)
+            try
             {
-                dgvBooks.Rows.Add(b.BookID, b.Title, b.Author, b.Price);
+                var books = _bookService.GetAllBooks();
+
+                dgvBooks.DataSource = null;
+                dgvBooks.DataSource = books;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            var frm = new FormAddBook();
-            if (frm.ShowDialog() == DialogResult.OK)
+            try
             {
-                _bookService.Add(frm.Book);
-                LoadData();
+                // Mở form thêm sách
+                var formAddBook = new FormAddEditBook(_bookService, _categoryService);
+
+                if (formAddBook.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                    MessageBox.Show("Thêm sách thành công!", "Thành công",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if (dgvBooks.SelectedRows.Count == 0) return;
-
-            var row = dgvBooks.SelectedRows[0];
-            var book = new Book
+            try
             {
-                BookID = row.Cells["BookID"].Value.ToString(),
-                Title = row.Cells["Title"].Value.ToString(),
-                Author = row.Cells["Author"].Value.ToString(),
-                Price = Convert.ToDecimal(row.Cells["Price"].Value)
-            };
+                if (string.IsNullOrEmpty(_selectedBookId))
+                {
+                    MessageBox.Show("Vui lòng chọn sách cần sửa!", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-            var frm = new FormUpdateBook(book);
-            if (frm.ShowDialog() == DialogResult.OK)
+                var book = _bookService.GetBookById(_selectedBookId);
+                if (book == null)
+                {
+                    MessageBox.Show("Không tìm thấy sách!", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Mở form sửa sách
+                var formEditBook = new FormAddEditBook(_bookService, _categoryService, book);
+
+                if (formEditBook.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                    MessageBox.Show("Cập nhật sách thành công!", "Thành công",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
             {
-                _bookService.Update(book);
-                LoadData();
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvBooks.SelectedRows.Count == 0) return;
-
-            var id = dgvBooks.SelectedRows[0]
-                        .Cells["BookID"].Value.ToString();
-
-            if (MessageBox.Show("Xóa sách này?",
-                "Confirm",
-                MessageBoxButtons.YesNo) == DialogResult.Yes)
+            try
             {
-                _bookService.Delete(id);
-                LoadData();
+                if (string.IsNullOrEmpty(_selectedBookId))
+                {
+                    MessageBox.Show("Vui lòng chọn sách cần xóa!", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var book = _bookService.GetBookById(_selectedBookId);
+                if (book == null)
+                {
+                    MessageBox.Show("Không tìm thấy sách!", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var confirm = MessageBox.Show(
+                    $"Bạn có chắc chắn muốn xóa sách này?\n\n" +
+                    $"Mã: {book.BookID}\n" +
+                    $"Tên: {book.Title}\n" +
+                    $"Tác giả: {book.Author}",
+                    "Xác nhận xóa",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirm == DialogResult.Yes)
+                {
+                    var (success, message) = _bookService.DeleteBook(_selectedBookId);
+
+                    MessageBox.Show(message, success ? "Thành công" : "Lỗi",
+                        MessageBoxButtons.OK, success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+
+                    if (success)
+                    {
+                        _selectedBookId = string.Empty;
+                        LoadData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            txtSearchBook.Clear();
+            _selectedBookId = string.Empty;
+            LoadData();
+        }
+
+        private void dgvBooks_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0 && e.RowIndex < dgvBooks.Rows.Count)
+                {
+                    DataGridViewRow row = dgvBooks.Rows[e.RowIndex];
+
+                    if (row.Cells["BookID"].Value != null)
+                    {
+                        _selectedBookId = row.Cells["BookID"].Value.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi chọn dòng: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void txtSearchBook_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode != Keys.Enter) return;
-
-            string keyword = txtSearchBook.Text.Trim().ToLower();
-            dgvBooks.Rows.Clear();
-
-            var result = _bookService.GetAll()
-                .Where(b =>
-                    b.BookID.ToLower().Contains(keyword) ||
-                    b.Title.ToLower().Contains(keyword) ||
-                    b.Author.ToLower().Contains(keyword))
-                .ToList();
-
-            foreach (var b in result)
+            if (e.KeyCode == Keys.Enter)
             {
-                dgvBooks.Rows.Add(b.BookID, b.Title, b.Author, b.Price);
+                SearchBooks();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
+        }
+
+        private void SearchBooks()
+        {
+            try
+            {
+                string keyword = txtSearchBook.Text.Trim();
+                var books = _bookService.SearchBooks(keyword);
+
+                dgvBooks.DataSource = null;
+                dgvBooks.DataSource = books;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tìm kiếm: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            dgvBooks.CellClick -= dgvBooks_CellClick;
+            dgvBooks.DataBindingComplete -= dgvBooks_DataBindingComplete;
+            btnRefresh.Click -= btnRefresh_Click;
+            txtSearchBook.KeyDown -= txtSearchBook_KeyDown;
+
+            base.OnFormClosing(e);
         }
     }
 }
+

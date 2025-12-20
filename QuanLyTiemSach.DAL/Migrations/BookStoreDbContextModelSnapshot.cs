@@ -42,25 +42,44 @@ namespace QuanLyTiemSach.DAL.Migrations
             modelBuilder.Entity("QuanLyTiemSach.Domain.Model.Book", b =>
                 {
                     b.Property<string>("BookID")
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("BookID");
 
                     b.Property<string>("Author")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("PublishedYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Publisher")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("BookID");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("Title");
 
                     b.ToTable("Books");
                 });
@@ -75,13 +94,18 @@ namespace QuanLyTiemSach.DAL.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Categories");
                 });
@@ -144,7 +168,7 @@ namespace QuanLyTiemSach.DAL.Migrations
 
                     b.Property<string>("BookID")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -207,9 +231,9 @@ namespace QuanLyTiemSach.DAL.Migrations
             modelBuilder.Entity("QuanLyTiemSach.Domain.Model.Book", b =>
                 {
                     b.HasOne("QuanLyTiemSach.Domain.Model.Category", "Category")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -229,7 +253,7 @@ namespace QuanLyTiemSach.DAL.Migrations
             modelBuilder.Entity("QuanLyTiemSach.Domain.Model.OrderDetail", b =>
                 {
                     b.HasOne("QuanLyTiemSach.Domain.Model.Book", "Book")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("BookID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -243,6 +267,16 @@ namespace QuanLyTiemSach.DAL.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("QuanLyTiemSach.Domain.Model.Book", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("QuanLyTiemSach.Domain.Model.Category", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("QuanLyTiemSach.Domain.Model.Order", b =>

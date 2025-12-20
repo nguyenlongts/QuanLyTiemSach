@@ -9,10 +9,13 @@ namespace QuanLyTiemSach.BLL.Services
 {
     public interface IBookService
     {
-        List<Book> GetAll();
-        Book? GetById(string id);
-        void Add(Book book);
-        void Update(Book book);
-        void Delete(string id);
+        List<Book> GetAllBooks();
+        Book GetBookById(string bookId);
+        (bool success, string message) AddBook(Book book);
+        (bool success, string message) UpdateBook(Book book);
+        (bool success, string message) DeleteBook(string bookId);
+        List<Book> SearchBooks(string keyword);
+        List<Book> GetBooksByCategory(int categoryId);
+        bool IsBookIdExists(string bookId);
     }
 }
