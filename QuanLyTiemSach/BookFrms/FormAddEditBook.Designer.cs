@@ -1,6 +1,4 @@
-﻿// ==================== FormAddEditBook.Designer.cs ====================
-using QuanLyTiemSach.BLL.Services;
-using QuanLyTiemSach.Domain.Model;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -9,9 +7,11 @@ namespace QuanLyTiemSach
     partial class FormAddEditBook
     {
         private System.ComponentModel.IContainer components = null;
-        private Panel headerPanel;
+
+        private Panel panelHeader;
         private Label lblHeader;
-        private Panel mainPanel;
+
+        private GroupBox groupBookInfo;
         private Label lblBookId;
         private TextBox txtBookId;
         private Label lblTitle;
@@ -28,22 +28,23 @@ namespace QuanLyTiemSach
         private NumericUpDown numQuantity;
         private Label lblCategory;
         private ComboBox cboCategory;
-        private Panel buttonPanel;
+
+        private GroupBox groupActions;
         private Button btnSave;
         private Button btnCancel;
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && components != null)
                 components.Dispose();
             base.Dispose(disposing);
         }
 
         private void InitializeComponent()
         {
-            headerPanel = new Panel();
+            panelHeader = new Panel();
             lblHeader = new Label();
-            mainPanel = new Panel();
+            groupBookInfo = new GroupBox();
             lblBookId = new Label();
             txtBookId = new TextBox();
             lblTitle = new Label();
@@ -60,226 +61,236 @@ namespace QuanLyTiemSach
             numQuantity = new NumericUpDown();
             lblCategory = new Label();
             cboCategory = new ComboBox();
-            buttonPanel = new Panel();
+            groupActions = new GroupBox();
             btnSave = new Button();
             btnCancel = new Button();
-
-            headerPanel.SuspendLayout();
-            mainPanel.SuspendLayout();
+            panelHeader.SuspendLayout();
+            groupBookInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numPublishedYear).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numQuantity).BeginInit();
-            buttonPanel.SuspendLayout();
+            groupActions.SuspendLayout();
             SuspendLayout();
-
-            // ================== HEADER PANEL ==================
-            headerPanel.BackColor = Color.FromArgb(52, 152, 219);
-            headerPanel.Controls.Add(lblHeader);
-            headerPanel.Dock = DockStyle.Top;
-            headerPanel.Height = 70;
-            headerPanel.Padding = new Padding(20);
-
+            // 
+            // panelHeader
+            // 
+            panelHeader.BackColor = Color.FromArgb(52, 152, 219);
+            panelHeader.Controls.Add(lblHeader);
+            panelHeader.Dock = DockStyle.Top;
+            panelHeader.Location = new Point(0, 0);
+            panelHeader.Name = "panelHeader";
+            panelHeader.Size = new Size(700, 60);
+            panelHeader.TabIndex = 2;
+            // 
             // lblHeader
+            // 
             lblHeader.Dock = DockStyle.Fill;
-            lblHeader.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblHeader.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             lblHeader.ForeColor = Color.White;
-            lblHeader.Text = "📚 Thêm sách mới";
-            lblHeader.TextAlign = ContentAlignment.MiddleLeft;
-
-            // ================== MAIN PANEL ==================
-            mainPanel.BackColor = Color.White;
-            mainPanel.Dock = DockStyle.Fill;
-            mainPanel.Padding = new Padding(30, 20, 30, 20);
-            mainPanel.AutoScroll = true;
-
-            // Controls
-            mainPanel.Controls.Add(cboCategory);
-            mainPanel.Controls.Add(lblCategory);
-            mainPanel.Controls.Add(numQuantity);
-            mainPanel.Controls.Add(lblQuantity);
-            mainPanel.Controls.Add(numPrice);
-            mainPanel.Controls.Add(lblPrice);
-            mainPanel.Controls.Add(numPublishedYear);
-            mainPanel.Controls.Add(lblPublishedYear);
-            mainPanel.Controls.Add(txtPublisher);
-            mainPanel.Controls.Add(lblPublisher);
-            mainPanel.Controls.Add(txtAuthor);
-            mainPanel.Controls.Add(lblAuthor);
-            mainPanel.Controls.Add(txtTitle);
-            mainPanel.Controls.Add(lblTitle);
-            mainPanel.Controls.Add(txtBookId);
-            mainPanel.Controls.Add(lblBookId);
-
-            // ================== FIELDS LAYOUT ==================
-            int yPosition = 10;
-            int labelHeight = 20;
-            int controlHeight = 35;
-            int spacing = 15;
-
-            // BookID
-            lblBookId.Location = new Point(30, yPosition);
-            lblBookId.Size = new Size(150, labelHeight);
-            lblBookId.Text = "Mã sách *";
-            lblBookId.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-
-            yPosition += labelHeight + 5;
-            txtBookId.Location = new Point(30, yPosition);
-            txtBookId.Size = new Size(300, controlHeight);
-            txtBookId.Font = new Font("Segoe UI", 11F);
-
-            yPosition += controlHeight + spacing;
-
-            // Title
-            lblTitle.Location = new Point(30, yPosition);
-            lblTitle.Size = new Size(150, labelHeight);
-            lblTitle.Text = "Tên sách *";
-            lblTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-
-            yPosition += labelHeight + 5;
-            txtTitle.Location = new Point(30, yPosition);
-            txtTitle.Size = new Size(500, controlHeight);
-            txtTitle.Font = new Font("Segoe UI", 11F);
-
-            yPosition += controlHeight + spacing;
-
-            // Author
-            lblAuthor.Location = new Point(30, yPosition);
-            lblAuthor.Size = new Size(150, labelHeight);
-            lblAuthor.Text = "Tác giả *";
-            lblAuthor.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-
-            yPosition += labelHeight + 5;
-            txtAuthor.Location = new Point(30, yPosition);
-            txtAuthor.Size = new Size(350, controlHeight);
-            txtAuthor.Font = new Font("Segoe UI", 11F);
-
-            yPosition += controlHeight + spacing;
-
-            // Publisher
-            lblPublisher.Location = new Point(30, yPosition);
-            lblPublisher.Size = new Size(150, labelHeight);
+            lblHeader.Location = new Point(0, 0);
+            lblHeader.Name = "lblHeader";
+            lblHeader.Size = new Size(700, 60);
+            lblHeader.TabIndex = 0;
+            lblHeader.Text = "Thêm / Sửa thông tin sách";
+            lblHeader.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // groupBookInfo
+            // 
+            groupBookInfo.Controls.Add(lblBookId);
+            groupBookInfo.Controls.Add(txtBookId);
+            groupBookInfo.Controls.Add(lblTitle);
+            groupBookInfo.Controls.Add(txtTitle);
+            groupBookInfo.Controls.Add(lblAuthor);
+            groupBookInfo.Controls.Add(txtAuthor);
+            groupBookInfo.Controls.Add(lblPublisher);
+            groupBookInfo.Controls.Add(txtPublisher);
+            groupBookInfo.Controls.Add(lblPublishedYear);
+            groupBookInfo.Controls.Add(numPublishedYear);
+            groupBookInfo.Controls.Add(lblPrice);
+            groupBookInfo.Controls.Add(numPrice);
+            groupBookInfo.Controls.Add(lblQuantity);
+            groupBookInfo.Controls.Add(numQuantity);
+            groupBookInfo.Controls.Add(lblCategory);
+            groupBookInfo.Controls.Add(cboCategory);
+            groupBookInfo.Location = new Point(20, 80);
+            groupBookInfo.Name = "groupBookInfo";
+            groupBookInfo.Size = new Size(660, 420);
+            groupBookInfo.TabIndex = 1;
+            groupBookInfo.TabStop = false;
+            groupBookInfo.Text = "Thông tin sách";
+            // 
+            // lblBookId
+            // 
+            lblBookId.Location = new Point(20, 30);
+            lblBookId.Name = "lblBookId";
+            lblBookId.Size = new Size(100, 23);
+            lblBookId.TabIndex = 0;
+            lblBookId.Text = "Mã sách";
+            // 
+            // txtBookId
+            // 
+            txtBookId.Location = new Point(150, 27);
+            txtBookId.Name = "txtBookId";
+            txtBookId.Size = new Size(200, 23);
+            txtBookId.TabIndex = 1;
+            // 
+            // lblTitle
+            // 
+            lblTitle.Location = new Point(20, 70);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(100, 23);
+            lblTitle.TabIndex = 2;
+            lblTitle.Text = "Tên sách";
+            // 
+            // txtTitle
+            // 
+            txtTitle.Location = new Point(150, 67);
+            txtTitle.Name = "txtTitle";
+            txtTitle.Size = new Size(460, 23);
+            txtTitle.TabIndex = 3;
+            // 
+            // lblAuthor
+            // 
+            lblAuthor.Location = new Point(20, 110);
+            lblAuthor.Name = "lblAuthor";
+            lblAuthor.Size = new Size(100, 23);
+            lblAuthor.TabIndex = 4;
+            lblAuthor.Text = "Tác giả";
+            // 
+            // txtAuthor
+            // 
+            txtAuthor.Location = new Point(150, 107);
+            txtAuthor.Name = "txtAuthor";
+            txtAuthor.Size = new Size(300, 23);
+            txtAuthor.TabIndex = 5;
+            // 
+            // lblPublisher
+            // 
+            lblPublisher.Location = new Point(20, 150);
+            lblPublisher.Name = "lblPublisher";
+            lblPublisher.Size = new Size(100, 23);
+            lblPublisher.TabIndex = 6;
             lblPublisher.Text = "Nhà xuất bản";
-            lblPublisher.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-
-            yPosition += labelHeight + 5;
-            txtPublisher.Location = new Point(30, yPosition);
-            txtPublisher.Size = new Size(350, controlHeight);
-            txtPublisher.Font = new Font("Segoe UI", 11F);
-
-            yPosition += controlHeight + spacing;
-
-            // Published Year
-            lblPublishedYear.Location = new Point(30, yPosition);
-            lblPublishedYear.Size = new Size(150, labelHeight);
+            // 
+            // txtPublisher
+            // 
+            txtPublisher.Location = new Point(150, 147);
+            txtPublisher.Name = "txtPublisher";
+            txtPublisher.Size = new Size(300, 23);
+            txtPublisher.TabIndex = 7;
+            // 
+            // lblPublishedYear
+            // 
+            lblPublishedYear.Location = new Point(20, 190);
+            lblPublishedYear.Name = "lblPublishedYear";
+            lblPublishedYear.Size = new Size(100, 23);
+            lblPublishedYear.TabIndex = 8;
             lblPublishedYear.Text = "Năm xuất bản";
-            lblPublishedYear.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-
-            yPosition += labelHeight + 5;
-            numPublishedYear.Location = new Point(30, yPosition);
-            numPublishedYear.Size = new Size(150, controlHeight);
-            numPublishedYear.Font = new Font("Segoe UI", 11F);
-            numPublishedYear.Minimum = 1000;
-            numPublishedYear.Maximum = DateTime.Now.Year;
-            numPublishedYear.Value = DateTime.Now.Year;
-
-            yPosition += controlHeight + spacing;
-
-            // Price
-            lblPrice.Location = new Point(30, yPosition);
-            lblPrice.Size = new Size(150, labelHeight);
-            lblPrice.Text = "Giá *";
-            lblPrice.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-
-            yPosition += labelHeight + 5;
-            numPrice.Location = new Point(30, yPosition);
-            numPrice.Size = new Size(200, controlHeight);
-            numPrice.Font = new Font("Segoe UI", 11F);
-            numPrice.Minimum = 0;
-            numPrice.Maximum = 999999999;
-            numPrice.ThousandsSeparator = true;
-            numPrice.DecimalPlaces = 0;
-
-            yPosition += controlHeight + spacing;
-
-            // Quantity
-            lblQuantity.Location = new Point(30, yPosition);
-            lblQuantity.Size = new Size(150, labelHeight);
-            lblQuantity.Text = "Số lượng *";
-            lblQuantity.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-
-            yPosition += labelHeight + 5;
-            numQuantity.Location = new Point(30, yPosition);
-            numQuantity.Size = new Size(150, controlHeight);
-            numQuantity.Font = new Font("Segoe UI", 11F);
-            numQuantity.Minimum = 0;
-            numQuantity.Maximum = 9999;
-
-            yPosition += controlHeight + spacing;
-
-            // Category
-            lblCategory.Location = new Point(30, yPosition);
-            lblCategory.Size = new Size(150, labelHeight);
-            lblCategory.Text = "Danh mục *";
-            lblCategory.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-
-            yPosition += labelHeight + 5;
-            cboCategory.Location = new Point(30, yPosition);
-            cboCategory.Size = new Size(300, controlHeight);
-            cboCategory.Font = new Font("Segoe UI", 11F);
+            // 
+            // numPublishedYear
+            // 
+            numPublishedYear.Location = new Point(150, 187);
+            numPublishedYear.Maximum = new decimal(new int[] { 2100, 0, 0, 0 });
+            numPublishedYear.Name = "numPublishedYear";
+            numPublishedYear.Size = new Size(120, 23);
+            numPublishedYear.TabIndex = 9;
+            // 
+            // lblPrice
+            // 
+            lblPrice.Location = new Point(20, 230);
+            lblPrice.Name = "lblPrice";
+            lblPrice.Size = new Size(100, 23);
+            lblPrice.TabIndex = 10;
+            lblPrice.Text = "Giá";
+            // 
+            // numPrice
+            // 
+            numPrice.Location = new Point(150, 227);
+            numPrice.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
+            numPrice.Name = "numPrice";
+            numPrice.Size = new Size(120, 23);
+            numPrice.TabIndex = 11;
+            // 
+            // lblQuantity
+            // 
+            lblQuantity.Location = new Point(20, 270);
+            lblQuantity.Name = "lblQuantity";
+            lblQuantity.Size = new Size(100, 23);
+            lblQuantity.TabIndex = 12;
+            lblQuantity.Text = "Số lượng";
+            // 
+            // numQuantity
+            // 
+            numQuantity.Location = new Point(150, 267);
+            numQuantity.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numQuantity.Name = "numQuantity";
+            numQuantity.Size = new Size(120, 23);
+            numQuantity.TabIndex = 13;
+            // 
+            // lblCategory
+            // 
+            lblCategory.Location = new Point(20, 310);
+            lblCategory.Name = "lblCategory";
+            lblCategory.Size = new Size(100, 23);
+            lblCategory.TabIndex = 14;
+            lblCategory.Text = "Danh mục";
+            // 
+            // cboCategory
+            // 
             cboCategory.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            // ================== BUTTON PANEL ==================
-            buttonPanel.BackColor = Color.FromArgb(236, 240, 241);
-            buttonPanel.Dock = DockStyle.Bottom;
-            buttonPanel.Height = 80;
-            buttonPanel.Padding = new Padding(30, 15, 30, 15);
-            buttonPanel.Controls.Add(btnCancel);
-            buttonPanel.Controls.Add(btnSave);
-
+            cboCategory.Location = new Point(150, 307);
+            cboCategory.Name = "cboCategory";
+            cboCategory.Size = new Size(300, 23);
+            cboCategory.TabIndex = 15;
+            // 
+            // groupActions
+            // 
+            groupActions.Controls.Add(btnSave);
+            groupActions.Controls.Add(btnCancel);
+            groupActions.Location = new Point(20, 520);
+            groupActions.Name = "groupActions";
+            groupActions.Size = new Size(660, 80);
+            groupActions.TabIndex = 0;
+            groupActions.TabStop = false;
+            groupActions.Text = "Thao tác";
+            // 
             // btnSave
-            btnSave.Location = new Point(30, 20);
-            btnSave.Size = new Size(150, 45);
-            btnSave.Text = "💾 Lưu";
-            btnSave.BackColor = Color.FromArgb(46, 204, 113);
-            btnSave.ForeColor = Color.White;
-            btnSave.FlatStyle = FlatStyle.Flat;
-            btnSave.FlatAppearance.BorderSize = 0;
-            btnSave.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnSave.Cursor = Cursors.Hand;
+            // 
+            btnSave.Location = new Point(400, 30);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(100, 30);
+            btnSave.TabIndex = 0;
+            btnSave.Text = "Lưu";
             btnSave.Click += btnSave_Click;
-
+            // 
             // btnCancel
-            btnCancel.Location = new Point(190, 20);
-            btnCancel.Size = new Size(150, 45);
-            btnCancel.Text = "❌ Hủy";
-            btnCancel.BackColor = Color.FromArgb(149, 165, 166);
-            btnCancel.ForeColor = Color.White;
-            btnCancel.FlatStyle = FlatStyle.Flat;
-            btnCancel.FlatAppearance.BorderSize = 0;
-            btnCancel.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnCancel.Cursor = Cursors.Hand;
+            // 
+            btnCancel.Location = new Point(510, 30);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(100, 30);
+            btnCancel.TabIndex = 1;
+            btnCancel.Text = "Hủy";
             btnCancel.Click += btnCancel_Click;
-
-            // ================== FORM ==================
-            ClientSize = new Size(600, 650);
-            Controls.Add(mainPanel);
-            Controls.Add(buttonPanel);
-            Controls.Add(headerPanel);
+            // 
+            // FormAddEditBook
+            // 
+            BackColor = Color.WhiteSmoke;
+            ClientSize = new Size(700, 630);
+            Controls.Add(groupActions);
+            Controls.Add(groupBookInfo);
+            Controls.Add(panelHeader);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Name = "FormAddEditBook";
             StartPosition = FormStartPosition.CenterParent;
-            MaximizeBox = false;
-            MinimizeBox = false;
-            Text = "Thêm/Sửa sách";
-
-            headerPanel.ResumeLayout(false);
-            mainPanel.ResumeLayout(false);
-            mainPanel.PerformLayout();
+            Text = "Thêm / Sửa thông tin sách";
+            panelHeader.ResumeLayout(false);
+            groupBookInfo.ResumeLayout(false);
+            groupBookInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numPublishedYear).EndInit();
             ((System.ComponentModel.ISupportInitialize)numPrice).EndInit();
             ((System.ComponentModel.ISupportInitialize)numQuantity).EndInit();
-            buttonPanel.ResumeLayout(false);
+            groupActions.ResumeLayout(false);
             ResumeLayout(false);
         }
     }
 }
-

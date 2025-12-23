@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using QuanLyTiemSach.BLL.Services;
-using QuanLyTiemSach.BookFrms;
 using QuanLyTiemSach.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -23,6 +22,7 @@ namespace QuanLyTiemSach
 
             SetupEvents();
             LoadData();
+            ApplyStyles();
         }
 
         private void SetupEvents()
@@ -89,7 +89,6 @@ namespace QuanLyTiemSach
                 dgvBooks.Columns["CategoryId"].Visible = false;
             }
 
-            // Ẩn các columns không cần thiết
             string[] hiddenColumns = { "Category", "OrderDetails", "TotalValue", "IsAvailable" };
             foreach (var colName in hiddenColumns)
             {
@@ -120,7 +119,6 @@ namespace QuanLyTiemSach
         {
             try
             {
-                // Mở form thêm sách
                 var formAddBook = new FormAddEditBook(_bookService, _categoryService);
 
                 if (formAddBook.ShowDialog() == DialogResult.OK)
@@ -284,6 +282,43 @@ namespace QuanLyTiemSach
             txtSearchBook.KeyDown -= txtSearchBook_KeyDown;
 
             base.OnFormClosing(e);
+        }
+        private void ApplyStyles()
+        {
+            lblHeader.Text = "📚 Quản lý Sách";
+            lblSearch.Text = "🔍 Tìm kiếm";
+
+            StyleButton(btnAdd, "Thêm", Color.FromArgb(46, 204, 113), "➕");
+            StyleButton(btnEdit, "Sửa", Color.FromArgb(52, 152, 219), "✏️");
+            StyleButton(btnDelete, "Xóa", Color.FromArgb(231, 76, 60), "🗑️");
+            StyleButton(btnRefresh, "Làm mới", Color.FromArgb(149, 165, 166), "🔄");
+        }
+
+        private void StyleButton(Button btn, string text, Color color, string icon)
+        {
+            btn.Text = $"{icon} {text}";
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize = 0;
+            btn.BackColor = color;
+            btn.ForeColor = Color.White;
+            btn.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+
+            var origin = color;
+            btn.MouseEnter += (s, e) => btn.BackColor = ControlPaint.Light(origin);
+            btn.MouseLeave += (s, e) => btn.BackColor = origin;
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SearchBooks();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tìm kiếm: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
