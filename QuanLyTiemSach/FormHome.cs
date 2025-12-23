@@ -1,52 +1,100 @@
+using Microsoft.EntityFrameworkCore;
+using QuanLyTiemSach.BLL.Services;
+using QuanLyTiemSach.Domain.Model;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QuanLyTiemSach
 {
     public partial class FormHome : Form
     {
+        private readonly IBookService _bookService;
+        private readonly IOrderService _orderService;
+
         public FormHome()
         {
             InitializeComponent();
-            LoadData();
+
+            _bookService = ServiceDI.GetBookService();
+            _orderService = ServiceDI.GetOrderService();
+
+            LoadDataAsync();
         }
 
-        private void LoadData()
+        private async Task LoadDataAsync()
+        {
+            lblDateTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+
+            await GetRecentOrdersAsync();
+            await GetTopBooksAsync();
+            await GetLowStockBooksAsync();
+
+            UpdateStatistics();
+        }
+
+        private async Task GetRecentOrdersAsync()
         {
 
-            dataGridView1.Rows.Add("DH001");
-            dataGridView1.Rows.Add("DH002");
-            dataGridView1.Rows.Add("DH003");
+            dgv5LatestOrders.Columns.Add("CustomerName", "Tên Khách");
+            dgv5LatestOrders.Columns.Add("TotalAmount", "Tổng Tiền");
 
-  
-            dataGridView2.Rows.Add("Sách A", 50);
-            dataGridView2.Rows.Add("Sách B", 35);
-            dataGridView2.Rows.Add("Sách C", 20);
+            dgv5LatestOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            var latestOrders = await _orderService.GetLatestOrdersAsync(5);
+            dgv5LatestOrders.Rows.Clear();
+            foreach (var order in latestOrders)
+            {
+                var customerName = order.Customer?.Name ?? "Khách vãng lai";
+                dgv5LatestOrders.Rows.Add(order.Id, customerName, order.TotalAmount.ToString("N0"));
+            }
+        }
 
-            lowStockPanel.Controls.Add(new Label { Text = "Sách D", Location = new System.Drawing.Point(10, 10) });
-            lowStockPanel.Controls.Add(new Label { Text = "Sách E", Location = new System.Drawing.Point(10, 40) });
+        private async Task GetTopBooksAsync()
+        {
 
- 
-            UpdateStatistics();
+            var topBooks = await _orderService.GetTopSellingBooksAsync(5);
+
+
+            dgv5BestSellBook.Rows.Clear();
+            foreach (var tb in topBooks)
+            {
+                dgv5BestSellBook.Rows.Add(tb.book.Title, tb.totalSold);
+            }
+        }
+
+        private async Task GetLowStockBooksAsync()
+        {
+            var allBooks = await _bookService.GetAllBooksAsync();
+
+            var lowStockBooks = allBooks
+                .Where(b => b.Quantity <= 5)
+                .OrderBy(b => b.Quantity)
+                .ToList();
+
+            lowStockPanel.Controls.Clear();
+            int y = 10;
+            foreach (var book in lowStockBooks)
+            {
+                var lbl = new Label
+                {
+                    Text = $"{book.Title} ({book.Quantity})",
+                    Location = new System.Drawing.Point(10, y),
+                    AutoSize = true
+                };
+                lowStockPanel.Controls.Add(lbl);
+                y += 25;
+            }
         }
 
         private void UpdateStatistics()
         {
+            int totalBooks = dgv5BestSellBook.Rows.Cast<DataGridViewRow>()
+                .Where(r => r.Cells[1].Value != null)
+                .Sum(r => Convert.ToInt32(r.Cells[1].Value));
 
-            int totalBooks = 0;
-            foreach (DataGridViewRow row in dataGridView2.Rows)
-            {
-                if (row.Cells[1].Value != null)
-                {
-                    totalBooks += Convert.ToInt32(row.Cells[1].Value);
-                }
-            }
-
-            lblStats.Text = $"Thống kê: {totalBooks} sách";
-
-
-            int totalEmployees = 10;
-            lblStats.Text += $" | {totalEmployees} nhân viên";
+            int totalEmployees = 10; 
+            lblStats.Text = $"Thống kê: {totalBooks} sách | {totalEmployees} nhân viên";
         }
     }
 }

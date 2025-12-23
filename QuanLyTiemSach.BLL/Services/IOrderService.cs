@@ -17,5 +17,8 @@ namespace QuanLyTiemSach.BLL.Services
         Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<List<Order>> GetOrdersByCustomerIdAsync(int customerId);
         Task<decimal> CalculateTotalAmountAsync(List<OrderDetail> orderDetails);
+        Task<List<Order>> GetLatestOrdersAsync(int count);
+
+        Task<List<(Book book, int totalSold)>> GetTopSellingBooksAsync(int count);
     }
 }

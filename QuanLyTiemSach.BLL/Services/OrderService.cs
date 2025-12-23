@@ -123,5 +123,27 @@ namespace QuanLyTiemSach.BLL.Services
 
             return total;
         }
+        public async Task<List<Order>> GetLatestOrdersAsync(int count = 5)
+        {
+            var orders = await _orderRepository.GetAllOrdersAsync();
+            return orders
+                .Take(count)
+                .ToList();
+        }
+
+        public async Task<List<(Book book, int totalSold)>> GetTopSellingBooksAsync(int count = 5)
+        {
+            var allOrders = await _orderRepository.GetAllOrdersAsync();
+            var allDetails = allOrders.SelectMany(o => o.OrderDetails);
+
+            var topBooks = allDetails
+                .GroupBy(od => od.Book)
+                .Select(g => (book: g.Key, totalSold: g.Sum(od => od.Quantity)))
+                .OrderByDescending(x => x.totalSold)
+                .Take(count)
+                .ToList();
+
+            return topBooks;
+        }
     }
 }

@@ -83,7 +83,12 @@ namespace QuanLyTiemSach.DAL
                 entity.HasIndex(e => e.PhoneNumber).IsUnique();
 
             });
-
+            modelBuilder.Entity<OrderDetail>()
+      .HasOne(od => od.Book)
+      .WithMany(b => b.OrderDetails)
+      .HasForeignKey(od => od.BookID)
+      .HasPrincipalKey(b => b.BookID)
+      .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasKey(e => e.Id);
