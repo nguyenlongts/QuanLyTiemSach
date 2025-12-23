@@ -11,7 +11,7 @@ namespace QuanLyTiemSach.APP
         private DataGridView dgvOrders;
         private Panel panelButtons;
         private FlowLayoutPanel flowButtons;
-        private Button btnAdd, btnEdit, btnDelete;
+        private Button btnAdd, btnViewDetail, btnDelete;
 
         protected override void Dispose(bool disposing)
         {
@@ -27,7 +27,7 @@ namespace QuanLyTiemSach.APP
             this.panelButtons = new Panel();
             this.flowButtons = new FlowLayoutPanel();
             this.btnAdd = new Button();
-            this.btnEdit = new Button();
+            this.btnViewDetail = new Button();
             this.btnDelete = new Button();
 
             this.SuspendLayout();
@@ -78,12 +78,12 @@ namespace QuanLyTiemSach.APP
             btnAdd.Width = 100; btnAdd.Height = 35;
             btnAdd.Click += BtnAdd_Click;
 
-            btnEdit.Text = "Sửa";
-            btnEdit.BackColor = Color.FromArgb(241, 196, 15);
-            btnEdit.ForeColor = Color.White;
-            btnEdit.FlatStyle = FlatStyle.Flat;
-            btnEdit.Width = 100; btnEdit.Height = 35;
-            btnEdit.Click += BtnEdit_Click;
+            btnViewDetail.Text = "Xem chi tiết hoá đơn";
+            btnViewDetail.BackColor = Color.FromArgb(241, 196, 15);
+            btnViewDetail.ForeColor = Color.White;
+            btnViewDetail.FlatStyle = FlatStyle.Flat;
+            btnViewDetail.Width = 100; btnViewDetail.Height = 35;
+            btnViewDetail.Click += btnViewDetail_Click;
 
             btnDelete.Text = "Xóa";
             btnDelete.BackColor = Color.FromArgb(231, 76, 60);
@@ -92,7 +92,7 @@ namespace QuanLyTiemSach.APP
             btnDelete.Width = 100; btnDelete.Height = 35;
             btnDelete.Click += BtnDelete_Click;
 
-            flowButtons.Controls.AddRange(new Control[] { btnAdd, btnEdit, btnDelete });
+            flowButtons.Controls.AddRange(new Control[] { btnAdd, btnViewDetail, btnDelete });
             panelButtons.Controls.Add(flowButtons);
 
 

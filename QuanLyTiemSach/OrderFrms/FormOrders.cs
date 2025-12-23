@@ -27,7 +27,7 @@ namespace QuanLyTiemSach.APP
                 dgvOrders.Rows.Clear();
                 dgvOrders.Columns.Clear();
                 dgvOrders.Columns.Add("Id", "ID");
-                dgvOrders.Columns.Add("OrderDate", "Ngày đặt");
+                dgvOrders.Columns.Add("OrderDate", "Ngày mua");
                 dgvOrders.Columns.Add("CustomerName", "Khách hàng");
                 dgvOrders.Columns.Add("CustomerPhone", "Số điện thoại");
                 dgvOrders.Columns.Add("TotalAmount", "Tổng tiền");
@@ -93,7 +93,7 @@ namespace QuanLyTiemSach.APP
             }
         }
 
-        private async void BtnEdit_Click(object sender, EventArgs e)
+        private async void btnViewDetail_Click(object sender, EventArgs e)
         {
             try
             {

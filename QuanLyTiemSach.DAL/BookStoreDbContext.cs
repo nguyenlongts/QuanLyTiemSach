@@ -77,14 +77,11 @@ namespace QuanLyTiemSach.DAL
                 entity.Property(e => e.PhoneNumber)
                     .HasMaxLength(20)
                     .IsRequired();
-                entity.Property(e => e.Email)
-                    .HasMaxLength(100);
+
                 entity.Property(e => e.Address)
                     .HasMaxLength(200);
-
-                // Index
                 entity.HasIndex(e => e.PhoneNumber).IsUnique();
-                entity.HasIndex(e => e.Email);
+
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -96,7 +93,6 @@ namespace QuanLyTiemSach.DAL
                     .HasColumnType("decimal(18,2)")
                     .IsRequired();
 
-                // Relationship with Customer
                 entity.HasOne(e => e.Customer)
                     .WithMany(c => c.Orders)
                     .HasForeignKey(e => e.CustomerId)

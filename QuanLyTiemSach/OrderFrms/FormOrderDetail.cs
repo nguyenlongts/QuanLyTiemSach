@@ -25,150 +25,6 @@ namespace QuanLyTiemSach.OrderFrms
             LoadItemsGrid();
         }
 
-        //private void InitializeComponent()
-        //{
-        //    this.Size = new Size(900, 700);
-        //    this.Text = "Tạo Hóa Đơn Mới";
-        //    this.StartPosition = FormStartPosition.CenterParent;
-        //    this.FormBorderStyle = FormBorderStyle.FixedDialog;
-        //    this.MaximizeBox = false;
-        //    this.MinimizeBox = false;
-
-        //    headerPanel = new Panel { Dock = DockStyle.Top, Height = 60, BackColor = Color.FromArgb(52, 152, 219) };
-        //    lblHeader = new Label
-        //    {
-        //        Text = "📋 TẠO HÓA ĐƠN MỚI",
-        //        Dock = DockStyle.Fill,
-        //        ForeColor = Color.White,
-        //        Font = new Font("Segoe UI", 16, FontStyle.Bold),
-        //        TextAlign = ContentAlignment.MiddleCenter
-        //    };
-        //    headerPanel.Controls.Add(lblHeader);
-
-        //    customerPanel = new Panel { Dock = DockStyle.Top, Height = 140, BackColor = Color.White, Padding = new Padding(20) };
-
-        //    lblCustomerName = new Label { Text = "Tên khách hàng:", Location = new Point(0, 0), AutoSize = true };
-        //    txtCustomerName = new TextBox { Location = new Point(0, 25), Width = 250, Font = new Font("Segoe UI", 10) };
-
-        //    lblCustomerPhone = new Label { Text = "Số điện thoại:", Location = new Point(270, 0), AutoSize = true };
-        //    txtCustomerPhone = new TextBox { Location = new Point(270, 25), Width = 200, Font = new Font("Segoe UI", 10) };
-
-        //    btnSearchCustomer = new Button
-        //    {
-        //        Text = "🔍 Tìm",
-        //        Location = new Point(480, 23),
-        //        Width = 80,
-        //        Height = 28,
-        //        BackColor = Color.FromArgb(52, 152, 219),
-        //        ForeColor = Color.White,
-        //        FlatStyle = FlatStyle.Flat,
-        //        Cursor = Cursors.Hand
-        //    };
-        //    btnSearchCustomer.Click += BtnSearchCustomer_Click;
-
-        //    lblCustomerAddress = new Label { Text = "Địa chỉ:", Location = new Point(0, 60), AutoSize = true };
-        //    txtCustomerAddress = new TextBox { Location = new Point(0, 85), Width = 560, Font = new Font("Segoe UI", 10) };
-
-        //    customerPanel.Controls.AddRange(new Control[] {
-        //        lblCustomerName, txtCustomerName,
-        //        lblCustomerPhone, txtCustomerPhone, btnSearchCustomer,
-        //        lblCustomerAddress, txtCustomerAddress
-        //    });
-
-        //    // Items Panel
-        //    itemsPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(20, 10, 20, 10), BackColor = Color.FromArgb(236, 240, 241) };
-
-        //    var itemsHeader = new Panel { Dock = DockStyle.Top, Height = 40, BackColor = Color.White };
-        //    var lblItems = new Label { Text = "Danh sách sản phẩm:", Dock = DockStyle.Left, AutoSize = true, Padding = new Padding(10) };
-        //    btnAddItem = new Button
-        //    {
-        //        Text = "+ Thêm sản phẩm",
-        //        Dock = DockStyle.Right,
-        //        Width = 140,
-        //        BackColor = Color.FromArgb(46, 204, 113),
-        //        ForeColor = Color.White,
-        //        FlatStyle = FlatStyle.Flat,
-        //        Cursor = Cursors.Hand
-        //    };
-        //    btnAddItem.Click += BtnAddItem_Click;
-
-        //    btnRemoveItem = new Button
-        //    {
-        //        Text = "− Xóa",
-        //        Dock = DockStyle.Right,
-        //        Width = 80,
-        //        BackColor = Color.FromArgb(231, 76, 60),
-        //        ForeColor = Color.White,
-        //        FlatStyle = FlatStyle.Flat,
-        //        Cursor = Cursors.Hand
-        //    };
-        //    btnRemoveItem.Click += BtnRemoveItem_Click;
-
-        //    itemsHeader.Controls.AddRange(new Control[] { lblItems, btnRemoveItem, btnAddItem });
-
-        //    dgvItems = new DataGridView
-        //    {
-        //        Dock = DockStyle.Fill,
-        //        BackgroundColor = Color.White,
-        //        SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-        //        AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-        //        AllowUserToAddRows = false,
-        //        ReadOnly = true
-        //    };
-
-        //    itemsPanel.Controls.AddRange(new Control[] { dgvItems, itemsHeader });
-
-        //    // Summary Panel
-        //    summaryPanel = new Panel { Dock = DockStyle.Bottom, Height = 100, BackColor = Color.White, Padding = new Padding(20) };
-
-        //    lblTotalAmount = new Label
-        //    {
-        //        Text = "TỔNG TIỀN: 0 đ",
-        //        Font = new Font("Segoe UI", 14, FontStyle.Bold),
-        //        ForeColor = Color.FromArgb(231, 76, 60),
-        //        Dock = DockStyle.Top,
-        //        Height = 40
-        //    };
-
-        //    var buttonPanel = new FlowLayoutPanel
-        //    {
-        //        Dock = DockStyle.Bottom,
-        //        Height = 40,
-        //        FlowDirection = FlowDirection.RightToLeft,
-        //        AutoSize = false
-        //    };
-
-        //    btnCancel = new Button
-        //    {
-        //        Text = "Hủy",
-        //        Width = 100,
-        //        Height = 35,
-        //        BackColor = Color.FromArgb(149, 165, 166),
-        //        ForeColor = Color.White,
-        //        FlatStyle = FlatStyle.Flat,
-        //        Cursor = Cursors.Hand,
-        //        DialogResult = DialogResult.Cancel
-        //    };
-
-        //    btnSave = new Button
-        //    {
-        //        Text = "💾 Lưu hóa đơn",
-        //        Width = 130,
-        //        Height = 35,
-        //        BackColor = Color.FromArgb(46, 204, 113),
-        //        ForeColor = Color.White,
-        //        FlatStyle = FlatStyle.Flat,
-        //        Cursor = Cursors.Hand
-        //    };
-        //    btnSave.Click += BtnSave_Click;
-
-        //    buttonPanel.Controls.AddRange(new Control[] { btnCancel, btnSave });
-        //    summaryPanel.Controls.AddRange(new Control[] { buttonPanel, lblTotalAmount });
-
-        //    // Add all to form
-        //    this.Controls.AddRange(new Control[] { itemsPanel, summaryPanel, customerPanel, headerPanel });
-        //}
-
         private void LoadItemsGrid()
         {
             dgvItems.Columns.Clear();
@@ -182,6 +38,19 @@ namespace QuanLyTiemSach.OrderFrms
             dgvItems.Columns["Total"].DefaultCellStyle.Format = "N0";
             dgvItems.Columns["UnitPrice"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             dgvItems.Columns["Total"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dgvItems.EnableHeadersVisualStyles = false;
+            dgvItems.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(44, 62, 80);
+            dgvItems.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvItems.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dgvItems.ColumnHeadersHeight = 35;
+
+            dgvItems.RowTemplate.Height = 32;
+            dgvItems.Font = new Font("Segoe UI", 10);
+            dgvItems.GridColor = Color.LightGray;
+            dgvItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvItems.MultiSelect = false;
+            dgvItems.ReadOnly = true;
+
         }
 
         private async void BtnSearchCustomer_Click(object sender, EventArgs e)
@@ -213,7 +82,79 @@ namespace QuanLyTiemSach.OrderFrms
             }
         }
 
-        private async void BtnAddItem_Click(object sender, EventArgs e)
+        private void RefreshItemsGrid()
+        {
+            dgvItems.Rows.Clear();
+            decimal total = 0;
+
+            foreach (var item in _orderDetails)
+            {
+                decimal itemTotal = item.UnitPrice * item.Quantity;
+                total += itemTotal;
+
+                dgvItems.Rows.Add(
+                    item.BookID,
+                    item.Book?.Title ?? "N/A",
+                    item.UnitPrice,
+                    item.Quantity,
+                    itemTotal
+                );
+            }
+
+            lblTotalAmount.Text = $"TỔNG TIỀN: {total:N0} đ";
+        }
+
+        private async void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtCustomerName.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập tên khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtCustomerPhone.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập số điện thoại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (_orderDetails.Count == 0)
+                {
+                    MessageBox.Show("Vui lòng thêm ít nhất một sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var customer = await _customerService.GetCustomerByPhoneNumberAsync(txtCustomerPhone.Text.Trim());
+                if (customer == null)
+                {
+                    customer = await _customerService.CreateCustomerAsync(new Customer
+                    {
+                        Name = txtCustomerName.Text.Trim(),
+                        PhoneNumber = txtCustomerPhone.Text.Trim(),
+                        Address = txtCustomerAddress.Text.Trim()
+                    });
+                }
+
+                var order = new Order
+                {
+                    OrderDate = DateTime.Now,
+                    CustomerId = customer.Id
+                };
+
+                await _orderService.CreateOrderAsync(order, _orderDetails);
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi lưu hóa đơn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void btnAddBook_Click(object sender, EventArgs e)
         {
             try
             {
@@ -224,8 +165,6 @@ namespace QuanLyTiemSach.OrderFrms
                 {
                     var selectedBook = selectForm.SelectedBook;
                     int quantity = selectForm.Quantity;
-
-                    // Check if book already in list
                     var existing = _orderDetails.FirstOrDefault(od => od.BookID == selectedBook.BookID);
                     if (existing != null)
                     {
@@ -251,7 +190,7 @@ namespace QuanLyTiemSach.OrderFrms
             }
         }
 
-        private void BtnRemoveItem_Click(object sender, EventArgs e)
+        private async void btnRemoveBook_Click(object sender, EventArgs e)
         {
             if (dgvItems.SelectedRows.Count == 0)
             {
@@ -264,79 +203,5 @@ namespace QuanLyTiemSach.OrderFrms
             RefreshItemsGrid();
         }
 
-        private void RefreshItemsGrid()
-        {
-            dgvItems.Rows.Clear();
-            decimal total = 0;
-
-            foreach (var item in _orderDetails)
-            {
-                decimal itemTotal = item.UnitPrice * item.Quantity;
-                total += itemTotal;
-
-                dgvItems.Rows.Add(
-                    item.BookID,
-                    item.Book?.Title ?? "N/A",
-                    item.UnitPrice,
-                    item.Quantity,
-                    itemTotal
-                );
-            }
-
-            lblTotalAmount.Text = $"TỔNG TIỀN: {total:N0} đ";
-        }
-
-        private async void BtnSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Validate customer info
-                if (string.IsNullOrWhiteSpace(txtCustomerName.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập tên khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtCustomerPhone.Text))
-                {
-                    MessageBox.Show("Vui lòng nhập số điện thoại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (_orderDetails.Count == 0)
-                {
-                    MessageBox.Show("Vui lòng thêm ít nhất một sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Find or create customer
-                var customer = await _customerService.GetCustomerByPhoneNumberAsync(txtCustomerPhone.Text.Trim());
-                if (customer == null)
-                {
-                    customer = await _customerService.CreateCustomerAsync(new Customer
-                    {
-                        Name = txtCustomerName.Text.Trim(),
-                        PhoneNumber = txtCustomerPhone.Text.Trim(),
-                        Address = txtCustomerAddress.Text.Trim()
-                    });
-                }
-
-                // Create order
-                var order = new Order
-                {
-                    OrderDate = DateTime.Now,
-                    CustomerId = customer.Id
-                };
-
-                await _orderService.CreateOrderAsync(order, _orderDetails);
-
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi lưu hóa đơn: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
     }
 }

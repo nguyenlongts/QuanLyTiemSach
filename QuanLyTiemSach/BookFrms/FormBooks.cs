@@ -37,7 +37,6 @@ namespace QuanLyTiemSach
         {
             if (dgvBooks.Columns.Count == 0) return;
 
-            // Cấu hình columns sau khi data binding hoàn tất
             if (dgvBooks.Columns.Contains("BookID"))
             {
                 dgvBooks.Columns["BookID"].HeaderText = "Mã sách";
