@@ -101,11 +101,11 @@ namespace QuanLyTiemSach
             }
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
             try
             {
-                var books = _bookService.GetAllBooks();
+                var books = await _bookService.GetAllBooksAsync();
 
                 dgvBooks.DataSource = null;
                 dgvBooks.DataSource = books;
@@ -138,7 +138,7 @@ namespace QuanLyTiemSach
             }
         }
 
-        private void BtnEdit_Click(object sender, EventArgs e)
+        private async void BtnEdit_Click(object sender, EventArgs e)
         {
             try
             {
@@ -149,15 +149,13 @@ namespace QuanLyTiemSach
                     return;
                 }
 
-                var book = _bookService.GetBookById(_selectedBookId);
+                var book = await _bookService.GetBookByIdAsync(_selectedBookId);
                 if (book == null)
                 {
                     MessageBox.Show("Không tìm thấy sách!", "Lỗi",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
-                // Mở form sửa sách
                 var formEditBook = new FormAddEditBook(_bookService, _categoryService, book);
 
                 if (formEditBook.ShowDialog() == DialogResult.OK)
@@ -174,7 +172,7 @@ namespace QuanLyTiemSach
             }
         }
 
-        private void BtnDelete_Click(object sender, EventArgs e)
+        private async void BtnDelete_Click(object sender, EventArgs e)
         {
             try
             {
@@ -185,7 +183,7 @@ namespace QuanLyTiemSach
                     return;
                 }
 
-                var book = _bookService.GetBookById(_selectedBookId);
+                var book = await _bookService.GetBookByIdAsync(_selectedBookId);
                 if (book == null)
                 {
                     MessageBox.Show("Không tìm thấy sách!", "Lỗi",
@@ -205,7 +203,7 @@ namespace QuanLyTiemSach
 
                 if (confirm == DialogResult.Yes)
                 {
-                    var (success, message) = _bookService.DeleteBook(_selectedBookId);
+                    var (success, message) = await _bookService.DeleteBookAsync(_selectedBookId);
 
                     MessageBox.Show(message, success ? "Thành công" : "Lỗi",
                         MessageBoxButtons.OK, success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
@@ -262,12 +260,12 @@ namespace QuanLyTiemSach
             }
         }
 
-        private void SearchBooks()
+        private async void SearchBooks()
         {
             try
             {
                 string keyword = txtSearchBook.Text.Trim();
-                var books = _bookService.SearchBooks(keyword);
+                var books = await _bookService.SearchBooksAsync(keyword);
 
                 dgvBooks.DataSource = null;
                 dgvBooks.DataSource = books;

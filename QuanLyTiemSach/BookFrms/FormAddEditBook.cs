@@ -93,22 +93,19 @@ namespace QuanLyTiemSach
             numPrice.Value = _editingBook.Price;
             numQuantity.Value = _editingBook.Quantity;
 
-            // Select category
             if (_editingBook.CategoryId > 0)
             {
                 cboCategory.SelectedValue = _editingBook.CategoryId;
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_Click(object sender, EventArgs e)
         {
             try
             {
-                // Validate inputs
                 if (!ValidateInputs())
                     return;
 
-                // Tạo hoặc cập nhật Book object
                 var book = _isEditMode ? _editingBook : new Book();
 
                 book.BookID = txtBookId.Text.Trim();
@@ -124,10 +121,9 @@ namespace QuanLyTiemSach
                 book.Quantity = (int)numQuantity.Value;
                 book.CategoryId = (int)cboCategory.SelectedValue;
 
-                // Gọi service
                 var (success, message) = _isEditMode
-                    ? _bookService.UpdateBook(book)
-                    : _bookService.AddBook(book);
+                    ? await _bookService.UpdateBookAsync(book)
+                    : await _bookService.AddBookAsync(book);
 
                 if (success)
                 {
@@ -204,14 +200,14 @@ namespace QuanLyTiemSach
         }
 
         // Validation real-time cho BookID
-        private void txtBookId_Leave(object sender, EventArgs e)
+        private async void txtBookId_Leave(object sender, EventArgs e)
         {
             if (_isEditMode) return; // Không validate khi edit
 
             string bookId = txtBookId.Text.Trim();
             if (!string.IsNullOrEmpty(bookId))
             {
-                if (_bookService.IsBookIdExists(bookId))
+                if (await _bookService.IsBookIdExistsAsync(bookId))
                 {
                     MessageBox.Show("Mã sách đã tồn tại!", "Cảnh báo",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);

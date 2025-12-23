@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuanLyTiemSach.Domain.Model;
 
-
 namespace QuanLyTiemSach.DAL.Repositories
 {
     public class BookRepository : IBookRepository
@@ -13,27 +12,27 @@ namespace QuanLyTiemSach.DAL.Repositories
             _context = context;
         }
 
-        public List<Book> GetAll()
+        public async Task<List<Book>> GetAllAsync()
         {
-            return _context.Books
+            return await _context.Books
                 .Include(b => b.Category)
                 .OrderBy(b => b.Title)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Book GetById(string bookId)
+        public async Task<Book?> GetByIdAsync(string bookId)
         {
-            return _context.Books
+            return await _context.Books
                 .Include(b => b.Category)
-                .FirstOrDefault(b => b.BookID == bookId);
+                .FirstOrDefaultAsync(b => b.BookID == bookId);
         }
 
-        public bool Add(Book book)
+        public async Task<bool> AddAsync(Book book)
         {
             try
             {
-                _context.Books.Add(book);
-                return _context.SaveChanges() > 0;
+                await _context.Books.AddAsync(book);
+                return await _context.SaveChangesAsync() > 0;
             }
             catch
             {
@@ -41,11 +40,13 @@ namespace QuanLyTiemSach.DAL.Repositories
             }
         }
 
-        public bool Update(Book book)
+        public async Task<bool> UpdateAsync(Book book)
         {
             try
             {
-                var existing = _context.Books.Find(book.BookID);
+                var existing = await _context.Books
+                    .FirstOrDefaultAsync(b => b.BookID == book.BookID);
+
                 if (existing == null) return false;
 
                 existing.Title = book.Title;
@@ -56,7 +57,7 @@ namespace QuanLyTiemSach.DAL.Repositories
                 existing.Quantity = book.Quantity;
                 existing.CategoryId = book.CategoryId;
 
-                return _context.SaveChanges() > 0;
+                return await _context.SaveChangesAsync() > 0;
             }
             catch
             {
@@ -64,15 +65,17 @@ namespace QuanLyTiemSach.DAL.Repositories
             }
         }
 
-        public bool Delete(string bookId)
+        public async Task<bool> DeleteAsync(string bookId)
         {
             try
             {
-                var book = _context.Books.Find(bookId);
+                var book = await _context.Books
+                    .FirstOrDefaultAsync(b => b.BookID == bookId);
+
                 if (book == null) return false;
 
                 _context.Books.Remove(book);
-                return _context.SaveChanges() > 0;
+                return await _context.SaveChangesAsync() > 0;
             }
             catch
             {
@@ -80,33 +83,35 @@ namespace QuanLyTiemSach.DAL.Repositories
             }
         }
 
-        public List<Book> Search(string keyword)
+        public async Task<List<Book>> SearchAsync(string keyword)
         {
-            return _context.Books
+            return await _context.Books
                 .Include(b => b.Category)
-                .Where(b => b.Title.Contains(keyword) ||
-                           b.Author.Contains(keyword) ||
-                           b.Publisher.Contains(keyword) ||
-                           b.BookID.Contains(keyword))
+                .Where(b =>
+                    b.Title.Contains(keyword) ||
+                    b.Author.Contains(keyword) ||
+                    b.Publisher.Contains(keyword) ||
+                    b.BookID.Contains(keyword))
                 .OrderBy(b => b.Title)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Book> GetByCategory(int categoryId)
+        public async Task<List<Book>> GetByCategoryAsync(int categoryId)
         {
-            return _context.Books
+            return await _context.Books
                 .Include(b => b.Category)
                 .Where(b => b.CategoryId == categoryId)
                 .OrderBy(b => b.Title)
-                .ToList();
+                .ToListAsync();
         }
 
-        public bool ExistsByBookId(string bookId)
+        public async Task<bool> ExistsByBookIdAsync(string bookId)
         {
-            return _context.Books.Any(b => b.BookID == bookId);
+            return await _context.Books
+                .AnyAsync(b => b.BookID == bookId);
         }
 
-        public bool ExistsByTitle(string title, string excludeBookId = null)
+        public async Task<bool> ExistsByTitleAsync(string title, string? excludeBookId = null)
         {
             var query = _context.Books
                 .Where(b => b.Title.ToLower() == title.ToLower());
@@ -116,7 +121,7 @@ namespace QuanLyTiemSach.DAL.Repositories
                 query = query.Where(b => b.BookID != excludeBookId);
             }
 
-            return query.Any();
+            return await query.AnyAsync();
         }
     }
 }

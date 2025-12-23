@@ -1,11 +1,6 @@
 ﻿using QuanLyTiemSach.BLL.Services;
 using QuanLyTiemSach.DAL;
 using QuanLyTiemSach.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuanLyTiemSach
 {
@@ -21,17 +16,34 @@ namespace QuanLyTiemSach
             }
             return _dbContext;
         }
+
         public static ICategoryService GetCategoryService()
         {
             var dbContext = GetDbContext();
             ICategoryRepository repository = new CategoryRepository(dbContext);
             return new CategoryService(repository);
         }
+
         public static IBookService GetBookService()
         {
             var dbContext = GetDbContext();
             IBookRepository repository = new BookRepository(dbContext);
             return new BookService(repository);
+        }
+
+        public static IOrderService GetOrderService()
+        {
+            var dbContext = GetDbContext();
+            IOrderRepository orderRepository = new OrderRepository(dbContext);
+            IBookRepository bookRepository = new BookRepository(dbContext);
+            return new OrderService(orderRepository, bookRepository);
+        }
+
+        public static ICustomerService GetCustomerService()
+        {
+            var dbContext = GetDbContext();
+            ICustomerRepository repository = new CustomerRepository(dbContext);
+            return new CustomerService(repository);
         }
     }
 }

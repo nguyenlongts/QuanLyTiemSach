@@ -26,7 +26,7 @@ namespace QuanLyTiemSach.BookFrms
         //    txtId.ReadOnly = true;
         //}
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private async void btnUpdate_Click(object sender, EventArgs e)
         {
             if (!ValidateBook(out string msg, out decimal price))
             {
@@ -41,7 +41,7 @@ namespace QuanLyTiemSach.BookFrms
 
             try
             {
-                _bookService.UpdateBook(_book);
+                await _bookService.UpdateBookAsync(_book);
                 MessageBox.Show("Cập nhật sách thành công!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
