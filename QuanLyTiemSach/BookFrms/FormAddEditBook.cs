@@ -1,5 +1,4 @@
-﻿// ==================== FormAddEditBook.cs ====================
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
 using QuanLyTiemSach.BLL.Services;
@@ -16,7 +15,6 @@ namespace QuanLyTiemSach
         private readonly Book _editingBook;
         private readonly bool _isEditMode;
 
-        // Constructor cho Add mode
         public FormAddEditBook(IBookService bookService, ICategoryService categoryService)
         {
             InitializeComponent();
@@ -27,7 +25,6 @@ namespace QuanLyTiemSach
             InitializeForm();
         }
 
-        // Constructor cho Edit mode
         public FormAddEditBook(IBookService bookService, ICategoryService categoryService, Book book)
         {
             InitializeComponent();
@@ -42,14 +39,13 @@ namespace QuanLyTiemSach
 
         private void InitializeForm()
         {
-            // Load categories vào ComboBox
             LoadCategories();
 
-            // Cập nhật header
+       
             if (_isEditMode)
             {
                 lblHeader.Text = "✏️ Chỉnh sửa thông tin sách";
-                txtBookId.Enabled = false; // Không cho sửa BookID
+                txtBookId.Enabled = false; 
                 txtBookId.BackColor = System.Drawing.Color.FromArgb(236, 240, 241);
             }
             else
@@ -67,7 +63,7 @@ namespace QuanLyTiemSach
                 cboCategory.DataSource = categories;
                 cboCategory.DisplayMember = "Name";
                 cboCategory.ValueMember = "Id";
-                cboCategory.SelectedIndex = -1; // Không chọn gì
+                cboCategory.SelectedIndex = -1; 
             }
             catch (Exception ex)
             {
@@ -145,7 +141,6 @@ namespace QuanLyTiemSach
 
         private bool ValidateInputs()
         {
-            // BookID
             if (string.IsNullOrWhiteSpace(txtBookId.Text))
             {
                 MessageBox.Show("Vui lòng nhập mã sách!", "Cảnh báo",
@@ -154,7 +149,6 @@ namespace QuanLyTiemSach
                 return false;
             }
 
-            // Title
             if (string.IsNullOrWhiteSpace(txtTitle.Text))
             {
                 MessageBox.Show("Vui lòng nhập tên sách!", "Cảnh báo",
@@ -163,7 +157,6 @@ namespace QuanLyTiemSach
                 return false;
             }
 
-            // Author
             if (string.IsNullOrWhiteSpace(txtAuthor.Text))
             {
                 MessageBox.Show("Vui lòng nhập tác giả!", "Cảnh báo",
@@ -172,7 +165,6 @@ namespace QuanLyTiemSach
                 return false;
             }
 
-            // Price
             if (numPrice.Value <= 0)
             {
                 MessageBox.Show("Giá sách phải lớn hơn 0!", "Cảnh báo",
@@ -181,7 +173,6 @@ namespace QuanLyTiemSach
                 return false;
             }
 
-            // Category
             if (cboCategory.SelectedIndex == -1)
             {
                 MessageBox.Show("Vui lòng chọn danh mục!", "Cảnh báo",
@@ -199,10 +190,9 @@ namespace QuanLyTiemSach
             this.Close();
         }
 
-        // Validation real-time cho BookID
         private async void txtBookId_Leave(object sender, EventArgs e)
         {
-            if (_isEditMode) return; // Không validate khi edit
+            if (_isEditMode) return; 
 
             string bookId = txtBookId.Text.Trim();
             if (!string.IsNullOrEmpty(bookId))
@@ -216,5 +206,7 @@ namespace QuanLyTiemSach
                 }
             }
         }
+
+
     }
 }

@@ -20,11 +20,11 @@ namespace QuanLyTiemSach.DAL.Repositories
         public async Task<List<Order>> GetAllOrdersAsync()
         {
             return await _context.Orders
-                .Include(o => o.Customer)
-                .Include(o => o.OrderDetails)
-                    .ThenInclude(od => od.Book)
-                .OrderByDescending(o => o.OrderDate)
-                .ToListAsync();
+           .Include(o => o.OrderDetails)
+               .ThenInclude(od => od.Book)
+           .Include(o => o.Customer)
+           .OrderByDescending(o => o.OrderDate)
+           .ToListAsync();
         }
 
         public async Task<Order> GetOrderByIdAsync(int id)

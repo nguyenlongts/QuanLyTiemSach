@@ -71,7 +71,7 @@ namespace QuanLyTiemSach.APP
         private void UpdateStatusLabel()
         {
             int totalOrders = dgvOrders.Rows.Count;
-            lblHeader.Text = $"Quản lý Hóa đơn ({totalOrders} hóa đơn)";
+            lblHeader.Text = $"Quản lý Hóa đơn: Hiện có ({totalOrders-1} hóa đơn)";
         }
 
         private async void BtnAdd_Click(object sender, EventArgs e)

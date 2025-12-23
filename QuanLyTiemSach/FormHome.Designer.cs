@@ -213,25 +213,23 @@ namespace QuanLyTiemSach
             statsPanel = new Panel();
             lblStats = new Label();
             recentOrdersPanel = new Panel();
-            dataGridView1 = new DataGridView();
+            dgv5LatestOrders = new DataGridView();
             Column3 = new DataGridViewTextBoxColumn();
             lblRecent = new Label();
             topBooksPanel = new Panel();
-            dataGridView2 = new DataGridView();
+            dgv5BestSellBook = new DataGridView();
             Column1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             lblTopBooks = new Label();
             lowStockPanel = new Panel();
             lblLowStock = new Label();
-
             statsPanel.SuspendLayout();
             recentOrdersPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv5LatestOrders).BeginInit();
             topBooksPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv5BestSellBook).BeginInit();
             lowStockPanel.SuspendLayout();
             SuspendLayout();
-
             // 
             // lblDateTime
             // 
@@ -242,7 +240,6 @@ namespace QuanLyTiemSach
             lblDateTime.Size = new Size(41, 19);
             lblDateTime.TabIndex = 0;
             lblDateTime.Text = "Ngày";
-
             // 
             // statsPanel
             // 
@@ -253,7 +250,6 @@ namespace QuanLyTiemSach
             statsPanel.Name = "statsPanel";
             statsPanel.Size = new Size(875, 98);
             statsPanel.TabIndex = 1;
-
             // 
             // lblStats
             // 
@@ -264,35 +260,35 @@ namespace QuanLyTiemSach
             lblStats.Size = new Size(81, 21);
             lblStats.TabIndex = 0;
             lblStats.Text = "Thống kê";
-
             // 
             // recentOrdersPanel
             // 
             recentOrdersPanel.BackColor = Color.WhiteSmoke;
-            recentOrdersPanel.Controls.Add(dataGridView1);
+            recentOrdersPanel.Controls.Add(dgv5LatestOrders);
             recentOrdersPanel.Controls.Add(lblRecent);
             recentOrdersPanel.Location = new Point(13, 135);
             recentOrdersPanel.Margin = new Padding(3, 2, 3, 2);
             recentOrdersPanel.Name = "recentOrdersPanel";
             recentOrdersPanel.Size = new Size(394, 150);
             recentOrdersPanel.TabIndex = 2;
-
             // 
-            // dataGridView1
+            // dgv5LatestOrders
             // 
-            dataGridView1.BackgroundColor = SystemColors.Window;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column3 });
-            dataGridView1.Dock = DockStyle.Fill; // Đảm bảo DataGridView chiếm toàn bộ chiều rộng và chiều cao của panel
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Đảm bảo các cột tự động điều chỉnh chiều rộng
-
+            dgv5LatestOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv5LatestOrders.BackgroundColor = SystemColors.Window;
+            dgv5LatestOrders.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv5LatestOrders.Columns.AddRange(new DataGridViewColumn[] { Column3 });
+            dgv5LatestOrders.Dock = DockStyle.Fill;
+            dgv5LatestOrders.Location = new Point(0, 0);
+            dgv5LatestOrders.Name = "dgv5LatestOrders";
+            dgv5LatestOrders.Size = new Size(394, 150);
+            dgv5LatestOrders.TabIndex = 0;
             // 
             // Column3
             // 
-            Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill; // Cột này sẽ chiếm toàn bộ không gian còn lại
+            Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Column3.HeaderText = "Mã Đơn Hàng";
             Column3.Name = "Column3";
-
             // 
             // lblRecent
             // 
@@ -303,42 +299,41 @@ namespace QuanLyTiemSach
             lblRecent.Size = new Size(147, 21);
             lblRecent.TabIndex = 0;
             lblRecent.Text = "Đơn hàng vừa đặt";
-
             // 
             // topBooksPanel
             // 
             topBooksPanel.BackColor = Color.WhiteSmoke;
-            topBooksPanel.Controls.Add(dataGridView2);
+            topBooksPanel.Controls.Add(dgv5BestSellBook);
             topBooksPanel.Controls.Add(lblTopBooks);
             topBooksPanel.Location = new Point(420, 135);
             topBooksPanel.Margin = new Padding(3, 2, 3, 2);
             topBooksPanel.Name = "topBooksPanel";
             topBooksPanel.Size = new Size(468, 150);
             topBooksPanel.TabIndex = 3;
-
             // 
-            // dataGridView2
+            // dgv5BestSellBook
             // 
-            dataGridView2.BackgroundColor = SystemColors.Window;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2 });
-            dataGridView2.Dock = DockStyle.Fill; // Đảm bảo DataGridView chiếm toàn bộ chiều rộng và chiều cao của panel
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Đảm bảo các cột tự động điều chỉnh chiều rộng
-
+            dgv5BestSellBook.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv5BestSellBook.BackgroundColor = SystemColors.Window;
+            dgv5BestSellBook.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv5BestSellBook.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2 });
+            dgv5BestSellBook.Dock = DockStyle.Fill;
+            dgv5BestSellBook.Location = new Point(0, 0);
+            dgv5BestSellBook.Name = "dgv5BestSellBook";
+            dgv5BestSellBook.Size = new Size(468, 150);
+            dgv5BestSellBook.TabIndex = 0;
             // 
             // Column1
             // 
-            Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill; // Đảm bảo cột này chiếm 100% chiều rộng
+            Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Column1.HeaderText = "Tên sách";
             Column1.Name = "Column1";
-
             // 
             // Column2
             // 
-            Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill; // Cột này cũng chiếm phần còn lại
+            Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Column2.HeaderText = "Số lượng";
             Column2.Name = "Column2";
-
             // 
             // lblTopBooks
             // 
@@ -349,7 +344,6 @@ namespace QuanLyTiemSach
             lblTopBooks.Size = new Size(82, 21);
             lblTopBooks.TabIndex = 0;
             lblTopBooks.Text = "Top Sách ";
-
             // 
             // lowStockPanel
             // 
@@ -360,7 +354,6 @@ namespace QuanLyTiemSach
             lowStockPanel.Name = "lowStockPanel";
             lowStockPanel.Size = new Size(875, 105);
             lowStockPanel.TabIndex = 4;
-
             // 
             // lblLowStock
             // 
@@ -371,7 +364,6 @@ namespace QuanLyTiemSach
             lblLowStock.Size = new Size(148, 21);
             lblLowStock.TabIndex = 0;
             lblLowStock.Text = "Sách sắp hết hàng";
-
             // 
             // FormHome
             // 
@@ -386,18 +378,16 @@ namespace QuanLyTiemSach
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormHome";
             Text = "Dashboard - Quản Lý Tiệm Sách";
-
             statsPanel.ResumeLayout(false);
             statsPanel.PerformLayout();
             recentOrdersPanel.ResumeLayout(false);
             recentOrdersPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv5LatestOrders).EndInit();
             topBooksPanel.ResumeLayout(false);
             topBooksPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv5BestSellBook).EndInit();
             lowStockPanel.ResumeLayout(false);
             lowStockPanel.PerformLayout();
-
             ResumeLayout(false);
             PerformLayout();
         }
@@ -409,8 +399,8 @@ namespace QuanLyTiemSach
         private Label lblRecent;
         private Label lblTopBooks;
         private Label lblLowStock;
-        private DataGridView dataGridView1;
-        private DataGridView dataGridView2;
+        private DataGridView dgv5LatestOrders;
+        private DataGridView dgv5BestSellBook;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
         private DataGridViewTextBoxColumn Column3;
