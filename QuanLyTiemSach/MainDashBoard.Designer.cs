@@ -30,28 +30,26 @@ namespace QuanLyTiemSach
         private void InitializeComponent()
         {
             menuPanel = new Panel();
-            lblTitle = new Label();
-            btnHome = new Button();
-            btnBooks = new Button();
-            btnOrders = new Button();
-            btnCategory = new Button();
-            btnUsers = new Button();
-            btnManageCase = new Button();
-            btnThongKe = new Button();
             btnLogout = new Button();
+            btnThongKe = new Button();
+            btnManageCase = new Button();
+            btnUsers = new Button();
+            btnCategory = new Button();
+            btnOrders = new Button();
+            btnBooks = new Button();
+            btnHome = new Button();
+            lblTitle = new Label();
             activeIndicator = new Panel();
             headerPanel = new Panel();
             lblUser = new Label();
             mainPanel = new Panel();
-
             menuPanel.SuspendLayout();
             headerPanel.SuspendLayout();
             SuspendLayout();
-
-            // ================== MENU PANEL ==================
+            // 
+            // menuPanel
+            // 
             menuPanel.BackColor = Color.FromArgb(52, 152, 219);
-            menuPanel.Dock = DockStyle.Left;
-            menuPanel.Width = 240;
             menuPanel.Controls.Add(btnLogout);
             menuPanel.Controls.Add(btnThongKe);
             menuPanel.Controls.Add(btnManageCase);
@@ -61,172 +59,243 @@ namespace QuanLyTiemSach
             menuPanel.Controls.Add(btnBooks);
             menuPanel.Controls.Add(btnHome);
             menuPanel.Controls.Add(lblTitle);
-
-            // ================== TITLE LABEL ==================
-            lblTitle.Dock = DockStyle.Top;
-            lblTitle.Height = 80;
-            lblTitle.Text = "📚 BOOKSTORE";
-            lblTitle.ForeColor = Color.White;
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
-            lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblTitle.BackColor = Color.FromArgb(23, 32, 38);
-
-            // ================== HEADER PANEL ==================
-            headerPanel.Dock = DockStyle.Top;
-            headerPanel.Height = 70;
-            headerPanel.BackColor = Color.White;
-            headerPanel.Controls.Add(lblUser);
-            headerPanel.Padding = new Padding(20, 0, 20, 0);
-
-            // ================== USER LABEL ==================
-            lblUser.Dock = DockStyle.Fill;
-            lblUser.Text = "👤 Xin chào, User";
-            lblUser.ForeColor = Color.FromArgb(44, 62, 80);
-            lblUser.TextAlign = ContentAlignment.MiddleLeft;
-            lblUser.Font = new Font("Segoe UI", 12F, FontStyle.Regular);
-
-            // ================== HOME BUTTON ==================
-            btnHome.Text = "  🏠  Trang chủ";
-            btnHome.Dock = DockStyle.Top;
-            btnHome.Height = 50;
-            btnHome.FlatStyle = FlatStyle.Flat;
-            btnHome.FlatAppearance.BorderSize = 0;
-            btnHome.ForeColor = Color.FromArgb(236, 240, 241);
-            btnHome.BackColor = Color.Transparent;
-            btnHome.TextAlign = ContentAlignment.MiddleLeft;
-            btnHome.Padding = new Padding(20, 0, 0, 0);
-            btnHome.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            btnHome.Cursor = Cursors.Hand;
-            btnHome.Click += btnHome_Click;
-            btnHome.MouseEnter += Button_MouseEnter;
-            btnHome.MouseLeave += Button_MouseLeave;
-
-            // ================== BOOKS BUTTON ==================
-            btnBooks.Text = "  📖  Quản lý sách";
-            btnBooks.Dock = DockStyle.Top;
-            btnBooks.Height = 50;
-            btnBooks.FlatStyle = FlatStyle.Flat;
-            btnBooks.FlatAppearance.BorderSize = 0;
-            btnBooks.ForeColor = Color.FromArgb(236, 240, 241);
-            btnBooks.BackColor = Color.Transparent;
-            btnBooks.TextAlign = ContentAlignment.MiddleLeft;
-            btnBooks.Padding = new Padding(20, 0, 0, 0);
-            btnBooks.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            btnBooks.Cursor = Cursors.Hand;
-            btnBooks.Click += btnBooks_Click;
-            btnBooks.MouseEnter += Button_MouseEnter;
-            btnBooks.MouseLeave += Button_MouseLeave;
-
-            // ================== ORDERS BUTTON ==================
-            btnOrders.Text = "  🧾  Quản lý hóa đơn";
-            btnOrders.Dock = DockStyle.Top;
-            btnOrders.Height = 50;
-            btnOrders.FlatStyle = FlatStyle.Flat;
-            btnOrders.FlatAppearance.BorderSize = 0;
-            btnOrders.ForeColor = Color.FromArgb(236, 240, 241);
-            btnOrders.BackColor = Color.Transparent;
-            btnOrders.TextAlign = ContentAlignment.MiddleLeft;
-            btnOrders.Padding = new Padding(20, 0, 0, 0);
-            btnOrders.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            btnOrders.Cursor = Cursors.Hand;
-            btnOrders.Click += btnOrders_Click;
-            btnOrders.MouseEnter += Button_MouseEnter;
-            btnOrders.MouseLeave += Button_MouseLeave;
-
-            // ================== CATEGORY BUTTON ==================
-            btnCategory.Text = "  📂  Quản lý danh mục";
-            btnCategory.Dock = DockStyle.Top;
-            btnCategory.Height = 50;
-            btnCategory.FlatStyle = FlatStyle.Flat;
-            btnCategory.FlatAppearance.BorderSize = 0;
-            btnCategory.ForeColor = Color.FromArgb(236, 240, 241);
-            btnCategory.BackColor = Color.Transparent;
-            btnCategory.TextAlign = ContentAlignment.MiddleLeft;
-            btnCategory.Padding = new Padding(20, 0, 0, 0);
-            btnCategory.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            btnCategory.Cursor = Cursors.Hand;
-            btnCategory.Click += btnCategory_Click;
-            btnCategory.MouseEnter += Button_MouseEnter;
-            btnCategory.MouseLeave += Button_MouseLeave;
-
-            // ================== USERS BUTTON ==================
-            btnUsers.Text = "  👥  Quản lý người dùng";
-            btnUsers.Dock = DockStyle.Top;
-            btnUsers.Height = 50;
-            btnUsers.FlatStyle = FlatStyle.Flat;
-            btnUsers.FlatAppearance.BorderSize = 0;
-            btnUsers.ForeColor = Color.FromArgb(236, 240, 241);
-            btnUsers.BackColor = Color.Transparent;
-            btnUsers.TextAlign = ContentAlignment.MiddleLeft;
-            btnUsers.Padding = new Padding(20, 0, 0, 0);
-            btnUsers.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            btnUsers.Cursor = Cursors.Hand;
-            btnUsers.Click += btnUsers_Click;
-            btnUsers.MouseEnter += Button_MouseEnter;
-            btnUsers.MouseLeave += Button_MouseLeave;
-
-            // ================== MANAGE CASE BUTTON ==================
-            btnManageCase.Text = "  ⏰  Quản lý ca làm";
-            btnManageCase.Dock = DockStyle.Top;
-            btnManageCase.Height = 50;
-            btnManageCase.FlatStyle = FlatStyle.Flat;
-            btnManageCase.FlatAppearance.BorderSize = 0;
-            btnManageCase.ForeColor = Color.FromArgb(236, 240, 241);
-            btnManageCase.BackColor = Color.Transparent;
-            btnManageCase.TextAlign = ContentAlignment.MiddleLeft;
-            btnManageCase.Padding = new Padding(20, 0, 0, 0);
-            btnManageCase.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            btnManageCase.Cursor = Cursors.Hand;
-            btnManageCase.Click += btnManageCase_Click;
-            btnManageCase.MouseEnter += Button_MouseEnter;
-            btnManageCase.MouseLeave += Button_MouseLeave;
-
-            // ================== THONG KE BUTTON ==================
-            btnThongKe.Text = "  📊  Thống kê";
-            btnThongKe.Dock = DockStyle.Top;
-            btnThongKe.Height = 50;
-            btnThongKe.FlatStyle = FlatStyle.Flat;
-            btnThongKe.FlatAppearance.BorderSize = 0;
-            btnThongKe.ForeColor = Color.FromArgb(236, 240, 241);
+            menuPanel.Dock = DockStyle.Left;
+            menuPanel.Location = new Point(0, 0);
+            menuPanel.Name = "menuPanel";
+            menuPanel.Size = new Size(240, 700);
+            menuPanel.TabIndex = 2;
+            // 
+            // btnLogout
+            // 
+            btnLogout.BackColor = Color.FromArgb(192, 57, 43);
+            btnLogout.Cursor = Cursors.Hand;
+            btnLogout.Dock = DockStyle.Bottom;
+            btnLogout.FlatAppearance.BorderSize = 0;
+            btnLogout.FlatStyle = FlatStyle.Flat;
+            btnLogout.Font = new Font("Segoe UI", 10F);
+            btnLogout.ForeColor = Color.White;
+            btnLogout.Location = new Point(0, 650);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Padding = new Padding(20, 0, 0, 0);
+            btnLogout.Size = new Size(240, 50);
+            btnLogout.TabIndex = 0;
+            btnLogout.Text = "  🚪  Đăng xuất";
+            btnLogout.TextAlign = ContentAlignment.MiddleLeft;
+            btnLogout.UseVisualStyleBackColor = false;
+            btnLogout.Click += btnLogout_Click;
+            btnLogout.MouseEnter += BtnLogout_MouseEnter;
+            btnLogout.MouseLeave += BtnLogout_MouseLeave;
+            // 
+            // btnThongKe
+            // 
             btnThongKe.BackColor = Color.Transparent;
-            btnThongKe.TextAlign = ContentAlignment.MiddleLeft;
-            btnThongKe.Padding = new Padding(20, 0, 0, 0);
-            btnThongKe.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             btnThongKe.Cursor = Cursors.Hand;
+            btnThongKe.Dock = DockStyle.Top;
+            btnThongKe.FlatAppearance.BorderSize = 0;
+            btnThongKe.FlatStyle = FlatStyle.Flat;
+            btnThongKe.Font = new Font("Segoe UI", 10F);
+            btnThongKe.ForeColor = Color.FromArgb(236, 240, 241);
+            btnThongKe.Location = new Point(0, 380);
+            btnThongKe.Name = "btnThongKe";
+            btnThongKe.Padding = new Padding(20, 0, 0, 0);
+            btnThongKe.Size = new Size(240, 50);
+            btnThongKe.TabIndex = 1;
+            btnThongKe.Text = "  📊  Thống kê";
+            btnThongKe.TextAlign = ContentAlignment.MiddleLeft;
+            btnThongKe.UseVisualStyleBackColor = false;
             btnThongKe.Click += btnThongKe_Click;
             btnThongKe.MouseEnter += Button_MouseEnter;
             btnThongKe.MouseLeave += Button_MouseLeave;
-
-            // ================== LOGOUT BUTTON ==================
-            btnLogout.Text = "  🚪  Đăng xuất";
-            btnLogout.Dock = DockStyle.Bottom;
-            btnLogout.Height = 50;
-            btnLogout.FlatStyle = FlatStyle.Flat;
-            btnLogout.FlatAppearance.BorderSize = 0;
-            btnLogout.ForeColor = Color.White;
-            btnLogout.BackColor = Color.FromArgb(192, 57, 43);
-            btnLogout.TextAlign = ContentAlignment.MiddleLeft;
-            btnLogout.Padding = new Padding(20, 0, 0, 0);
-            btnLogout.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            btnLogout.Cursor = Cursors.Hand;
-            btnLogout.MouseEnter += BtnLogout_MouseEnter;
-            btnLogout.MouseLeave += BtnLogout_MouseLeave;
-
-            // ================== MAIN PANEL ==================
-            mainPanel.Dock = DockStyle.Fill;
+            // 
+            // btnManageCase
+            // 
+            btnManageCase.BackColor = Color.Transparent;
+            btnManageCase.Cursor = Cursors.Hand;
+            btnManageCase.Dock = DockStyle.Top;
+            btnManageCase.FlatAppearance.BorderSize = 0;
+            btnManageCase.FlatStyle = FlatStyle.Flat;
+            btnManageCase.Font = new Font("Segoe UI", 10F);
+            btnManageCase.ForeColor = Color.FromArgb(236, 240, 241);
+            btnManageCase.Location = new Point(0, 330);
+            btnManageCase.Name = "btnManageCase";
+            btnManageCase.Padding = new Padding(20, 0, 0, 0);
+            btnManageCase.Size = new Size(240, 50);
+            btnManageCase.TabIndex = 2;
+            btnManageCase.Text = "  ⏰  Quản lý ca làm";
+            btnManageCase.TextAlign = ContentAlignment.MiddleLeft;
+            btnManageCase.UseVisualStyleBackColor = false;
+            btnManageCase.Click += btnManageCase_Click;
+            btnManageCase.MouseEnter += Button_MouseEnter;
+            btnManageCase.MouseLeave += Button_MouseLeave;
+            // 
+            // btnUsers
+            // 
+            btnUsers.BackColor = Color.Transparent;
+            btnUsers.Cursor = Cursors.Hand;
+            btnUsers.Dock = DockStyle.Top;
+            btnUsers.FlatAppearance.BorderSize = 0;
+            btnUsers.FlatStyle = FlatStyle.Flat;
+            btnUsers.Font = new Font("Segoe UI", 10F);
+            btnUsers.ForeColor = Color.FromArgb(236, 240, 241);
+            btnUsers.Location = new Point(0, 280);
+            btnUsers.Name = "btnUsers";
+            btnUsers.Padding = new Padding(20, 0, 0, 0);
+            btnUsers.Size = new Size(240, 50);
+            btnUsers.TabIndex = 3;
+            btnUsers.Text = "  👥  Quản lý người dùng";
+            btnUsers.TextAlign = ContentAlignment.MiddleLeft;
+            btnUsers.UseVisualStyleBackColor = false;
+            btnUsers.Click += btnUsers_Click;
+            btnUsers.MouseEnter += Button_MouseEnter;
+            btnUsers.MouseLeave += Button_MouseLeave;
+            // 
+            // btnCategory
+            // 
+            btnCategory.BackColor = Color.Transparent;
+            btnCategory.Cursor = Cursors.Hand;
+            btnCategory.Dock = DockStyle.Top;
+            btnCategory.FlatAppearance.BorderSize = 0;
+            btnCategory.FlatStyle = FlatStyle.Flat;
+            btnCategory.Font = new Font("Segoe UI", 10F);
+            btnCategory.ForeColor = Color.FromArgb(236, 240, 241);
+            btnCategory.Location = new Point(0, 230);
+            btnCategory.Name = "btnCategory";
+            btnCategory.Padding = new Padding(20, 0, 0, 0);
+            btnCategory.Size = new Size(240, 50);
+            btnCategory.TabIndex = 4;
+            btnCategory.Text = "  📂  Quản lý danh mục";
+            btnCategory.TextAlign = ContentAlignment.MiddleLeft;
+            btnCategory.UseVisualStyleBackColor = false;
+            btnCategory.Click += btnCategory_Click;
+            btnCategory.MouseEnter += Button_MouseEnter;
+            btnCategory.MouseLeave += Button_MouseLeave;
+            // 
+            // btnOrders
+            // 
+            btnOrders.BackColor = Color.Transparent;
+            btnOrders.Cursor = Cursors.Hand;
+            btnOrders.Dock = DockStyle.Top;
+            btnOrders.FlatAppearance.BorderSize = 0;
+            btnOrders.FlatStyle = FlatStyle.Flat;
+            btnOrders.Font = new Font("Segoe UI", 10F);
+            btnOrders.ForeColor = Color.FromArgb(236, 240, 241);
+            btnOrders.Location = new Point(0, 180);
+            btnOrders.Name = "btnOrders";
+            btnOrders.Padding = new Padding(20, 0, 0, 0);
+            btnOrders.Size = new Size(240, 50);
+            btnOrders.TabIndex = 5;
+            btnOrders.Text = "  \U0001f9fe  Quản lý hóa đơn";
+            btnOrders.TextAlign = ContentAlignment.MiddleLeft;
+            btnOrders.UseVisualStyleBackColor = false;
+            btnOrders.Click += btnOrders_Click;
+            btnOrders.MouseEnter += Button_MouseEnter;
+            btnOrders.MouseLeave += Button_MouseLeave;
+            // 
+            // btnBooks
+            // 
+            btnBooks.BackColor = Color.Transparent;
+            btnBooks.Cursor = Cursors.Hand;
+            btnBooks.Dock = DockStyle.Top;
+            btnBooks.FlatAppearance.BorderSize = 0;
+            btnBooks.FlatStyle = FlatStyle.Flat;
+            btnBooks.Font = new Font("Segoe UI", 10F);
+            btnBooks.ForeColor = Color.FromArgb(236, 240, 241);
+            btnBooks.Location = new Point(0, 130);
+            btnBooks.Name = "btnBooks";
+            btnBooks.Padding = new Padding(20, 0, 0, 0);
+            btnBooks.Size = new Size(240, 50);
+            btnBooks.TabIndex = 6;
+            btnBooks.Text = "  📖  Quản lý sách";
+            btnBooks.TextAlign = ContentAlignment.MiddleLeft;
+            btnBooks.UseVisualStyleBackColor = false;
+            btnBooks.Click += btnBooks_Click;
+            btnBooks.MouseEnter += Button_MouseEnter;
+            btnBooks.MouseLeave += Button_MouseLeave;
+            // 
+            // btnHome
+            // 
+            btnHome.BackColor = Color.Transparent;
+            btnHome.Cursor = Cursors.Hand;
+            btnHome.Dock = DockStyle.Top;
+            btnHome.FlatAppearance.BorderSize = 0;
+            btnHome.FlatStyle = FlatStyle.Flat;
+            btnHome.Font = new Font("Segoe UI", 10F);
+            btnHome.ForeColor = Color.FromArgb(236, 240, 241);
+            btnHome.Location = new Point(0, 80);
+            btnHome.Name = "btnHome";
+            btnHome.Padding = new Padding(20, 0, 0, 0);
+            btnHome.Size = new Size(240, 50);
+            btnHome.TabIndex = 7;
+            btnHome.Text = "  🏠  Trang chủ";
+            btnHome.TextAlign = ContentAlignment.MiddleLeft;
+            btnHome.UseVisualStyleBackColor = false;
+            btnHome.Click += btnHome_Click;
+            btnHome.MouseEnter += Button_MouseEnter;
+            btnHome.MouseLeave += Button_MouseLeave;
+            // 
+            // lblTitle
+            // 
+            lblTitle.BackColor = Color.FromArgb(23, 32, 38);
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.White;
+            lblTitle.Location = new Point(0, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(240, 80);
+            lblTitle.TabIndex = 8;
+            lblTitle.Text = "📚 BOOKSTORE";
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // activeIndicator
+            // 
+            activeIndicator.Location = new Point(0, 0);
+            activeIndicator.Name = "activeIndicator";
+            activeIndicator.Size = new Size(200, 100);
+            activeIndicator.TabIndex = 0;
+            // 
+            // headerPanel
+            // 
+            headerPanel.BackColor = Color.White;
+            headerPanel.Controls.Add(lblUser);
+            headerPanel.Dock = DockStyle.Top;
+            headerPanel.Location = new Point(240, 0);
+            headerPanel.Name = "headerPanel";
+            headerPanel.Padding = new Padding(20, 0, 20, 0);
+            headerPanel.Size = new Size(960, 70);
+            headerPanel.TabIndex = 1;
+            // 
+            // lblUser
+            // 
+            lblUser.Dock = DockStyle.Fill;
+            lblUser.Font = new Font("Segoe UI", 12F);
+            lblUser.ForeColor = Color.FromArgb(44, 62, 80);
+            lblUser.Location = new Point(20, 0);
+            lblUser.Name = "lblUser";
+            lblUser.Size = new Size(920, 70);
+            lblUser.TabIndex = 0;
+            lblUser.Text = "👤 Xin chào, User";
+            lblUser.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // mainPanel
+            // 
             mainPanel.BackColor = Color.FromArgb(236, 240, 241);
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.Location = new Point(240, 70);
+            mainPanel.Name = "mainPanel";
             mainPanel.Padding = new Padding(10);
-
-            // ================== FORM ==================
+            mainPanel.Size = new Size(960, 630);
+            mainPanel.TabIndex = 0;
+            // 
+            // MainDashboard
+            // 
             ClientSize = new Size(1200, 700);
             Controls.Add(mainPanel);
             Controls.Add(headerPanel);
             Controls.Add(menuPanel);
-            Text = "Dashboard - Quản Lý Tiệm Sách";
-            StartPosition = FormStartPosition.CenterScreen;
-            FormBorderStyle = FormBorderStyle.Sizable;
             MinimumSize = new Size(1000, 600);
-
+            Name = "MainDashboard";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Dashboard - Quản Lý Tiệm Sách";
             menuPanel.ResumeLayout(false);
             headerPanel.ResumeLayout(false);
             ResumeLayout(false);

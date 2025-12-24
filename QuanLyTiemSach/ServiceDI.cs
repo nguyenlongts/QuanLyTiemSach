@@ -45,5 +45,12 @@ namespace QuanLyTiemSach
             ICustomerRepository repository = new CustomerRepository(dbContext);
             return new CustomerService(repository);
         }
+        
+        public static IStatisticService GetStatisticService()
+        {
+            var dbContext = GetDbContext();
+            IStatisticRepository repository = new StatisticRepository(dbContext);
+            return new StatisticService(repository);
+        }
     }
 }
