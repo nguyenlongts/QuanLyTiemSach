@@ -1,25 +1,26 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using QuanLyTiemSach.APP;
 using QuanLyTiemSach.Domain.Enums;
 using QuanLyTiemSach.StatisticFrms;
 using QuanLyTiemSach.UserFrms;
 using System.Windows.Forms;
+
 namespace QuanLyTiemSach
 {
     public partial class MainDashboard : Form
     {
         private Form activeForm = null;
         private Button currentButton = null;
+
         public MainDashboard()
         {
             InitializeComponent();
             ApplyAuthorization();
             btnHome_Click(btnHome, EventArgs.Empty);
         }
+
         private void OpenChildForm(Form childForm)
         {
-
             if (activeForm != null)
                 activeForm.Close();
 
@@ -31,15 +32,40 @@ namespace QuanLyTiemSach
             this.mainPanel.Controls.Clear();
             this.mainPanel.Controls.Add(activeForm);
             this.mainPanel.Tag = activeForm;
-
             activeForm.BringToFront();
             activeForm.Show();
         }
 
+        private void SetActiveButton(Button button)
+        {
+            if (currentButton != null)
+            {
+                // Reset màu button cũ
+                currentButton.BackColor = SystemColors.Control;
+                currentButton.ForeColor = Color.Black;
+            }
+
+            // Highlight button mới
+            if (button != null)
+            {
+                button.BackColor = Color.FromArgb(41, 128, 185);
+                button.ForeColor = Color.White;
+                currentButton = button;
+            }
+        }
+
         private void btnHome_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormHome());
-            SetActiveButton(sender as Button);
+            try
+            {
+                OpenChildForm(new FormHome());
+                SetActiveButton(sender as Button);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở trang chủ: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnBooks_Click(object sender, EventArgs e)
@@ -59,17 +85,44 @@ namespace QuanLyTiemSach
 
         private void btnUsers_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new UserFrms.FormUsers());
+            try
+            {
+                OpenChildForm(new UserFrms.FormUsers());
+                SetActiveButton(sender as Button);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form quản lý người dùng: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnOrders_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormOrders());
+            try
+            {
+                OpenChildForm(new FormOrders());
+                SetActiveButton(sender as Button);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form quản lý đơn hàng: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnManageCase_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormManagerShift());
+            try
+            {
+                OpenChildForm(new FormManagerShift());
+                SetActiveButton(sender as Button);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form quản lý ca làm: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCategory_Click(object sender, EventArgs e)
@@ -89,16 +142,26 @@ namespace QuanLyTiemSach
 
         private void btnThongKe_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormStatistic());
+            try
+            {
+                var orderService = ServiceDI.GetOrderService();
+                OpenChildForm(new FormStatistic(orderService));
+                SetActiveButton(sender as Button);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form thống kê: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
 
         private void ApplyAuthorization()
         {
             lblUser.Text = $"Xin chào, {AuthenSession.CurrentUser.Username}";
 
-            if (AuthenSession.IsAdmin ==false)
+            if (AuthenSession.IsAdmin == false)
             {
+                // Nhân viên thường
                 btnUsers.Visible = false;
                 btnThongKe.Visible = false;
                 btnManageCase.Visible = false;
@@ -106,9 +169,9 @@ namespace QuanLyTiemSach
                 btnOrders.Visible = true;
                 btnCategory.Visible = true;
             }
-            else 
+            else
             {
-
+                // Admin
                 btnUsers.Visible = true;
                 btnThongKe.Visible = true;
                 btnManageCase.Visible = true;

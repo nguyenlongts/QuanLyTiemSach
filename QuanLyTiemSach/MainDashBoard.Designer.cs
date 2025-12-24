@@ -264,18 +264,18 @@ namespace QuanLyTiemSach
         }
 
         // Helper method to highlight active button
-        private void SetActiveButton(Button activeBtn)
-        {
-            foreach (Control ctrl in menuPanel.Controls)
-            {
-                if (ctrl is Button btn && btn != btnLogout)
-                {
-                    btn.BackColor = Color.Transparent;
-                    btn.ForeColor = Color.FromArgb(236, 240, 241);
-                }
-            }
-            activeBtn.BackColor = Color.FromArgb(52, 152, 219);
-            activeBtn.ForeColor = Color.White;
-        }
+        //private void SetActiveButton(Button activeBtn)
+        //{
+        //    foreach (Control ctrl in menuPanel.Controls)
+        //    {
+        //        if (ctrl is Button btn && btn != btnLogout)
+        //        {
+        //            btn.BackColor = Color.Transparent;
+        //            btn.ForeColor = Color.FromArgb(236, 240, 241);
+        //        }
+        //    }
+        //    activeBtn.BackColor = Color.FromArgb(52, 152, 219);
+        //    activeBtn.ForeColor = Color.White;
+        //}
     }
 }

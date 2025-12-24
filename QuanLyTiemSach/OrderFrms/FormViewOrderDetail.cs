@@ -82,11 +82,9 @@ namespace QuanLyTiemSach.OrderFrms
                 {
                     using (Document document = new Document(pdf))
                     {
-                        // Sử dụng font hỗ trợ tiếng Việt
                         PdfFont font = GetVietnameseFont();
                         document.SetFont(font);
 
-                        // Tiêu đề hóa đơn
                         document.Add(new Paragraph("HÓA ĐƠN MUA HÀNG")
                             .SetTextAlignment(TextAlignment.CENTER)
                             .SetFontSize(20)
@@ -98,7 +96,6 @@ namespace QuanLyTiemSach.OrderFrms
 
                         document.Add(new Paragraph("\n"));
 
-                        // Thông tin khách hàng
                         document.Add(new Paragraph($"Ngày: {_order.OrderDate:dd/MM/yyyy HH:mm}")
                             .SetFontSize(12));
                         document.Add(new Paragraph($"Khách hàng: {_order.Customer?.Name ?? "Khách vãng lai"}")
@@ -108,19 +105,16 @@ namespace QuanLyTiemSach.OrderFrms
 
                         document.Add(new Paragraph("\n"));
 
-                        // Bảng chi tiết sản phẩm
                         float[] columnWidths = { 1, 3, 2, 1.5f, 2 };
                         Table table = new Table(UnitValue.CreatePercentArray(columnWidths));
                         table.SetWidth(UnitValue.CreatePercentValue(100));
 
-                        // Header
                         table.AddHeaderCell(CreateHeaderCell("Mã sách"));
                         table.AddHeaderCell(CreateHeaderCell("Tên sách"));
                         table.AddHeaderCell(CreateHeaderCell("Đơn giá"));
                         table.AddHeaderCell(CreateHeaderCell("Số lượng"));
                         table.AddHeaderCell(CreateHeaderCell("Thành tiền"));
 
-                        // Dữ liệu
                         foreach (var item in _order.OrderDetails)
                         {
                             table.AddCell(CreateCell(item.BookID));
@@ -134,13 +128,11 @@ namespace QuanLyTiemSach.OrderFrms
 
                         document.Add(new Paragraph("\n"));
 
-                        // Tổng tiền
                         document.Add(new Paragraph($"TỔNG TIỀN: {_order.TotalAmount:N0} đ")
                             .SetTextAlignment(TextAlignment.RIGHT)
                             .SetFontSize(14)
                             .SetBold());
 
-                        // Chân trang
                         document.Add(new Paragraph("\n\n"));
                         document.Add(new Paragraph("Cảm ơn quý khách đã mua hàng!")
                             .SetTextAlignment(TextAlignment.CENTER)
