@@ -1,18 +1,4 @@
-<<<<<<< HEAD
-﻿using QuanLyTiemSach.BLL.Services;
-using System;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-
-namespace QuanLyTiemSach.APP
-{
-    public partial class FormStatistic : Form
-    {
-        private readonly IStatisticService _statisticService;
-
-        public FormStatistic(IStatisticService statisticService)
-=======
-﻿using ClosedXML.Excel;
+using ClosedXML.Excel;
 using QuanLyTiemSach.BLL.Services;
 using QuanLyTiemSach.Domain.Model;
 using System;
@@ -33,7 +19,6 @@ namespace QuanLyTiemSach.StatisticFrms
 
         public FormStatistic(IOrderService orderService)
         {
-            _statisticService = statisticService;
             InitializeComponent();
             _orderService = orderService;
         }
@@ -454,7 +439,6 @@ namespace QuanLyTiemSach.StatisticFrms
             {
                 return $"{amount:N0} VNĐ";
             }
->>>>>>> b4263f66412665692483e41df90d243b52e51318
         }
     }
 }

@@ -4,11 +4,7 @@ using QuanLyTiemSach.BLL.Services;
 using QuanLyTiemSach.Domain.Enums;
 using QuanLyTiemSach.UserFrms;
 using System.Windows.Forms;
-<<<<<<< HEAD
-using WorkShiftManagement.Forms;
-=======
 
->>>>>>> b4263f66412665692483e41df90d243b52e51318
 namespace QuanLyTiemSach
 {
     public partial class MainDashboard : Form
@@ -146,10 +142,7 @@ namespace QuanLyTiemSach
 
         private void btnThongKe_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
-            var statisticService = ServiceDI.GetStatisticService();
-            OpenChildForm(new FormStatistic(statisticService));
-=======
+
             try
             {
                 var orderService = ServiceDI.GetOrderService();
@@ -161,7 +154,6 @@ namespace QuanLyTiemSach
                 MessageBox.Show($"Lỗi khi mở form thống kê: {ex.Message}",
                     "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
->>>>>>> b4263f66412665692483e41df90d243b52e51318
         }
 
         private void ApplyAuthorization()
