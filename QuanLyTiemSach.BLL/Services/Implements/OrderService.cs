@@ -145,5 +145,34 @@ namespace QuanLyTiemSach.BLL.Services.Implements
 
             return topBooks;
         }
+
+        //batdau
+
+
+        public async Task<Order> CreateOrderAsync(Order order)
+        {
+            // Kiểm tra và cập nhật số lượng sách trong kho
+            foreach (var detail in order.OrderDetails)
+            {
+                var book = await _bookRepository.GetByIdAsync(detail.BookID);
+                if (book == null)
+                {
+                    throw new Exception($"Không tìm thấy sách với ID: {detail.BookID}");
+                }
+
+                if (book.Quantity < detail.Quantity)
+                {
+                    throw new Exception($"Sách '{book.Title}' không đủ số lượng trong kho. Còn lại: {book.Quantity}");
+                }
+
+                // Trừ số lượng sách
+                book.Quantity -= detail.Quantity;
+                await _bookRepository.UpdateAsync(book);
+            }
+
+            return await _orderRepository.AddAsync(order);
+        }
     }
 }
+
+

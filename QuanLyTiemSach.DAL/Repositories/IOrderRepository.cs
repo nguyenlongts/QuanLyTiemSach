@@ -16,5 +16,15 @@ namespace QuanLyTiemSach.DAL.Repositories
         Task<bool> DeleteOrderAsync(int id);
         Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<List<Order>> GetOrdersByCustomerIdAsync(int customerId);
+
+        //batdau
+        Task<IEnumerable<Order>> GetAllAsync();
+        Task<Order> GetByIdAsync(int id);
+        Task<Order> AddAsync(Order order);
+        Task UpdateAsync(Order order);
+        Task DeleteAsync(int id);
+
+        // Thêm method mới để lọc theo ngày
+        Task<IEnumerable<Order>> GetByDateRangeAsync(DateTime fromDate, DateTime toDate);
     }
 }

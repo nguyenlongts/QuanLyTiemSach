@@ -102,6 +102,7 @@
             dgvBooks.TabIndex = 0;
             dgvBooks.CellDoubleClick += DgvBooks_CellDoubleClick;
             dgvBooks.SelectionChanged += DgvBooks_SelectionChanged;
+            dgvBooks.RowHeadersVisible = false;
             // 
             // inputPanel
             // 

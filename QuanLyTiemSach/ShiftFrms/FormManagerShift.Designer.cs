@@ -236,6 +236,7 @@ namespace WorkShiftManagement.Forms
             dgvSchedule.Size = new Size(1565, 763);
             dgvSchedule.TabIndex = 0;
             dgvSchedule.CellContentClick += dgvSchedule_CellContentClick;
+            dgvSchedule.RowHeadersVisible = false;
             // 
             // FormManagerShift
             // 

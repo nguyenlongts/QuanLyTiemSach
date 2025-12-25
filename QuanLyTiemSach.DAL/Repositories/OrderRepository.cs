@@ -82,5 +82,67 @@ namespace QuanLyTiemSach.DAL.Repositories
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
         }
+
+
+        //batdau
+        public async Task<IEnumerable<Order>> GetAllAsync()
+        {
+            return await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Book)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
+        public async Task<Order> GetByIdAsync(int id)
+        {
+            return await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Book)
+                .FirstOrDefaultAsync(o => o.Id == id);
+        }
+
+        public async Task<Order> AddAsync(Order order)
+        {
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+            return order;
+        }
+
+        public async Task UpdateAsync(Order order)
+        {
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var order = await GetByIdAsync(id);
+            if (order != null)
+            {
+                _context.Orders.Remove(order);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        // Implement method lọc theo ngày
+        public async Task<IEnumerable<Order>> GetByDateRangeAsync(DateTime fromDate, DateTime toDate)
+        {
+            // Đảm bảo fromDate bắt đầu từ 00:00:00 và toDate kết thúc ở 23:59:59
+            var startDate = fromDate.Date;
+            var endDate = toDate.Date.AddDays(1).AddTicks(-1);
+
+            return await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Book)
+                .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
+
     }
 }

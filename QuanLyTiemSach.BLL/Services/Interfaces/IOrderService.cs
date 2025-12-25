@@ -20,5 +20,11 @@ namespace QuanLyTiemSach.BLL.Services.Interfaces
         Task<List<Order>> GetLatestOrdersAsync(int count);
 
         Task<List<(Book book, int totalSold)>> GetTopSellingBooksAsync(int count);
+
+        //batdau
+
+        Task<Order> CreateOrderAsync(Order order);
+
+        // Thêm method mới để lọc theo ngày
     }
 }

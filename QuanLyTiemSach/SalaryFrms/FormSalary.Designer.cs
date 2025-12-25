@@ -197,6 +197,7 @@
             dgvSalary.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSalary.Size = new Size(1005, 324);
             dgvSalary.TabIndex = 12;
+            dgvSalary.RowHeadersVisible = false;
             // 
             // groupBoxInput
             // 
