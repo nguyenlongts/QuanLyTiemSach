@@ -43,17 +43,17 @@ namespace QuanLyTiemSach
 
         private void SetActiveButton(Button button)
         {
-            if (currentButton != null)
+            foreach (Control ctrl in menuPanel.Controls)
             {
-                // Reset màu button cũ
-                currentButton.BackColor = SystemColors.Control;
-                currentButton.ForeColor = Color.Black;
+                if (ctrl is Button btn && btn != btnLogout)
+                {
+                    btn.BackColor = Color.Transparent;
+                    btn.ForeColor = Color.FromArgb(236, 240, 241);
+                }
             }
-
-            // Highlight button mới
-            if (button != null)
+            if (button != null && button != btnLogout)
             {
-                button.BackColor = Color.FromArgb(41, 128, 185);
+                button.BackColor = Color.FromArgb(52, 152, 219);
                 button.ForeColor = Color.White;
                 currentButton = button;
             }
@@ -135,7 +135,8 @@ namespace QuanLyTiemSach
             try
             {
                 var categoryService = ServiceDI.GetCategoryService();
-                OpenChildForm(new FormCategory(categoryService));
+                var bookService = ServiceDI.GetBookService();
+                OpenChildForm(new FormCategory(categoryService,bookService));
                 SetActiveButton(sender as Button);
             }
             catch (Exception ex)
@@ -167,7 +168,6 @@ namespace QuanLyTiemSach
 
             if (AuthenSession.IsAdmin == false)
             {
-                // Nhân viên thường
                 btnUsers.Visible = false;
                 btnThongKe.Visible = false;
                 btnManageCase.Visible = false;
@@ -177,7 +177,6 @@ namespace QuanLyTiemSach
             }
             else
             {
-                // Admin
                 btnUsers.Visible = true;
                 btnThongKe.Visible = true;
                 btnManageCase.Visible = true;
@@ -208,5 +207,33 @@ namespace QuanLyTiemSach
                     "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void Button_MouseEnter(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null && btn.BackColor == Color.Transparent)
+            {
+                btn.BackColor = Color.FromArgb(44, 62, 80);
+            }
+        }
+
+        private void Button_MouseLeave(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null && btn.BackColor != Color.FromArgb(52, 152, 219))
+            {
+                btn.BackColor = Color.Transparent;
+            }
+        }
+
+        private void BtnLogout_MouseEnter(object sender, EventArgs e)
+        {
+            btnLogout.BackColor = Color.FromArgb(231, 76, 60);
+        }
+
+        private void BtnLogout_MouseLeave(object sender, EventArgs e)
+        {
+            btnLogout.BackColor = Color.FromArgb(192, 57, 43);
+        }
+
     }
 }

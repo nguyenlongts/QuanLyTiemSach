@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using QuanLyTiemSach.BLL.Services;
+using QuanLyTiemSach.BLL.Services.Interfaces;
 using QuanLyTiemSach.Domain.Model;
 using System;
 using System.Linq;

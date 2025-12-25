@@ -15,8 +15,7 @@ namespace QuanLyTiemSach.DAL.Repositories
         public async Task<List<Book>> GetAllAsync()
         {
             return await _context.Books
-                .Include(b => b.Category)
-                .OrderBy(b => b.Title)
+                .Where(b => b.IsActive).OrderBy(b=>b.BookID)
                 .ToListAsync();
         }
 
@@ -67,21 +66,13 @@ namespace QuanLyTiemSach.DAL.Repositories
 
         public async Task<bool> DeleteAsync(string bookId)
         {
-            try
-            {
-                var book = await _context.Books
-                    .FirstOrDefaultAsync(b => b.BookID == bookId);
+            var book = await _context.Books.FindAsync(bookId);
+            if (book == null) return false;
 
-                if (book == null) return false;
-
-                _context.Books.Remove(book);
-                return await _context.SaveChangesAsync() > 0;
-            }
-            catch
-            {
-                return false;
-            }
+            book.IsActive = false;
+            return await _context.SaveChangesAsync() > 0;
         }
+
 
         public async Task<List<Book>> SearchAsync(string keyword)
         {
@@ -100,8 +91,8 @@ namespace QuanLyTiemSach.DAL.Repositories
         {
             return await _context.Books
                 .Include(b => b.Category)
-                .Where(b => b.CategoryId == categoryId)
-                .OrderBy(b => b.Title)
+                .Where(b => b.CategoryId == categoryId && b.IsActive)
+                .OrderBy(b => b.BookID)
                 .ToListAsync();
         }
 

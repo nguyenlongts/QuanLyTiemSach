@@ -1,8 +1,10 @@
 ﻿using QuanLyTiemSach.BLL.Services;
-using QuanLyTiemSach.Business.Services;
+using QuanLyTiemSach.BLL.Services.Implements;
+using QuanLyTiemSach.BLL.Services.Interfaces;
 using QuanLyTiemSach.DAL;
 using QuanLyTiemSach.DAL.Repositories;
 using QuanLyTiemSach.Data.Repositories;
+using WorkShiftManagement.Repositories;
 
 namespace QuanLyTiemSach
 {
@@ -23,7 +25,8 @@ namespace QuanLyTiemSach
         {
             var dbContext = GetDbContext();
             ICategoryRepository repository = new CategoryRepository(dbContext);
-            return new CategoryService(repository);
+            IBookRepository bookRepository = new BookRepository(dbContext);
+            return new CategoryService(repository,bookRepository);
         }
 
         public static IBookService GetBookService()
@@ -47,7 +50,7 @@ namespace QuanLyTiemSach
             ICustomerRepository repository = new CustomerRepository(dbContext);
             return new CustomerService(repository);
         }
-        
+
         public static IStatisticService GetStatisticService()
         {
             var dbContext = GetDbContext();
@@ -58,8 +61,24 @@ namespace QuanLyTiemSach
         public static ISalaryService GetSalaryService()
         {
             var dbContext = GetDbContext();
-            ISalaryRepository repository = new SalaryRepository(dbContext);
-            return new SalaryService(repository);
+            ISalaryRepository salaryRepository = new SalaryRepository(dbContext);
+            IEmployeeRepository employeeRepository = new EmployeeRepository(dbContext);
+            WorkShiftRepository workShiftRepository = new WorkShiftRepository(dbContext);
+
+            return new SalaryService(salaryRepository, employeeRepository, workShiftRepository);
+        }
+
+        public static IEmployeeService GetEmployeeService()
+        {
+            var dbContext = GetDbContext();
+            IEmployeeRepository repository = new EmployeeRepository(dbContext);
+            return new EmployeeService(repository);
+        }
+
+        public static WorkShiftService GetWorkShiftService()
+        {
+            var dbContext = GetDbContext();
+            return new WorkShiftService(dbContext);
         }
     }
 }

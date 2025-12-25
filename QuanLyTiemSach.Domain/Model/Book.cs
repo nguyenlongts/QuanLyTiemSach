@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.InteropServices;
 
 namespace QuanLyTiemSach.Domain.Model
 {
@@ -31,16 +32,15 @@ namespace QuanLyTiemSach.Domain.Model
         [Range(0, int.MaxValue)]
         public int Quantity { get; set; }
 
-        // Foreign Key
         [Required]
         public int CategoryId { get; set; }
 
-        // Navigation Property
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
 
-        // Navigation cho OrderDetails (nếu có)
+
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public Book()
         {
@@ -57,9 +57,7 @@ namespace QuanLyTiemSach.Domain.Model
             OrderDetails = new HashSet<OrderDetail>();
         }
 
-        /// <summary>
-        /// Validate thông tin sách
-        /// </summary>
+       
         public bool IsValid(out string msg)
         {
             msg = string.Empty;
@@ -108,20 +106,12 @@ namespace QuanLyTiemSach.Domain.Model
 
             return true;
         }
-
-        /// <summary>
-        /// Tính tổng giá trị tồn kho
-        /// </summary>
+        [NotMapped]
         public decimal TotalValue => Price * Quantity;
 
-        /// <summary>
-        /// Kiểm tra còn hàng
-        /// </summary>
+        [NotMapped]
         public bool IsAvailable => Quantity > 0;
 
-        /// <summary>
-        /// Display format cho ComboBox, ListBox
-        /// </summary>
         public override string ToString()
         {
             return $"{BookID} - {Title} ({Author})";

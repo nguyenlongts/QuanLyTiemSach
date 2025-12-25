@@ -1,20 +1,18 @@
 ﻿using QuanLyTiemSach.Domain.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace QuanLyTiemSach.DAL.Repositories
 {
     public interface ICategoryRepository
     {
-        List<Category> GetAll();
-        Category GetById(int id);
-        bool Add(Category category);
-        bool Update(Category category);
-        bool Delete(int id);
-        List<Category> Search(string keyword);
-        bool ExistsByName(string name, int? excludeId = null);
+        Task<List<Category>> GetAllAsync();
+        Task<Category?> GetByIdAsync(int id);
+        Task<bool> AddAsync(Category category);
+        Task<bool> UpdateAsync(Category category);
+        Task<bool> DeleteAsync(int id);
+        Task<List<Category>> SearchAsync(string keyword);
+        Task<bool> ExistsByNameAsync(string name, int? excludeId = null);
+        Task<Category?> GetWithBooksAsync(int id);
     }
 }

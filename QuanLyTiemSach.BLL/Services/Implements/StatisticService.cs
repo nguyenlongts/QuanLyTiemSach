@@ -1,8 +1,9 @@
-﻿using QuanLyTiemSach.DAL.Repositories;
+﻿using QuanLyTiemSach.BLL.Services.Interfaces;
+using QuanLyTiemSach.DAL.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace QuanLyTiemSach.BLL.Services
+namespace QuanLyTiemSach.BLL.Services.Implements
 {
     public class StatisticService : IStatisticService
     {

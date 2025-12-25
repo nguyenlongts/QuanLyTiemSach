@@ -1,6 +1,6 @@
-﻿using QuanLyTiemSach.Business.Services;
-using QuanLyTiemSach.DAL;
+﻿using QuanLyTiemSach.BLL.Services.Interfaces;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using WorkShiftManagement.Models;
 
@@ -9,8 +9,6 @@ namespace QuanLyTiemSach.SalaryFrms
     public partial class FormSalary : Form
     {
         private readonly ISalaryService _salaryService;
-        private readonly BookStoreDbContext _context;
-        private List<Employee> _employees;
 
         public FormSalary(ISalaryService salaryService)
         {
@@ -21,18 +19,32 @@ namespace QuanLyTiemSach.SalaryFrms
         private void SalaryForm_Load(object sender, EventArgs e)
         {
             InitializeMonthComboBox();
-            LoadSalaryData();
-            //LoadEmployees();
+            InitializeYearComboBox();
+            LoadEmployees();
             ConfigureDataGridView();
-
+            LoadSalaryData();
         }
-        //private void LoadEmployees()
-        //{
-        //    _employees = _salaryService.GetAllEmployees();
-        //    cboEmployee.DataSource = _employees;
-        //    cboEmployee.DisplayMember = "FullName";
-        //    cboEmployee.ValueMember = "EmployeeId";
-        //}
+
+        private void LoadEmployees()
+        {
+            try
+            {
+                var employees = _salaryService.GetAllEmployees()
+                    .Where(e => e.IsActive) 
+                    .OrderBy(e => e.FullName)
+                    .ToList();
+
+                cboEmployee.DataSource = employees;
+                cboEmployee.DisplayMember = "FullName";
+                cboEmployee.ValueMember = "EmployeeId";
+                cboEmployee.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải danh sách nhân viên: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private void InitializeMonthComboBox()
         {
@@ -44,6 +56,17 @@ namespace QuanLyTiemSach.SalaryFrms
             cboMonth.SelectedIndex = DateTime.Now.Month - 1;
         }
 
+        private void InitializeYearComboBox()
+        {
+            cboYear.Items.Clear();
+            int currentYear = DateTime.Now.Year;
+            for (int i = currentYear - 2; i <= currentYear + 1; i++)
+            {
+                cboYear.Items.Add(i);
+            }
+            cboYear.SelectedItem = currentYear;
+        }
+
         private void ConfigureDataGridView()
         {
             dgvSalary.AutoGenerateColumns = false;
@@ -51,30 +74,30 @@ namespace QuanLyTiemSach.SalaryFrms
 
             dgvSalary.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Mã",
+                HeaderText = "Mã Lương",
                 DataPropertyName = "Id",
-                Width = 80
+                Width = 100
             });
 
             dgvSalary.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Mã Nhân Viên",
+                HeaderText = "Mã NV",
                 DataPropertyName = "EmployeeId",
-                Width = 150
+                Width = 100
             });
 
             dgvSalary.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Tháng",
                 DataPropertyName = "Month",
-                Width = 100
+                Width = 80
             });
 
             dgvSalary.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Lương (VNĐ)",
                 DataPropertyName = "Amount",
-                Width = 200,
+                Width = 150,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Format = "N0",
@@ -83,22 +106,73 @@ namespace QuanLyTiemSach.SalaryFrms
             });
         }
 
-        private void txtShifts_TextChanged(object sender, EventArgs e)
+        private void cboEmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Auto calculate when shifts input changes
-            if (!string.IsNullOrWhiteSpace(txtShifts.Text))
+            if (cboEmployee.SelectedValue != null && cboEmployee.SelectedValue is int)
             {
-                CalculateSalary();
+                var selectedEmployee = cboEmployee.SelectedItem as Employee;
+                if (selectedEmployee != null)
+                {
+                    txtEmployeeId.Text = selectedEmployee.EmployeeCode;
+                    LoadShiftCount();
+                }
             }
             else
             {
-                txtAmount.Text = string.Empty;
+                txtEmployeeId.Clear();
+                txtShifts.Clear();
+                txtAmount.Clear();
             }
         }
 
-        private void btnCalculate_Click(object sender, EventArgs e)
+        private void cboMonth_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CalculateSalary();
+            LoadShiftCount();
+        }
+
+        private void cboYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadShiftCount();
+        }
+
+        private void LoadShiftCount()
+        {
+            try
+            {
+                if (cboEmployee.SelectedIndex < 0 ||
+                    cboMonth.SelectedIndex < 0 ||
+                    cboYear.SelectedItem == null)
+                {
+                    txtShifts.Text = string.Empty;
+                    txtAmount.Text = string.Empty;
+                    return;
+                }
+
+                int employeeId = (int)cboEmployee.SelectedValue;
+                int month = cboMonth.SelectedIndex + 1;
+                int year = (int)cboYear.SelectedItem;
+
+                int shifts = _salaryService.GetShiftCountByMonth(employeeId, month, year);
+                txtShifts.Text = shifts.ToString();
+
+                if (shifts > 0)
+                {
+                    CalculateSalary();
+                }
+                else
+                {
+                    txtAmount.Text = "0 VNĐ";
+                    MessageBox.Show($"Nhân viên chưa có ca làm nào trong tháng {month}/{year}!",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải số ca: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtShifts.Clear();
+                txtAmount.Clear();
+            }
         }
 
         private void CalculateSalary()
@@ -107,15 +181,13 @@ namespace QuanLyTiemSach.SalaryFrms
             {
                 if (string.IsNullOrWhiteSpace(txtShifts.Text))
                 {
-                    MessageBox.Show("Vui lòng nhập số ca làm!", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtAmount.Text = string.Empty;
                     return;
                 }
 
                 if (!int.TryParse(txtShifts.Text, out int shifts) || shifts < 0)
                 {
-                    MessageBox.Show("Số ca làm không hợp lệ!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtAmount.Text = string.Empty;
                     return;
                 }
 
@@ -129,6 +201,11 @@ namespace QuanLyTiemSach.SalaryFrms
             }
         }
 
+        private void btnCalculate_Click(object sender, EventArgs e)
+        {
+            LoadShiftCount();
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
@@ -138,15 +215,22 @@ namespace QuanLyTiemSach.SalaryFrms
                     return;
                 }
 
-                int employeeId = int.Parse(txtEmployeeId.Text);
+                int employeeId = (int)cboEmployee.SelectedValue;
                 int month = cboMonth.SelectedIndex + 1;
-                int shifts = int.Parse(txtShifts.Text);
+                int year = (int)cboYear.SelectedItem;
 
-                // Check if salary already exists
+                int shifts = int.Parse(txtShifts.Text);
+                if (shifts == 0)
+                {
+                    MessageBox.Show($"Nhân viên chưa có ca làm nào trong tháng {month}/{year}!",
+                        "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (_salaryService.IsSalaryExists(employeeId, month))
                 {
                     var result = MessageBox.Show(
-                        $"Lương tháng {month} cho nhân viên {employeeId} đã tồn tại. Bạn có muốn cập nhật?",
+                        $"Lương tháng {month}/{year} cho nhân viên này đã tồn tại. Bạn có muốn cập nhật?",
                         "Xác nhận",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question);
@@ -157,8 +241,7 @@ namespace QuanLyTiemSach.SalaryFrms
                     }
                 }
 
-                // Create or update salary
-                bool success = _salaryService.CreateOrUpdateSalary(employeeId, month, shifts, out string message);
+                bool success = _salaryService.CreateOrUpdateSalary(employeeId, month, year, out string message);
 
                 if (success)
                 {
@@ -182,19 +265,11 @@ namespace QuanLyTiemSach.SalaryFrms
 
         private bool ValidateInput()
         {
-            if (string.IsNullOrWhiteSpace(txtEmployeeId.Text))
+            if (cboEmployee.SelectedIndex < 0)
             {
-                MessageBox.Show("Vui lòng nhập mã nhân viên!", "Thông báo",
+                MessageBox.Show("Vui lòng chọn nhân viên!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtEmployeeId.Focus();
-                return false;
-            }
-
-            if (!int.TryParse(txtEmployeeId.Text, out int empId) || empId <= 0)
-            {
-                MessageBox.Show("Mã nhân viên không hợp lệ!", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtEmployeeId.Focus();
+                cboEmployee.Focus();
                 return false;
             }
 
@@ -206,19 +281,18 @@ namespace QuanLyTiemSach.SalaryFrms
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtShifts.Text))
+            if (cboYear.SelectedItem == null)
             {
-                MessageBox.Show("Vui lòng nhập số ca làm!", "Thông báo",
+                MessageBox.Show("Vui lòng chọn năm!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtShifts.Focus();
+                cboYear.Focus();
                 return false;
             }
 
-            if (!int.TryParse(txtShifts.Text, out int shifts) || shifts < 0)
+            if (string.IsNullOrWhiteSpace(txtShifts.Text) || txtShifts.Text == "0")
             {
-                MessageBox.Show("Số ca làm không hợp lệ!", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtShifts.Focus();
+                MessageBox.Show("Chưa có thông tin ca làm!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -232,11 +306,13 @@ namespace QuanLyTiemSach.SalaryFrms
 
         private void ClearForm()
         {
+            cboEmployee.SelectedIndex = -1;
             txtEmployeeId.Clear();
             txtShifts.Clear();
             txtAmount.Clear();
             cboMonth.SelectedIndex = DateTime.Now.Month - 1;
-            txtEmployeeId.Focus();
+            cboYear.SelectedItem = DateTime.Now.Year;
+            cboEmployee.Focus();
         }
 
         private void LoadSalaryData()

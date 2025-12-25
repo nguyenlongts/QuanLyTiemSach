@@ -1,7 +1,8 @@
-﻿using QuanLyTiemSach.DAL.Repositories;
+﻿using QuanLyTiemSach.BLL.Services.Interfaces;
+using QuanLyTiemSach.DAL.Repositories;
 using QuanLyTiemSach.Domain.Model;
 
-namespace QuanLyTiemSach.BLL.Services
+namespace QuanLyTiemSach.BLL.Services.Implements
 {
     public class BookService : IBookService
     {
