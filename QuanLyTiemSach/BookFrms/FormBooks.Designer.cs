@@ -6,118 +6,128 @@ namespace QuanLyTiemSach
     partial class FormBooks
     {
         private System.ComponentModel.IContainer components = null;
+
         private Panel headerPanel;
         private Label lblHeader;
-        private DataGridView dgvBooks;
+        private Label lblSubHeader;
+
+        private Panel panelSearch;
+        private Label lblSearch;
+        private TextBox txtSearchBook;
+
         private Panel panelButtons;
         private FlowLayoutPanel flowButtons;
-        private Button btnAdd, btnEdit, btnDelete;
+        private Button btnAdd;
+        private Button btnEdit;
+        private Button btnDelete;
+        private Button btnRefresh;
+
+        private DataGridView dgvBooks;
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) components.Dispose();
+            if (disposing && components != null)
+                components.Dispose();
             base.Dispose(disposing);
         }
 
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             headerPanel = new Panel();
+            lblSubHeader = new Label();
             lblHeader = new Label();
-            dgvBooks = new DataGridView();
-            panelButtons = new Panel();
-            label1 = new Label();
+            panelSearch = new Panel();
+            lblSearch = new Label();
             txtSearchBook = new TextBox();
+            panelButtons = new Panel();
             flowButtons = new FlowLayoutPanel();
             btnAdd = new Button();
             btnEdit = new Button();
             btnDelete = new Button();
+            btnRefresh = new Button();
+            dgvBooks = new DataGridView();
+            btnSearch = new Button();
             headerPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvBooks).BeginInit();
+            panelSearch.SuspendLayout();
             panelButtons.SuspendLayout();
             flowButtons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvBooks).BeginInit();
             SuspendLayout();
             // 
             // headerPanel
             // 
-            headerPanel.BackColor = Color.FromArgb(52, 152, 219);
+            headerPanel.BackColor = Color.White;
+            headerPanel.Controls.Add(lblSubHeader);
             headerPanel.Controls.Add(lblHeader);
             headerPanel.Dock = DockStyle.Top;
             headerPanel.Location = new Point(0, 0);
             headerPanel.Name = "headerPanel";
-            headerPanel.Size = new Size(800, 60);
-            headerPanel.TabIndex = 2;
+            headerPanel.Padding = new Padding(30, 20, 30, 10);
+            headerPanel.Size = new Size(1000, 90);
+            headerPanel.TabIndex = 3;
+            // 
+            // lblSubHeader
+            // 
+            lblSubHeader.Dock = DockStyle.Bottom;
+            lblSubHeader.Font = new Font("Segoe UI", 9F);
+            lblSubHeader.ForeColor = Color.FromArgb(127, 140, 141);
+            lblSubHeader.Location = new Point(30, 60);
+            lblSubHeader.Name = "lblSubHeader";
+            lblSubHeader.Size = new Size(940, 20);
+            lblSubHeader.TabIndex = 0;
+            lblSubHeader.Text = "Quản lý sách trong cửa hàng";
             // 
             // lblHeader
             // 
-            lblHeader.Dock = DockStyle.Fill;
-            lblHeader.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lblHeader.ForeColor = Color.White;
-            lblHeader.Location = new Point(0, 0);
+            lblHeader.Dock = DockStyle.Top;
+            lblHeader.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblHeader.ForeColor = Color.FromArgb(44, 62, 80);
+            lblHeader.Location = new Point(30, 20);
             lblHeader.Name = "lblHeader";
-            lblHeader.Padding = new Padding(20, 0, 0, 0);
-            lblHeader.Size = new Size(800, 60);
-            lblHeader.TabIndex = 0;
-            lblHeader.Text = "Quản lý Sách";
-            lblHeader.TextAlign = ContentAlignment.MiddleLeft;
+            lblHeader.Size = new Size(940, 35);
+            lblHeader.TabIndex = 1;
+            lblHeader.Text = "Quản lý sách";
             // 
-            // dgvBooks
+            // panelSearch
             // 
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(245, 245, 245);
-            dgvBooks.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
-            dgvBooks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvBooks.BackgroundColor = Color.White;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(41, 128, 185);
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle4.ForeColor = Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgvBooks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            dgvBooks.ColumnHeadersHeight = 29;
-            dgvBooks.Dock = DockStyle.Top;
-            dgvBooks.EnableHeadersVisualStyles = false;
-            dgvBooks.Location = new Point(0, 60);
-            dgvBooks.Name = "dgvBooks";
-            dgvBooks.ReadOnly = true;
-            dgvBooks.RowHeadersWidth = 51;
-            dgvBooks.RowTemplate.Height = 35;
-            dgvBooks.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvBooks.Size = new Size(800, 350);
-            dgvBooks.TabIndex = 1;
+            panelSearch.BackColor = Color.White;
+            panelSearch.Controls.Add(btnSearch);
+            panelSearch.Controls.Add(lblSearch);
+            panelSearch.Controls.Add(txtSearchBook);
+            panelSearch.Dock = DockStyle.Top;
+            panelSearch.Location = new Point(0, 90);
+            panelSearch.Name = "panelSearch";
+            panelSearch.Padding = new Padding(30, 15, 30, 15);
+            panelSearch.Size = new Size(1000, 80);
+            panelSearch.TabIndex = 2;
+            // 
+            // lblSearch
+            // 
+            lblSearch.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblSearch.ForeColor = Color.FromArgb(52, 73, 94);
+            lblSearch.Location = new Point(30, 15);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(100, 23);
+            lblSearch.TabIndex = 0;
+            lblSearch.Text = "Tìm kiếm";
+            // 
+            // txtSearchBook
+            // 
+            txtSearchBook.Location = new Point(30, 40);
+            txtSearchBook.Name = "txtSearchBook";
+            txtSearchBook.Size = new Size(300, 23);
+            txtSearchBook.TabIndex = 1;
             // 
             // panelButtons
             // 
             panelButtons.BackColor = Color.White;
-            panelButtons.Controls.Add(label1);
-            panelButtons.Controls.Add(txtSearchBook);
             panelButtons.Controls.Add(flowButtons);
             panelButtons.Dock = DockStyle.Top;
-            panelButtons.Location = new Point(0, 410);
+            panelButtons.Location = new Point(0, 170);
             panelButtons.Name = "panelButtons";
-            panelButtons.Padding = new Padding(20, 10, 0, 10);
-            panelButtons.Size = new Size(800, 60);
-            panelButtons.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(632, 3);
-            label1.Name = "label1";
-            label1.Size = new Size(73, 20);
-            label1.TabIndex = 2;
-            label1.Text = "Tìm kiếm:";
-            label1.Click += label1_Click;
-            // 
-            // txtSearchBook
-            // 
-            txtSearchBook.Location = new Point(632, 33);
-            txtSearchBook.Name = "txtSearchBook";
-            txtSearchBook.Size = new Size(126, 27);
-            txtSearchBook.TabIndex = 1;
-            txtSearchBook.KeyDown += txtSearchBook_KeyDown;
+            panelButtons.Padding = new Padding(30, 15, 30, 15);
+            panelButtons.Size = new Size(1000, 70);
+            panelButtons.TabIndex = 1;
             // 
             // flowButtons
             // 
@@ -125,70 +135,94 @@ namespace QuanLyTiemSach
             flowButtons.Controls.Add(btnAdd);
             flowButtons.Controls.Add(btnEdit);
             flowButtons.Controls.Add(btnDelete);
+            flowButtons.Controls.Add(btnRefresh);
             flowButtons.Dock = DockStyle.Left;
-            flowButtons.Location = new Point(20, 10);
+            flowButtons.Location = new Point(30, 15);
             flowButtons.Name = "flowButtons";
-            flowButtons.Size = new Size(318, 40);
+            flowButtons.Size = new Size(504, 40);
             flowButtons.TabIndex = 0;
             flowButtons.WrapContents = false;
             // 
             // btnAdd
             // 
-            btnAdd.BackColor = Color.FromArgb(46, 204, 113);
-            btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.ForeColor = Color.White;
             btnAdd.Location = new Point(3, 3);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(100, 35);
+            btnAdd.Size = new Size(120, 40);
             btnAdd.TabIndex = 0;
             btnAdd.Text = "Thêm";
-            btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += BtnAdd_Click;
             // 
             // btnEdit
             // 
-            btnEdit.BackColor = Color.FromArgb(241, 196, 15);
-            btnEdit.FlatStyle = FlatStyle.Flat;
-            btnEdit.ForeColor = Color.White;
-            btnEdit.Location = new Point(109, 3);
+            btnEdit.Location = new Point(129, 3);
             btnEdit.Name = "btnEdit";
-            btnEdit.Size = new Size(100, 35);
+            btnEdit.Size = new Size(120, 40);
             btnEdit.TabIndex = 1;
             btnEdit.Text = "Sửa";
-            btnEdit.UseVisualStyleBackColor = false;
             btnEdit.Click += BtnEdit_Click;
             // 
             // btnDelete
             // 
-            btnDelete.BackColor = Color.FromArgb(231, 76, 60);
-            btnDelete.FlatStyle = FlatStyle.Flat;
-            btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(215, 3);
+            btnDelete.Location = new Point(255, 3);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(100, 35);
+            btnDelete.Size = new Size(120, 40);
             btnDelete.TabIndex = 2;
-            btnDelete.Text = "Xóa";
-            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Text = "Xoá";
             btnDelete.Click += BtnDelete_Click;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Location = new Point(381, 3);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(120, 40);
+            btnRefresh.TabIndex = 3;
+            btnRefresh.Text = "Làm mới";
+            // 
+            // dgvBooks
+            // 
+            dgvBooks.AllowUserToAddRows = false;
+            dgvBooks.AllowUserToDeleteRows = false;
+            dgvBooks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvBooks.BackgroundColor = Color.White;
+            dgvBooks.Dock = DockStyle.Fill;
+            dgvBooks.Location = new Point(0, 240);
+            dgvBooks.Name = "dgvBooks";
+            dgvBooks.ReadOnly = true;
+            dgvBooks.RowHeadersVisible = false;
+            dgvBooks.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvBooks.Size = new Size(1000, 360);
+            dgvBooks.TabIndex = 0;
+            // 
+            // btnSearch
+            // 
+            btnSearch.Location = new Point(346, 40);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(120, 23);
+            btnSearch.TabIndex = 3;
+            btnSearch.Text = "Tìm kiếm";
+            btnSearch.Click += btnSearch_Click;
             // 
             // FormBooks
             // 
-            ClientSize = new Size(800, 500);
-            Controls.Add(panelButtons);
+            BackColor = Color.White;
+            ClientSize = new Size(1000, 600);
             Controls.Add(dgvBooks);
+            Controls.Add(panelButtons);
+            Controls.Add(panelSearch);
             Controls.Add(headerPanel);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FormBooks";
             Text = "Quản lý sách";
             headerPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvBooks).EndInit();
+            panelSearch.ResumeLayout(false);
+            panelSearch.PerformLayout();
             panelButtons.ResumeLayout(false);
             panelButtons.PerformLayout();
             flowButtons.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvBooks).EndInit();
             ResumeLayout(false);
         }
 
-        private TextBox txtSearchBook;
-        private Label label1;
+        private Button btnSearch;
     }
 }

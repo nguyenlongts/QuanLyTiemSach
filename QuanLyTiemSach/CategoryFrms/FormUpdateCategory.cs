@@ -1,4 +1,5 @@
-﻿using QuanLyTiemSach.Model;
+﻿
+using QuanLyTiemSach.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

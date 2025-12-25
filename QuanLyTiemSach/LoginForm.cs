@@ -1,12 +1,17 @@
-﻿using System;
+﻿using QuanLyTiemSach.APP;
+using QuanLyTiemSach.BLL.Services;
+using System;
 using System.Windows.Forms;
 
 namespace QuanLyTiemSach
 {
     public partial class LoginForm : Form
     {
+        private readonly IUserService _userService;
+
         public LoginForm()
         {
+            _userService = new UserService();
             InitializeComponent();
             btnLogin.Click += BtnLogin_Click;
         }
@@ -16,16 +21,19 @@ namespace QuanLyTiemSach
             string username = txtUser.Text.Trim();
             string password = txtPass.Text;
 
-            if (username == "long" && password == "123")
+            var user = _userService.Login(username, password);
+
+            if (user == null)
             {
-                MainDashboard dashboard = new MainDashboard();
-                dashboard.Show();
-                this.Hide();
+                MessageBox.Show("Sai tài khoản hoặc mật khẩu", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
-            {
-                MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            AuthenSession.CurrentUser = user;
+
+            MainDashboard dashboard = new MainDashboard();
+            dashboard.Show();
+            this.Hide();
         }
     }
 }
