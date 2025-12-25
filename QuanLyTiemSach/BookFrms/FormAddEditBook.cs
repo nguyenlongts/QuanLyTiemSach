@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
-using QuanLyTiemSach.BLL.Services;
+using QuanLyTiemSach.BLL.Services.Interfaces;
 using QuanLyTiemSach.Domain.Model;
-
-
 
 namespace QuanLyTiemSach
 {
@@ -15,7 +12,9 @@ namespace QuanLyTiemSach
         private readonly Book _editingBook;
         private readonly bool _isEditMode;
 
-        public FormAddEditBook(IBookService bookService, ICategoryService categoryService)
+        public FormAddEditBook(
+            IBookService bookService,
+            ICategoryService categoryService)
         {
             InitializeComponent();
             _bookService = bookService;
@@ -25,7 +24,10 @@ namespace QuanLyTiemSach
             InitializeForm();
         }
 
-        public FormAddEditBook(IBookService bookService, ICategoryService categoryService, Book book)
+        public FormAddEditBook(
+            IBookService bookService,
+            ICategoryService categoryService,
+            Book book)
         {
             InitializeComponent();
             _bookService = bookService;
@@ -37,38 +39,40 @@ namespace QuanLyTiemSach
             LoadBookData();
         }
 
-        private void InitializeForm()
+        private async void InitializeForm()
         {
-            LoadCategories();
+            await LoadCategoriesAsync();
 
-       
             if (_isEditMode)
             {
-                lblHeader.Text = "✏️ Chỉnh sửa thông tin sách";
-                txtBookId.Enabled = false; 
+                lblHeader.Text = "Chỉnh sửa thông tin sách";
+                txtBookId.Enabled = false;
                 txtBookId.BackColor = System.Drawing.Color.FromArgb(236, 240, 241);
             }
             else
             {
-                lblHeader.Text = "📚 Thêm sách mới";
+                lblHeader.Text = "Thêm sách mới";
             }
         }
 
-        private void LoadCategories()
+        private async Task LoadCategoriesAsync()
         {
             try
             {
-                var categories = _categoryService.GetAllCategories();
+                var categories = await _categoryService.GetAllCategoriesAsync();
 
                 cboCategory.DataSource = categories;
                 cboCategory.DisplayMember = "Name";
                 cboCategory.ValueMember = "Id";
-                cboCategory.SelectedIndex = -1; 
+                cboCategory.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải danh mục: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Lỗi khi tải danh mục:\n{ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -82,17 +86,11 @@ namespace QuanLyTiemSach
             txtPublisher.Text = _editingBook.Publisher ?? "";
 
             if (_editingBook.PublishedYear.HasValue)
-            {
                 numPublishedYear.Value = _editingBook.PublishedYear.Value;
-            }
 
             numPrice.Value = _editingBook.Price;
             numQuantity.Value = _editingBook.Quantity;
-
-            if (_editingBook.CategoryId > 0)
-            {
-                cboCategory.SelectedValue = _editingBook.CategoryId;
-            }
+            cboCategory.SelectedValue = _editingBook.CategoryId;
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
@@ -117,96 +115,109 @@ namespace QuanLyTiemSach
                 book.Quantity = (int)numQuantity.Value;
                 book.CategoryId = (int)cboCategory.SelectedValue;
 
-                var (success, message) = _isEditMode
+                var result = _isEditMode
                     ? await _bookService.UpdateBookAsync(book)
                     : await _bookService.AddBookAsync(book);
 
-                if (success)
+                if (result.success)
                 {
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    DialogResult = DialogResult.OK;
+                    Close();
                 }
                 else
                 {
-                    MessageBox.Show(message, "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                       result.message,
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Có lỗi xảy ra:\n{ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
+        }
+
+        private async void txtBookId_Leave(object sender, EventArgs e)
+        {
+            if (_isEditMode) return;
+
+            try
+            {
+                string bookId = txtBookId.Text.Trim();
+                if (!string.IsNullOrEmpty(bookId))
+                {
+                    if (await _bookService.IsBookIdExistsAsync(bookId))
+                    {
+                        MessageBox.Show(
+                            "Mã sách đã tồn tại!",
+                            "Cảnh báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        txtBookId.Focus();
+                        txtBookId.SelectAll();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
         private bool ValidateInputs()
         {
             if (string.IsNullOrWhiteSpace(txtBookId.Text))
             {
-                MessageBox.Show("Vui lòng nhập mã sách!", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập mã sách!");
                 txtBookId.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtTitle.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên sách!", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập tên sách!");
                 txtTitle.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtAuthor.Text))
             {
-                MessageBox.Show("Vui lòng nhập tác giả!", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập tác giả!");
                 txtAuthor.Focus();
                 return false;
             }
 
             if (numPrice.Value <= 0)
             {
-                MessageBox.Show("Giá sách phải lớn hơn 0!", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Giá sách phải lớn hơn 0!");
                 numPrice.Focus();
                 return false;
             }
 
             if (cboCategory.SelectedIndex == -1)
             {
-                MessageBox.Show("Vui lòng chọn danh mục!", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn danh mục!");
                 cboCategory.Focus();
                 return false;
             }
 
             return true;
         }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-
-        private async void txtBookId_Leave(object sender, EventArgs e)
-        {
-            if (_isEditMode) return; 
-
-            string bookId = txtBookId.Text.Trim();
-            if (!string.IsNullOrEmpty(bookId))
-            {
-                if (await _bookService.IsBookIdExistsAsync(bookId))
-                {
-                    MessageBox.Show("Mã sách đã tồn tại!", "Cảnh báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtBookId.Focus();
-                    txtBookId.SelectAll();
-                }
-            }
-        }
-
-
     }
 }

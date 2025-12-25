@@ -1,6 +1,6 @@
 ﻿using QuanLyTiemSach.Domain.Model;
 
-namespace QuanLyTiemSach.BLL.Services
+namespace QuanLyTiemSach.BLL.Services.Interfaces
 {
     public interface IBookService
     {

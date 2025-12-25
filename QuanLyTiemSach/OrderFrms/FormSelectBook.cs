@@ -59,8 +59,8 @@ namespace QuanLyTiemSach.OrderFrms
         private void DgvBooks_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvBooks.SelectedRows.Count == 0) return;
+            string bookId = dgvBooks.SelectedRows[0].Cells[0].Value?.ToString();
 
-            string bookId = dgvBooks.SelectedRows[0].Cells["BookID"].Value?.ToString();
             var book = _books.FirstOrDefault(b => b.BookID == bookId);
 
             if (book != null)
@@ -86,7 +86,7 @@ namespace QuanLyTiemSach.OrderFrms
                 return;
             }
 
-            string bookId = dgvBooks.SelectedRows[0].Cells["BookID"].Value.ToString();
+            string bookId = dgvBooks.SelectedRows[0].Cells[0].Value.ToString();
             SelectedBook = _books.First(b => b.BookID == bookId);
             Quantity = (int)numQuantity.Value;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace QuanLyTiemSach.BLL.Services
+namespace QuanLyTiemSach.BLL.Services.Interfaces
 {
     public interface IStatisticService
     {

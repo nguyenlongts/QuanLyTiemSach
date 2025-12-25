@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using QuanLyTiemSach.BLL.Services;
+using QuanLyTiemSach.BLL.Services.Interfaces;
 using QuanLyTiemSach.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -89,7 +89,7 @@ namespace QuanLyTiemSach
                 dgvBooks.Columns["CategoryId"].Visible = false;
             }
 
-            string[] hiddenColumns = { "Category", "OrderDetails", "TotalValue", "IsAvailable" };
+            string[] hiddenColumns = { "Category", "OrderDetails", "TotalValue", "isActive", "IsAvailable" };
             foreach (var colName in hiddenColumns)
             {
                 if (dgvBooks.Columns.Contains(colName))

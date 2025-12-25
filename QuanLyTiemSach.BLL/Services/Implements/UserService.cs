@@ -1,7 +1,8 @@
-﻿using QuanLyTiemSach.DAL;
+﻿using QuanLyTiemSach.BLL.Services.Interfaces;
+using QuanLyTiemSach.DAL;
 using QuanLyTiemSach.Domain.Model;
 
-namespace QuanLyTiemSach.BLL.Services
+namespace QuanLyTiemSach.BLL.Services.Implements
 {
     public class UserService : IUserService
     {

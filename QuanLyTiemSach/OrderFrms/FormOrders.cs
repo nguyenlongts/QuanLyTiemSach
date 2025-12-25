@@ -1,4 +1,4 @@
-﻿using QuanLyTiemSach.BLL.Services;
+﻿using QuanLyTiemSach.BLL.Services.Interfaces;
 using QuanLyTiemSach.Domain.Model;
 using QuanLyTiemSach.OrderFrms;
 using System;

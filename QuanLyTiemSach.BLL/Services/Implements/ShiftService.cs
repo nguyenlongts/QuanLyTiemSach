@@ -1,11 +1,12 @@
 ﻿using QuanLyTiemSach.DAL;
 using System;
 using System.Collections.Generic;
+
 //using WorkShiftManagement.Data;
 using WorkShiftManagement.Models;
 using WorkShiftManagement.Repositories;
 
-namespace WorkShiftManagement.Services
+namespace QuanLyTiemSach.BLL.Services.Implements
 {
     public class WorkShiftService
     {

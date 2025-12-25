@@ -1,7 +1,7 @@
 ﻿using QuanLyTiemSach.Domain.Enums;
 using QuanLyTiemSach.Domain.Model;
 
-namespace QuanLyTiemSach.APP
+namespace QuanLyTiemSach
 {
     public static class AuthenSession
     {

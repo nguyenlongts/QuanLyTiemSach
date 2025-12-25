@@ -1,8 +1,7 @@
-﻿using QuanLyTiemSach.Domain.Model;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
+using QuanLyTiemSach.Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace QuanLyTiemSach.DAL.Repositories
@@ -16,24 +15,32 @@ namespace QuanLyTiemSach.DAL.Repositories
             _context = context;
         }
 
-        public List<Category> GetAll()
+        public async Task<List<Category>> GetAllAsync()
         {
-            return _context.Categories
+            return await _context.Categories
                 .OrderBy(c => c.Name)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Category GetById(int id)
+        public async Task<Category?> GetByIdAsync(int id)
         {
-            return _context.Categories.Find(id);
+            return await _context.Categories
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public bool Add(Category category)
+        public async Task<Category?> GetWithBooksAsync(int id)
+        {
+            return await _context.Categories
+                .Include(c => c.Books)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<bool> AddAsync(Category category)
         {
             try
             {
-                _context.Categories.Add(category);
-                return _context.SaveChanges() > 0;
+                await _context.Categories.AddAsync(category);
+                return await _context.SaveChangesAsync() > 0;
             }
             catch
             {
@@ -41,17 +48,17 @@ namespace QuanLyTiemSach.DAL.Repositories
             }
         }
 
-        public bool Update(Category category)
+        public async Task<bool> UpdateAsync(Category category)
         {
             try
             {
-                var existing = _context.Categories.Find(category.Id);
+                var existing = await _context.Categories.FindAsync(category.Id);
                 if (existing == null) return false;
 
                 existing.Name = category.Name;
                 existing.Description = category.Description;
 
-                return _context.SaveChanges() > 0;
+                return await _context.SaveChangesAsync() > 0;
             }
             catch
             {
@@ -59,15 +66,15 @@ namespace QuanLyTiemSach.DAL.Repositories
             }
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             try
             {
-                var category = _context.Categories.Find(id);
+                var category = await _context.Categories.FindAsync(id);
                 if (category == null) return false;
 
                 _context.Categories.Remove(category);
-                return _context.SaveChanges() > 0;
+                return await _context.SaveChangesAsync() > 0;
             }
             catch
             {
@@ -75,15 +82,17 @@ namespace QuanLyTiemSach.DAL.Repositories
             }
         }
 
-        public List<Category> Search(string keyword)
+        public async Task<List<Category>> SearchAsync(string keyword)
         {
-            return _context.Categories
-                .Where(c => c.Name.Contains(keyword) || c.Description.Contains(keyword))
+            return await _context.Categories
+                .Where(c =>
+                    c.Name.Contains(keyword) ||
+                    c.Description.Contains(keyword))
                 .OrderBy(c => c.Name)
-                .ToList();
+                .ToListAsync();
         }
 
-        public bool ExistsByName(string name, int? excludeId = null)
+        public async Task<bool> ExistsByNameAsync(string name, int? excludeId = null)
         {
             var query = _context.Categories
                 .Where(c => c.Name.ToLower() == name.ToLower());
@@ -93,7 +102,7 @@ namespace QuanLyTiemSach.DAL.Repositories
                 query = query.Where(c => c.Id != excludeId.Value);
             }
 
-            return query.Any();
+            return await query.AnyAsync();
         }
     }
 }

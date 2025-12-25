@@ -1,8 +1,7 @@
-﻿using QuanLyTiemSach.BLL.Services;
+﻿using QuanLyTiemSach.BLL.Services.Interfaces;
 using QuanLyTiemSach.Domain.Model;
-
 using System;
-using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QuanLyTiemSach
@@ -10,44 +9,23 @@ namespace QuanLyTiemSach
     public partial class FormCategory : Form
     {
         private readonly ICategoryService _categoryService;
-        private int _selectedCategoryId = 0;
+        private int _selectedCategoryId;
+        private readonly IBookService _bookService;
 
-        public FormCategory(ICategoryService categoryService)
+        public FormCategory(ICategoryService categoryService,IBookService bookService)
         {
             InitializeComponent();
             _categoryService = categoryService;
+            _bookService = bookService;
 
-            // Setup events
-            SetupEvents();
-
-            // Load data
-            LoadData();
+            _ = LoadDataAsync();
         }
 
-        private void SetupEvents()
+        private async Task LoadDataAsync()
         {
-            // Subscribe to events
-            dgvCategory.CellClick += dgvCategory_CellClick;
-            btnSearch.Click += btnSearch_Click;
-            btnRefresh.Click += btnRefresh_Click;
-            txtSearch.KeyDown += txtSearch_KeyDown;
-        }
-
-        private void LoadData()
-        {
-            try
-            {
-                var categories = _categoryService.GetAllCategories();
-                dgvCategory.DataSource = null;
-                dgvCategory.DataSource = categories;
-
-                ClearForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            dgvCategory.DataSource = null;
+            dgvCategory.DataSource = await _categoryService.GetAllCategoriesAsync();
+            ClearForm();
         }
 
         private void ClearForm()
@@ -62,173 +40,120 @@ namespace QuanLyTiemSach
             btnDelete.Enabled = false;
         }
 
-        private void btnAddCategoryMain_Click(object sender, EventArgs e)
+        private async void btnAdd_Click(object sender, EventArgs e)
         {
-            try
+            var category = new Category
             {
-                var category = new Category
-                {
-                    Name = txtCategoryName.Text.Trim(),
-                    Description = txtDescription.Text.Trim()
-                };
+                Name = txtCategoryName.Text.Trim(),
+                Description = txtDescription.Text.Trim()
+            };
 
-                var (success, message) = _categoryService.AddCategory(category);
-
-                MessageBox.Show(message, success ? "Thành công" : "Lỗi",
-                    MessageBoxButtons.OK, success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
-
-                if (success)
-                {
-                    LoadData();
-                }
+            if (await _categoryService.AddCategoryAsync(category))
+            {
+                MessageBox.Show("Thêm danh mục thành công!");
+                await LoadDataAsync();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Thêm danh mục thất bại!");
             }
         }
 
-        private void btnEditCategoryMain_Click(object sender, EventArgs e)
+        private async void btnUpdate_Click(object sender, EventArgs e)
         {
-            try
+            if (_selectedCategoryId == 0)
             {
-                if (_selectedCategoryId == 0)
-                {
-                    MessageBox.Show("Vui lòng chọn danh mục cần sửa!", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                var category = new Category
-                {
-                    Id = _selectedCategoryId,
-                    Name = txtCategoryName.Text.Trim(),
-                    Description = txtDescription.Text.Trim()
-                };
-
-                var (success, message) = _categoryService.UpdateCategory(category);
-
-                MessageBox.Show(message, success ? "Thành công" : "Lỗi",
-                    MessageBoxButtons.OK, success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
-
-                if (success)
-                {
-                    LoadData();
-                }
+                MessageBox.Show("Vui lòng chọn danh mục cần sửa!");
+                return;
             }
-            catch (Exception ex)
+
+            var category = new Category
             {
-                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Id = _selectedCategoryId,
+                Name = txtCategoryName.Text.Trim(),
+                Description = txtDescription.Text.Trim()
+            };
+
+            if (await _categoryService.UpdateCategoryAsync(category))
+            {
+                MessageBox.Show("Cập nhật thành công!");
+                await LoadDataAsync();
+            }
+            else
+            {
+                MessageBox.Show("Cập nhật thất bại!");
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private async void btnDelete_Click(object sender, EventArgs e)
         {
-            try
+            if (_selectedCategoryId == 0)
             {
-                if (_selectedCategoryId == 0)
-                {
-                    MessageBox.Show("Vui lòng chọn danh mục cần xóa!", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                MessageBox.Show("Vui lòng chọn danh mục!");
+                return;
+            }
 
+            var books = await _bookService.GetBooksByCategoryAsync(_selectedCategoryId);
+
+            if (books.Any())
+            {
                 var confirm = MessageBox.Show(
-                    $"Bạn có chắc chắn muốn xóa danh mục này?\n\nMã: {_selectedCategoryId}\nTên: {txtCategoryName.Text}",
-                    "Xác nhận xóa",
+                    $"Danh mục này có {books.Count} sách.\n" +
+                    "Xóa danh mục sẽ xóa toàn bộ sách.\n\nBạn có chắc chắn?",
+                    "Xác nhận",
                     MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
+                    MessageBoxIcon.Warning);
 
-                if (confirm == DialogResult.Yes)
-                {
-                    var (success, message) = _categoryService.DeleteCategory(_selectedCategoryId);
-
-                    MessageBox.Show(message, success ? "Thành công" : "Lỗi",
-                        MessageBoxButtons.OK, success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
-
-                    if (success)
-                    {
-                        LoadData();
-                    }
-                }
+                if (confirm != DialogResult.Yes)
+                    return;
             }
-            catch (Exception ex)
+
+            bool success = await _categoryService.DeleteCategoryAsync(_selectedCategoryId);
+
+            MessageBox.Show(
+                success ? "Xóa thành công!" : "Xóa thất bại!",
+                "Thông báo");
+
+            if (success)
+                await LoadDataAsync();
+        }
+
+
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+            dgvCategory.DataSource = await _categoryService
+                .SearchCategoriesAsync(txtSearch.Text.Trim());
+        }
+
+        private async void btnRefresh_Click(object sender, EventArgs e)
+        {
+            txtSearch.Clear();
+            await LoadDataAsync();
+        }
+
+        private async void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
             {
-                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                await Task.Run(() => { });
+                btnSearch.PerformClick();
+                e.SuppressKeyPress = true;
             }
         }
 
         private void dgvCategory_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
-            {
-                if (e.RowIndex >= 0 && e.RowIndex < dgvCategory.Rows.Count)
-                {
-                    DataGridViewRow row = dgvCategory.Rows[e.RowIndex];
-                    if (row.Cells["Id"].Value != null)
-                    {
-                        _selectedCategoryId = Convert.ToInt32(row.Cells["Id"].Value);
-                        txtCategoryName.Text = row.Cells["Name"].Value?.ToString() ?? "";
-                        txtDescription.Text = row.Cells["Description"].Value?.ToString() ?? "";
+            if (e.RowIndex < 0) return;
 
-                        btnAdd.Enabled = false;
-                        btnUpdate.Enabled = true;
-                        btnDelete.Enabled = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi chọn dòng: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+            var row = dgvCategory.Rows[e.RowIndex];
+            _selectedCategoryId = Convert.ToInt32(row.Cells["Id"].Value);
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string keyword = txtSearch.Text.Trim();
-                var categories = _categoryService.SearchCategories(keyword);
-                dgvCategory.DataSource = categories;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi tìm kiếm: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+            txtCategoryName.Text = row.Cells["Name"].Value?.ToString();
+            txtDescription.Text = row.Cells["Description"].Value?.ToString();
 
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            txtSearch.Clear();
-            LoadData();
-        }
-
-        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                btnSearch_Click(sender, e);
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-
-            dgvCategory.CellClick -= dgvCategory_CellClick;
-            btnSearch.Click -= btnSearch_Click;
-            btnRefresh.Click -= btnRefresh_Click;
-            txtSearch.KeyDown -= txtSearch_KeyDown;
-
-            base.OnFormClosing(e);
+            btnAdd.Enabled = false;
+            btnUpdate.Enabled = true;
+            btnDelete.Enabled = true;
         }
     }
 }
-

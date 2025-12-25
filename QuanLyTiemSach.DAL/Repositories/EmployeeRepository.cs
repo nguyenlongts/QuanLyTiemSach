@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using QuanLyTiemSach.DAL;
+using QuanLyTiemSach.DAL.Repositories;
+using System.Collections.Generic;
+using System.Linq;
 //using WorkShiftManagement.Data;
 using WorkShiftManagement.Models;
 
 namespace WorkShiftManagement.Repositories
 {
-    public class EmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly BookStoreDbContext _context;
 
@@ -18,38 +19,39 @@ namespace WorkShiftManagement.Repositories
 
         public List<Employee> GetAll()
         {
-            return _context.Employees
-                .Where(e => e.IsActive)
-                .OrderBy(e => e.FullName)
-                .ToList();
+            return _context.Employees.ToList();
         }
 
         public Employee GetById(int id)
         {
-            return _context.Employees
-                .FirstOrDefault(e => e.EmployeeId == id);
+            return _context.Employees.Find(id);
         }
 
-        public void Add(Employee employee)
+        public int Add(Employee employee)
         {
             _context.Employees.Add(employee);
             _context.SaveChanges();
+            return employee.EmployeeId;
         }
 
-        public void Update(Employee employee)
+        public bool Update(Employee employee)
         {
             _context.Employees.Update(employee);
-            _context.SaveChanges();
+            return _context.SaveChanges() > 0;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var employee = GetById(id);
-            if (employee != null)
-            {
-                employee.IsActive = false;
-                _context.SaveChanges();
-            }
+            if (employee == null) return false;
+
+            _context.Employees.Remove(employee);
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool Exists(int id)
+        {
+            return _context.Employees.Any(e => e.EmployeeId == id);
         }
     }
 }

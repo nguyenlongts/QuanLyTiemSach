@@ -31,8 +31,11 @@
             btnClear = new Button();
             dgvSalary = new DataGridView();
             groupBoxInput = new GroupBox();
-            groupBoxList = new GroupBox();
+            cboYear = new ComboBox();
+            lblYear = new Label();
+            lblEmployee = new Label();
             cboEmployee = new ComboBox();
+            groupBoxList = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)dgvSalary).BeginInit();
             groupBoxInput.SuspendLayout();
             groupBoxList.SuspendLayout();
@@ -53,7 +56,7 @@
             // lblEmployeeId
             // 
             lblEmployeeId.AutoSize = true;
-            lblEmployeeId.Location = new Point(40, 62);
+            lblEmployeeId.Location = new Point(40, 71);
             lblEmployeeId.Margin = new Padding(4, 0, 4, 0);
             lblEmployeeId.Name = "lblEmployeeId";
             lblEmployeeId.Size = new Size(105, 20);
@@ -62,16 +65,18 @@
             // 
             // txtEmployeeId
             // 
-            txtEmployeeId.Location = new Point(173, 57);
+            txtEmployeeId.BackColor = Color.FromArgb(240, 240, 240);
+            txtEmployeeId.Location = new Point(173, 67);
             txtEmployeeId.Margin = new Padding(4, 5, 4, 5);
             txtEmployeeId.Name = "txtEmployeeId";
+            txtEmployeeId.ReadOnly = true;
             txtEmployeeId.Size = new Size(265, 27);
             txtEmployeeId.TabIndex = 2;
             // 
             // lblMonth
             // 
             lblMonth.AutoSize = true;
-            lblMonth.Location = new Point(40, 115);
+            lblMonth.Location = new Point(40, 118);
             lblMonth.Margin = new Padding(4, 0, 4, 0);
             lblMonth.Name = "lblMonth";
             lblMonth.Size = new Size(53, 20);
@@ -82,16 +87,17 @@
             // 
             cboMonth.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMonth.FormattingEnabled = true;
-            cboMonth.Location = new Point(173, 111);
+            cboMonth.Location = new Point(173, 114);
             cboMonth.Margin = new Padding(4, 5, 4, 5);
             cboMonth.Name = "cboMonth";
-            cboMonth.Size = new Size(265, 28);
+            cboMonth.Size = new Size(130, 28);
             cboMonth.TabIndex = 4;
+            cboMonth.SelectedIndexChanged += cboMonth_SelectedIndexChanged;
             // 
             // lblShifts
             // 
             lblShifts.AutoSize = true;
-            lblShifts.Location = new Point(533, 62);
+            lblShifts.Location = new Point(533, 71);
             lblShifts.Margin = new Padding(4, 0, 4, 0);
             lblShifts.Name = "lblShifts";
             lblShifts.Size = new Size(82, 20);
@@ -100,17 +106,18 @@
             // 
             // txtShifts
             // 
-            txtShifts.Location = new Point(653, 57);
+            txtShifts.BackColor = Color.FromArgb(240, 240, 240);
+            txtShifts.Location = new Point(653, 67);
             txtShifts.Margin = new Padding(4, 5, 4, 5);
             txtShifts.Name = "txtShifts";
+            txtShifts.ReadOnly = true;
             txtShifts.Size = new Size(265, 27);
             txtShifts.TabIndex = 6;
-            txtShifts.TextChanged += txtShifts_TextChanged;
             // 
             // lblAmount
             // 
             lblAmount.AutoSize = true;
-            lblAmount.Location = new Point(533, 115);
+            lblAmount.Location = new Point(533, 118);
             lblAmount.Margin = new Padding(4, 0, 4, 0);
             lblAmount.Name = "lblAmount";
             lblAmount.Size = new Size(92, 20);
@@ -122,7 +129,7 @@
             txtAmount.BackColor = Color.FromArgb(240, 240, 240);
             txtAmount.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
             txtAmount.ForeColor = Color.FromArgb(0, 122, 204);
-            txtAmount.Location = new Point(653, 111);
+            txtAmount.Location = new Point(653, 114);
             txtAmount.Margin = new Padding(4, 5, 4, 5);
             txtAmount.Name = "txtAmount";
             txtAmount.ReadOnly = true;
@@ -140,7 +147,7 @@
             btnCalculate.Name = "btnCalculate";
             btnCalculate.Size = new Size(160, 54);
             btnCalculate.TabIndex = 9;
-            btnCalculate.Text = "Tính Lương";
+            btnCalculate.Text = "Tải Số Ca";
             btnCalculate.UseVisualStyleBackColor = false;
             btnCalculate.Click += btnCalculate_Click;
             // 
@@ -193,6 +200,9 @@
             // 
             // groupBoxInput
             // 
+            groupBoxInput.Controls.Add(cboYear);
+            groupBoxInput.Controls.Add(lblYear);
+            groupBoxInput.Controls.Add(lblEmployee);
             groupBoxInput.Controls.Add(cboEmployee);
             groupBoxInput.Controls.Add(lblEmployeeId);
             groupBoxInput.Controls.Add(txtEmployeeId);
@@ -214,6 +224,47 @@
             groupBoxInput.TabStop = false;
             groupBoxInput.Text = "Thông Tin Lương";
             // 
+            // cboYear
+            // 
+            cboYear.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboYear.FormattingEnabled = true;
+            cboYear.Location = new Point(308, 114);
+            cboYear.Margin = new Padding(4, 5, 4, 5);
+            cboYear.Name = "cboYear";
+            cboYear.Size = new Size(130, 28);
+            cboYear.TabIndex = 16;
+            cboYear.SelectedIndexChanged += cboYear_SelectedIndexChanged;
+            // 
+            // lblYear
+            // 
+            lblYear.AutoSize = true;
+            lblYear.Location = new Point(308, 89);
+            lblYear.Margin = new Padding(4, 0, 4, 0);
+            lblYear.Name = "lblYear";
+            lblYear.Size = new Size(42, 20);
+            lblYear.TabIndex = 15;
+            lblYear.Text = "Năm:";
+            // 
+            // lblEmployee
+            // 
+            lblEmployee.AutoSize = true;
+            lblEmployee.Location = new Point(40, 24);
+            lblEmployee.Margin = new Padding(4, 0, 4, 0);
+            lblEmployee.Name = "lblEmployee";
+            lblEmployee.Size = new Size(79, 20);
+            lblEmployee.TabIndex = 13;
+            lblEmployee.Text = "Nhân Viên:";
+            // 
+            // cboEmployee
+            // 
+            cboEmployee.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboEmployee.FormattingEnabled = true;
+            cboEmployee.Location = new Point(173, 20);
+            cboEmployee.Name = "cboEmployee";
+            cboEmployee.Size = new Size(265, 28);
+            cboEmployee.TabIndex = 12;
+            cboEmployee.SelectedIndexChanged += cboEmployee_SelectedIndexChanged;
+            // 
             // groupBoxList
             // 
             groupBoxList.Controls.Add(dgvSalary);
@@ -225,14 +276,6 @@
             groupBoxList.TabIndex = 14;
             groupBoxList.TabStop = false;
             groupBoxList.Text = "Danh Sách Lương";
-            // 
-            // cboEmployee
-            // 
-            cboEmployee.FormattingEnabled = true;
-            cboEmployee.Location = new Point(173, 21);
-            cboEmployee.Name = "cboEmployee";
-            cboEmployee.Size = new Size(265, 28);
-            cboEmployee.TabIndex = 12;
             // 
             // FormSalary
             // 
@@ -274,5 +317,8 @@
         private System.Windows.Forms.GroupBox groupBoxInput;
         private System.Windows.Forms.GroupBox groupBoxList;
         private ComboBox cboEmployee;
+        private Label lblEmployee;
+        private ComboBox cboYear;
+        private Label lblYear;
     }
 }

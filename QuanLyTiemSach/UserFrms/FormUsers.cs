@@ -1,4 +1,4 @@
-﻿using QuanLyTiemSach.BLL.Services;
+﻿using QuanLyTiemSach.BLL.Services.Implements;
 using QuanLyTiemSach.Domain.Model;
 using System;
 using System.Data;

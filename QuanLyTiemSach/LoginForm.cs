@@ -1,5 +1,6 @@
-﻿using QuanLyTiemSach.APP;
-using QuanLyTiemSach.BLL.Services;
+﻿using QuanLyTiemSach.BLL.Services;
+using QuanLyTiemSach.BLL.Services.Implements;
+using QuanLyTiemSach.BLL.Services.Interfaces;
 using System;
 using System.Windows.Forms;
 

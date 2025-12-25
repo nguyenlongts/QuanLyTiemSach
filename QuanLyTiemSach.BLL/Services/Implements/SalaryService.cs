@@ -1,27 +1,65 @@
-﻿using QuanLyTiemSach.Data.Repositories;
+﻿using QuanLyTiemSach.BLL.Services.Interfaces;
+using QuanLyTiemSach.DAL.Repositories;
+using QuanLyTiemSach.Data.Repositories;
 using QuanLyTiemSach.Domain.Model;
 using System;
 using System.Collections.Generic;
 using WorkShiftManagement.Models;
 using WorkShiftManagement.Repositories;
 
-namespace QuanLyTiemSach.Business.Services
+namespace QuanLyTiemSach.BLL.Services.Implements
 {
     public class SalaryService : ISalaryService
     {
-        private const decimal SALARY_PER_SHIFT = 100000m; // 100k per shift
+        private const decimal SALARY_PER_SHIFT = 100000m;
         private readonly ISalaryRepository _salaryRepository;
-        //private readonly EmployeeRepository _employeeRepo;
-        public SalaryService(ISalaryRepository salaryRepository)
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly WorkShiftRepository _workShiftRepository;
+
+        public SalaryService(
+            ISalaryRepository salaryRepository,
+            IEmployeeRepository employeeRepository,
+            WorkShiftRepository workShiftRepository)
         {
             _salaryRepository = salaryRepository;
+            _employeeRepository = employeeRepository;
+            _workShiftRepository = workShiftRepository;
         }
 
+        public List<Employee> GetAllEmployees()
+        {
+            try
+            {
+                return _employeeRepository.GetAll();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi khi lấy danh sách nhân viên: {ex.Message}", ex);
+            }
+        }
 
-        //public List<Employee> GetAllEmployees()
-        //{
-        //    return _employeeRepo.GetAll();
-        //}
+        public int GetShiftCountByMonth(int employeeId, int month, int year)
+        {
+            try
+            {
+                ValidateEmployeeId(employeeId);
+                ValidateMonth(month);
+
+                var startDate = new DateTime(year, month, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                var shifts = _workShiftRepository.GetByDateRange(startDate, endDate)
+                    .Where(ws => ws.EmployeeId == employeeId)
+                    .ToList();
+
+                return shifts.Count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi khi đếm số ca làm: {ex.Message}", ex);
+            }
+        }
+
         public decimal CalculateSalary(int shifts)
         {
             if (shifts < 0)
@@ -97,7 +135,7 @@ namespace QuanLyTiemSach.Business.Services
             }
         }
 
-        public bool CreateOrUpdateSalary(int employeeId, int month, int shifts, out string message)
+        public bool CreateOrUpdateSalary(int employeeId, int month, int year, out string message)
         {
             try
             {
@@ -105,9 +143,19 @@ namespace QuanLyTiemSach.Business.Services
                 ValidateEmployeeId(employeeId);
                 ValidateMonth(month);
 
-                if (shifts < 0)
+                // Kiểm tra nhân viên tồn tại
+                if (!_employeeRepository.Exists(employeeId))
                 {
-                    message = "Số ca làm không thể âm!";
+                    message = "Nhân viên không tồn tại!";
+                    return false;
+                }
+
+                // Tự động lấy số ca làm từ WorkShift
+                int shifts = GetShiftCountByMonth(employeeId, month, year);
+
+                if (shifts == 0)
+                {
+                    message = $"Nhân viên chưa có ca làm nào trong tháng {month}/{year}!";
                     return false;
                 }
 
@@ -123,7 +171,7 @@ namespace QuanLyTiemSach.Business.Services
                     existingSalary.Amount = amount;
                     _salaryRepository.Update(existingSalary);
                     _salaryRepository.SaveChanges();
-                    message = "Cập nhật lương thành công!";
+                    message = $"Cập nhật lương thành công! Số ca: {shifts}, Tổng lương: {amount:N0} VNĐ";
                 }
                 else
                 {
@@ -137,7 +185,7 @@ namespace QuanLyTiemSach.Business.Services
 
                     _salaryRepository.Add(newSalary);
                     _salaryRepository.SaveChanges();
-                    message = "Tạo lương thành công!";
+                    message = $"Tạo lương thành công! Số ca: {shifts}, Tổng lương: {amount:N0} VNĐ";
                 }
 
                 return true;

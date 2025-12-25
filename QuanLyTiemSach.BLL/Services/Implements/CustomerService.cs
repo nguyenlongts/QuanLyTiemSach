@@ -1,4 +1,5 @@
-﻿using QuanLyTiemSach.DAL.Repositories;
+﻿using QuanLyTiemSach.BLL.Services.Interfaces;
+using QuanLyTiemSach.DAL.Repositories;
 using QuanLyTiemSach.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyTiemSach.BLL.Services
+namespace QuanLyTiemSach.BLL.Services.Implements
 {
     public class CustomerService : ICustomerService
     {

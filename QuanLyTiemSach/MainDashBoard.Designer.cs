@@ -324,50 +324,7 @@ namespace QuanLyTiemSach
 
         #endregion
 
-        // Event handlers for button hover effects
-        private void Button_MouseEnter(object sender, EventArgs e)
-        {
-            Button btn = sender as Button;
-            if (btn != null && btn.BackColor == Color.Transparent)
-            {
-                btn.BackColor = Color.FromArgb(44, 62, 80);
-            }
-        }
-
-        private void Button_MouseLeave(object sender, EventArgs e)
-        {
-            Button btn = sender as Button;
-            if (btn != null && btn.BackColor != Color.FromArgb(52, 152, 219))
-            {
-                btn.BackColor = Color.Transparent;
-            }
-        }
-
-        private void BtnLogout_MouseEnter(object sender, EventArgs e)
-        {
-            btnLogout.BackColor = Color.FromArgb(231, 76, 60);
-        }
-
-        private void BtnLogout_MouseLeave(object sender, EventArgs e)
-        {
-            btnLogout.BackColor = Color.FromArgb(192, 57, 43);
-        }
-
+       
         private Button btnSalary;
-
-        // Helper method to highlight active button
-        //private void SetActiveButton(Button activeBtn)
-        //{
-        //    foreach (Control ctrl in menuPanel.Controls)
-        //    {
-        //        if (ctrl is Button btn && btn != btnLogout)
-        //        {
-        //            btn.BackColor = Color.Transparent;
-        //            btn.ForeColor = Color.FromArgb(236, 240, 241);
-        //        }
-        //    }
-        //    activeBtn.BackColor = Color.FromArgb(52, 152, 219);
-        //    activeBtn.ForeColor = Color.White;
-        //}
     }
 }
