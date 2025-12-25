@@ -1,6 +1,10 @@
 ﻿
 using QuanLyTiemSach.StatisticFrms;
 using System.Windows.Forms;
+using WorkShiftManagement.Forms;
+using QuanLyTiemSach.SalaryFrms;
+using QuanLyTiemSach.StatisticFrms;
+
 
 namespace QuanLyTiemSach
 {
@@ -62,6 +66,21 @@ namespace QuanLyTiemSach
         private void btnThongKe_Click(object sender, EventArgs e)
         {
             OpenChildForm(new FormStatistic());
+        }
+
+        private void btnSalary_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var salaryService = ServiceDI.GetSalaryService();
+                OpenChildForm(new FormSalary(salaryService));
+                SetActiveButton(sender as Button);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form tính tiền: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
