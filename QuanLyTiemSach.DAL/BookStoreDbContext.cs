@@ -9,9 +9,9 @@ namespace QuanLyTiemSach.DAL
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseMySql(
-                "server=localhost;database=bookstore_db;user=root;password=3132004;",
+                "server=localhost;database=bookstore_db;user=bookstore;password=123456;",
                 ServerVersion.AutoDetect(
-                    "server=localhost;database=bookstore_db;user=root;password=3132004;"
+                    "server=localhost;database=bookstore_db;user=bookstore;password=123456;"
                 )
             );
         }
