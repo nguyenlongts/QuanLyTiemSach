@@ -43,6 +43,7 @@ namespace QuanLyTiemSach
             headerPanel = new Panel();
             lblUser = new Label();
             mainPanel = new Panel();
+            btnSalary = new Button();
             menuPanel.SuspendLayout();
             headerPanel.SuspendLayout();
             SuspendLayout();
@@ -50,6 +51,7 @@ namespace QuanLyTiemSach
             // menuPanel
             // 
             menuPanel.BackColor = Color.FromArgb(52, 152, 219);
+            menuPanel.Controls.Add(btnSalary);
             menuPanel.Controls.Add(btnLogout);
             menuPanel.Controls.Add(btnThongKe);
             menuPanel.Controls.Add(btnManageCase);
@@ -286,6 +288,25 @@ namespace QuanLyTiemSach
             mainPanel.Size = new Size(960, 630);
             mainPanel.TabIndex = 0;
             // 
+            // btnSalary
+            // 
+            btnSalary.BackColor = Color.Transparent;
+            btnSalary.Cursor = Cursors.Hand;
+            btnSalary.Dock = DockStyle.Top;
+            btnSalary.FlatAppearance.BorderSize = 0;
+            btnSalary.FlatStyle = FlatStyle.Flat;
+            btnSalary.Font = new Font("Segoe UI", 10F);
+            btnSalary.ForeColor = Color.FromArgb(236, 240, 241);
+            btnSalary.Location = new Point(0, 430);
+            btnSalary.Name = "btnSalary";
+            btnSalary.Padding = new Padding(20, 0, 0, 0);
+            btnSalary.Size = new Size(240, 50);
+            btnSalary.TabIndex = 9;
+            btnSalary.Text = "   $  Tính lương";
+            btnSalary.TextAlign = ContentAlignment.MiddleLeft;
+            btnSalary.UseVisualStyleBackColor = false;
+            btnSalary.Click += btnSalary_Click;
+            // 
             // MainDashboard
             // 
             ClientSize = new Size(1200, 700);
@@ -331,6 +352,8 @@ namespace QuanLyTiemSach
         {
             btnLogout.BackColor = Color.FromArgb(192, 57, 43);
         }
+
+        private Button btnSalary;
 
         // Helper method to highlight active button
         //private void SetActiveButton(Button activeBtn)

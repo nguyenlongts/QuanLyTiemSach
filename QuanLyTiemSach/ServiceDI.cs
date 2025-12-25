@@ -1,6 +1,8 @@
 ﻿using QuanLyTiemSach.BLL.Services;
+using QuanLyTiemSach.Business.Services;
 using QuanLyTiemSach.DAL;
 using QuanLyTiemSach.DAL.Repositories;
+using QuanLyTiemSach.Data.Repositories;
 
 namespace QuanLyTiemSach
 {
@@ -51,6 +53,13 @@ namespace QuanLyTiemSach
             var dbContext = GetDbContext();
             IStatisticRepository repository = new StatisticRepository(dbContext);
             return new StatisticService(repository);
+        }
+
+        public static ISalaryService GetSalaryService()
+        {
+            var dbContext = GetDbContext();
+            ISalaryRepository repository = new SalaryRepository(dbContext);
+            return new SalaryService(repository);
         }
     }
 }

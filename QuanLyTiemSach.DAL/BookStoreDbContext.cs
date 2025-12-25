@@ -194,6 +194,28 @@ namespace QuanLyTiemSach.DAL
                 entity.HasIndex(w => w.WorkDate);
                 entity.HasIndex(w => w.EmployeeId);
             });
+
+            modelBuilder.Entity<Salary>(entity =>
+            {
+                entity.ToTable("Salary");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.EmployeeId)
+                    .IsRequired();
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("decimal(18,2)")
+                    .IsRequired();
+
+                entity.Property(e => e.Month)
+                    .IsRequired();
+
+                // Create unique index for EmployeeId + Month
+                entity.HasIndex(e => new { e.EmployeeId, e.Month })
+                    .IsUnique()
+                    .HasDatabaseName("IX_Salary_EmployeeId_Month");
+            });
         }
     }
 }

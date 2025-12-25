@@ -5,7 +5,11 @@ using QuanLyTiemSach.Domain.Enums;
 using QuanLyTiemSach.UserFrms;
 using System.Windows.Forms;
 using WorkShiftManagement.Forms;
+
+using QuanLyTiemSach.SalaryFrms;
 using QuanLyTiemSach.StatisticFrms;
+
+
 namespace QuanLyTiemSach
 {
     public partial class MainDashboard : Form
@@ -188,6 +192,21 @@ namespace QuanLyTiemSach
             LoginForm login = new LoginForm();
             login.Show();
             this.Close();
+        }
+
+        private void btnSalary_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var salaryService = ServiceDI.GetSalaryService();
+                OpenChildForm(new FormSalary(salaryService));
+                SetActiveButton(sender as Button);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở form tính tiền: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
