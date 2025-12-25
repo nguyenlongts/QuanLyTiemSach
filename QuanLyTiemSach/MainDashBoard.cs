@@ -4,7 +4,8 @@ using QuanLyTiemSach.BLL.Services;
 using QuanLyTiemSach.Domain.Enums;
 using QuanLyTiemSach.UserFrms;
 using System.Windows.Forms;
-
+using WorkShiftManagement.Forms;
+using QuanLyTiemSach.StatisticFrms;
 namespace QuanLyTiemSach
 {
     public partial class MainDashboard : Form
