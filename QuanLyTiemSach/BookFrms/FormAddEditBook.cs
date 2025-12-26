@@ -105,43 +105,30 @@ namespace QuanLyTiemSach
                 book.BookID = txtBookId.Text.Trim();
                 book.Title = txtTitle.Text.Trim();
                 book.Author = txtAuthor.Text.Trim();
-                book.Publisher = string.IsNullOrWhiteSpace(txtPublisher.Text)
-                    ? null
-                    : txtPublisher.Text.Trim();
-                book.PublishedYear = numPublishedYear.Value == numPublishedYear.Minimum
-                    ? null
-                    : (int?)numPublishedYear.Value;
+                book.Publisher =txtPublisher.Text.Trim();
+                book.PublishedYear = numPublishedYear.Value == numPublishedYear.Minimum ? null : (int?)numPublishedYear.Value;
                 book.Price = numPrice.Value;
                 book.Quantity = (int)numQuantity.Value;
                 book.CategoryId = (int)cboCategory.SelectedValue;
 
-                var result = _isEditMode
-                    ? await _bookService.UpdateBookAsync(book)
-                    : await _bookService.AddBookAsync(book);
-
-                if (result.success)
-                {
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
+                if (_isEditMode)
+                    await _bookService.UpdateBookAsync(book);
                 else
-                {
-                    MessageBox.Show(
-                       result.message,
-                        "Lỗi",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
+                    await _bookService.AddBookAsync(book);
+
+                DialogResult = DialogResult.OK;
+                Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"Có lỗi xảy ra:\n{ex.Message}",
+                    ex.Message,
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
+
 
         private async void txtBookId_Leave(object sender, EventArgs e)
         {
@@ -184,35 +171,42 @@ namespace QuanLyTiemSach
         {
             if (string.IsNullOrWhiteSpace(txtBookId.Text))
             {
-                MessageBox.Show("Vui lòng nhập mã sách!");
+                MessageBox.Show("Vui lòng nhập mã sách!", "Lỗi", MessageBoxButtons.OK,MessageBoxIcon.Error);
                 txtBookId.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtTitle.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên sách!");
+                MessageBox.Show("Vui lòng nhập tên sách!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtTitle.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtAuthor.Text))
             {
-                MessageBox.Show("Vui lòng nhập tác giả!");
+                MessageBox.Show("Vui lòng nhập tác giả!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtAuthor.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPublisher.Text))
+            {
+                MessageBox.Show("Vui lòng nhập nhà xuất bản!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtAuthor.Focus();
                 return false;
             }
 
             if (numPrice.Value <= 0)
             {
-                MessageBox.Show("Giá sách phải lớn hơn 0!");
+                MessageBox.Show("Giá sách phải lớn hơn 0!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 numPrice.Focus();
                 return false;
             }
 
             if (cboCategory.SelectedIndex == -1)
             {
-                MessageBox.Show("Vui lòng chọn danh mục!");
+                MessageBox.Show("Vui lòng chọn danh mục!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 cboCategory.Focus();
                 return false;
             }

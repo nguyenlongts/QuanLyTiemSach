@@ -26,7 +26,25 @@ namespace QuanLyTiemSach.StatisticFrms
         private void FormStatistic_Load(object sender, EventArgs e)
         {
             InitializeForm();
+            ConfigureLayout();
         }
+
+
+
+        private void ConfigureLayout()
+        {
+            pnlHeader.Dock = DockStyle.Top;
+            pnlTopStats.Dock = DockStyle.Top;
+            pnlFilters.Dock = DockStyle.Top;
+            pnlCharts.Dock = DockStyle.Fill;
+
+            pnlHeader.Height = 60;
+            pnlTopStats.Height = 100;
+            pnlFilters.Height = 65;
+
+            chartDoanhThu.Dock = DockStyle.Fill;
+        }
+
         private void InitializeForm()
         {
             cbYear.Items.Clear();

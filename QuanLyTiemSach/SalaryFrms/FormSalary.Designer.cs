@@ -32,7 +32,6 @@
             dgvSalary = new DataGridView();
             groupBoxInput = new GroupBox();
             cboYear = new ComboBox();
-            lblYear = new Label();
             lblEmployee = new Label();
             cboEmployee = new ComboBox();
             groupBoxList = new GroupBox();
@@ -46,40 +45,40 @@
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(0, 122, 204);
-            lblTitle.Location = new Point(333, 31);
+            lblTitle.Location = new Point(291, 23);
             lblTitle.Margin = new Padding(4, 0, 4, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(416, 31);
+            lblTitle.Size = new Size(344, 26);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "QUẢN LÝ LƯƠNG NHÂN VIÊN";
             // 
             // lblEmployeeId
             // 
             lblEmployeeId.AutoSize = true;
-            lblEmployeeId.Location = new Point(40, 71);
+            lblEmployeeId.Location = new Point(35, 53);
             lblEmployeeId.Margin = new Padding(4, 0, 4, 0);
             lblEmployeeId.Name = "lblEmployeeId";
-            lblEmployeeId.Size = new Size(105, 20);
+            lblEmployeeId.Size = new Size(85, 15);
             lblEmployeeId.TabIndex = 1;
             lblEmployeeId.Text = "Mã Nhân Viên:";
             // 
             // txtEmployeeId
             // 
             txtEmployeeId.BackColor = Color.FromArgb(240, 240, 240);
-            txtEmployeeId.Location = new Point(173, 67);
-            txtEmployeeId.Margin = new Padding(4, 5, 4, 5);
+            txtEmployeeId.Location = new Point(151, 50);
+            txtEmployeeId.Margin = new Padding(4, 4, 4, 4);
             txtEmployeeId.Name = "txtEmployeeId";
             txtEmployeeId.ReadOnly = true;
-            txtEmployeeId.Size = new Size(265, 27);
+            txtEmployeeId.Size = new Size(232, 23);
             txtEmployeeId.TabIndex = 2;
             // 
             // lblMonth
             // 
             lblMonth.AutoSize = true;
-            lblMonth.Location = new Point(40, 118);
+            lblMonth.Location = new Point(35, 88);
             lblMonth.Margin = new Padding(4, 0, 4, 0);
             lblMonth.Name = "lblMonth";
-            lblMonth.Size = new Size(53, 20);
+            lblMonth.Size = new Size(43, 15);
             lblMonth.TabIndex = 3;
             lblMonth.Text = "Tháng:";
             // 
@@ -87,40 +86,40 @@
             // 
             cboMonth.DropDownStyle = ComboBoxStyle.DropDownList;
             cboMonth.FormattingEnabled = true;
-            cboMonth.Location = new Point(173, 114);
-            cboMonth.Margin = new Padding(4, 5, 4, 5);
+            cboMonth.Location = new Point(151, 86);
+            cboMonth.Margin = new Padding(4, 4, 4, 4);
             cboMonth.Name = "cboMonth";
-            cboMonth.Size = new Size(130, 28);
+            cboMonth.Size = new Size(114, 23);
             cboMonth.TabIndex = 4;
             cboMonth.SelectedIndexChanged += cboMonth_SelectedIndexChanged;
             // 
             // lblShifts
             // 
             lblShifts.AutoSize = true;
-            lblShifts.Location = new Point(533, 71);
+            lblShifts.Location = new Point(466, 53);
             lblShifts.Margin = new Padding(4, 0, 4, 0);
             lblShifts.Name = "lblShifts";
-            lblShifts.Size = new Size(82, 20);
+            lblShifts.Size = new Size(66, 15);
             lblShifts.TabIndex = 5;
             lblShifts.Text = "Số Ca Làm:";
             // 
             // txtShifts
             // 
             txtShifts.BackColor = Color.FromArgb(240, 240, 240);
-            txtShifts.Location = new Point(653, 67);
-            txtShifts.Margin = new Padding(4, 5, 4, 5);
+            txtShifts.Location = new Point(571, 50);
+            txtShifts.Margin = new Padding(4, 4, 4, 4);
             txtShifts.Name = "txtShifts";
             txtShifts.ReadOnly = true;
-            txtShifts.Size = new Size(265, 27);
+            txtShifts.Size = new Size(232, 23);
             txtShifts.TabIndex = 6;
             // 
             // lblAmount
             // 
             lblAmount.AutoSize = true;
-            lblAmount.Location = new Point(533, 118);
+            lblAmount.Location = new Point(466, 88);
             lblAmount.Margin = new Padding(4, 0, 4, 0);
             lblAmount.Name = "lblAmount";
-            lblAmount.Size = new Size(92, 20);
+            lblAmount.Size = new Size(74, 15);
             lblAmount.TabIndex = 7;
             lblAmount.Text = "Tổng Lương:";
             // 
@@ -129,11 +128,11 @@
             txtAmount.BackColor = Color.FromArgb(240, 240, 240);
             txtAmount.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
             txtAmount.ForeColor = Color.FromArgb(0, 122, 204);
-            txtAmount.Location = new Point(653, 114);
-            txtAmount.Margin = new Padding(4, 5, 4, 5);
+            txtAmount.Location = new Point(571, 86);
+            txtAmount.Margin = new Padding(4, 4, 4, 4);
             txtAmount.Name = "txtAmount";
             txtAmount.ReadOnly = true;
-            txtAmount.Size = new Size(265, 24);
+            txtAmount.Size = new Size(232, 21);
             txtAmount.TabIndex = 8;
             // 
             // btnCalculate
@@ -142,10 +141,10 @@
             btnCalculate.FlatStyle = FlatStyle.Flat;
             btnCalculate.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
             btnCalculate.ForeColor = Color.White;
-            btnCalculate.Location = new Point(173, 185);
-            btnCalculate.Margin = new Padding(4, 5, 4, 5);
+            btnCalculate.Location = new Point(151, 139);
+            btnCalculate.Margin = new Padding(4, 4, 4, 4);
             btnCalculate.Name = "btnCalculate";
-            btnCalculate.Size = new Size(160, 54);
+            btnCalculate.Size = new Size(140, 40);
             btnCalculate.TabIndex = 9;
             btnCalculate.Text = "Tải Số Ca";
             btnCalculate.UseVisualStyleBackColor = false;
@@ -157,10 +156,10 @@
             btnSave.FlatStyle = FlatStyle.Flat;
             btnSave.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
             btnSave.ForeColor = Color.White;
-            btnSave.Location = new Point(413, 185);
-            btnSave.Margin = new Padding(4, 5, 4, 5);
+            btnSave.Location = new Point(361, 139);
+            btnSave.Margin = new Padding(4, 4, 4, 4);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(160, 54);
+            btnSave.Size = new Size(140, 40);
             btnSave.TabIndex = 10;
             btnSave.Text = "Lưu";
             btnSave.UseVisualStyleBackColor = false;
@@ -172,10 +171,10 @@
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(653, 185);
-            btnClear.Margin = new Padding(4, 5, 4, 5);
+            btnClear.Location = new Point(571, 139);
+            btnClear.Margin = new Padding(4, 4, 4, 4);
             btnClear.Name = "btnClear";
-            btnClear.Size = new Size(160, 54);
+            btnClear.Size = new Size(140, 40);
             btnClear.TabIndex = 11;
             btnClear.Text = "Làm Mới";
             btnClear.UseVisualStyleBackColor = false;
@@ -189,20 +188,19 @@
             dgvSalary.BackgroundColor = Color.White;
             dgvSalary.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSalary.Dock = DockStyle.Fill;
-            dgvSalary.Location = new Point(4, 25);
-            dgvSalary.Margin = new Padding(4, 5, 4, 5);
+            dgvSalary.Location = new Point(4, 20);
+            dgvSalary.Margin = new Padding(4, 4, 4, 4);
             dgvSalary.Name = "dgvSalary";
             dgvSalary.ReadOnly = true;
+            dgvSalary.RowHeadersVisible = false;
             dgvSalary.RowHeadersWidth = 51;
             dgvSalary.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvSalary.Size = new Size(1005, 324);
+            dgvSalary.Size = new Size(878, 242);
             dgvSalary.TabIndex = 12;
-            dgvSalary.RowHeadersVisible = false;
             // 
             // groupBoxInput
             // 
             groupBoxInput.Controls.Add(cboYear);
-            groupBoxInput.Controls.Add(lblYear);
             groupBoxInput.Controls.Add(lblEmployee);
             groupBoxInput.Controls.Add(cboEmployee);
             groupBoxInput.Controls.Add(lblEmployeeId);
@@ -216,11 +214,11 @@
             groupBoxInput.Controls.Add(txtShifts);
             groupBoxInput.Controls.Add(txtAmount);
             groupBoxInput.Controls.Add(lblAmount);
-            groupBoxInput.Location = new Point(27, 92);
-            groupBoxInput.Margin = new Padding(4, 5, 4, 5);
+            groupBoxInput.Location = new Point(24, 69);
+            groupBoxInput.Margin = new Padding(4, 4, 4, 4);
             groupBoxInput.Name = "groupBoxInput";
-            groupBoxInput.Padding = new Padding(4, 5, 4, 5);
-            groupBoxInput.Size = new Size(1013, 277);
+            groupBoxInput.Padding = new Padding(4, 4, 4, 4);
+            groupBoxInput.Size = new Size(886, 208);
             groupBoxInput.TabIndex = 13;
             groupBoxInput.TabStop = false;
             groupBoxInput.Text = "Thông Tin Lương";
@@ -229,30 +227,20 @@
             // 
             cboYear.DropDownStyle = ComboBoxStyle.DropDownList;
             cboYear.FormattingEnabled = true;
-            cboYear.Location = new Point(308, 114);
-            cboYear.Margin = new Padding(4, 5, 4, 5);
+            cboYear.Location = new Point(270, 86);
+            cboYear.Margin = new Padding(4, 4, 4, 4);
             cboYear.Name = "cboYear";
-            cboYear.Size = new Size(130, 28);
+            cboYear.Size = new Size(114, 23);
             cboYear.TabIndex = 16;
             cboYear.SelectedIndexChanged += cboYear_SelectedIndexChanged;
-            // 
-            // lblYear
-            // 
-            lblYear.AutoSize = true;
-            lblYear.Location = new Point(308, 89);
-            lblYear.Margin = new Padding(4, 0, 4, 0);
-            lblYear.Name = "lblYear";
-            lblYear.Size = new Size(42, 20);
-            lblYear.TabIndex = 15;
-            lblYear.Text = "Năm:";
             // 
             // lblEmployee
             // 
             lblEmployee.AutoSize = true;
-            lblEmployee.Location = new Point(40, 24);
+            lblEmployee.Location = new Point(35, 18);
             lblEmployee.Margin = new Padding(4, 0, 4, 0);
             lblEmployee.Name = "lblEmployee";
-            lblEmployee.Size = new Size(79, 20);
+            lblEmployee.Size = new Size(65, 15);
             lblEmployee.TabIndex = 13;
             lblEmployee.Text = "Nhân Viên:";
             // 
@@ -260,34 +248,35 @@
             // 
             cboEmployee.DropDownStyle = ComboBoxStyle.DropDownList;
             cboEmployee.FormattingEnabled = true;
-            cboEmployee.Location = new Point(173, 20);
+            cboEmployee.Location = new Point(151, 15);
+            cboEmployee.Margin = new Padding(3, 2, 3, 2);
             cboEmployee.Name = "cboEmployee";
-            cboEmployee.Size = new Size(265, 28);
+            cboEmployee.Size = new Size(232, 23);
             cboEmployee.TabIndex = 12;
             cboEmployee.SelectedIndexChanged += cboEmployee_SelectedIndexChanged;
             // 
             // groupBoxList
             // 
             groupBoxList.Controls.Add(dgvSalary);
-            groupBoxList.Location = new Point(27, 400);
-            groupBoxList.Margin = new Padding(4, 5, 4, 5);
+            groupBoxList.Location = new Point(24, 300);
+            groupBoxList.Margin = new Padding(4, 4, 4, 4);
             groupBoxList.Name = "groupBoxList";
-            groupBoxList.Padding = new Padding(4, 5, 4, 5);
-            groupBoxList.Size = new Size(1013, 354);
+            groupBoxList.Padding = new Padding(4, 4, 4, 4);
+            groupBoxList.Size = new Size(886, 266);
             groupBoxList.TabIndex = 14;
             groupBoxList.TabStop = false;
             groupBoxList.Text = "Danh Sách Lương";
             // 
             // FormSalary
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1067, 785);
+            ClientSize = new Size(934, 589);
             Controls.Add(groupBoxList);
             Controls.Add(groupBoxInput);
             Controls.Add(lblTitle);
-            Margin = new Padding(4, 5, 4, 5);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "FormSalary";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản Lý Lương Nhân Viên";
@@ -320,6 +309,5 @@
         private ComboBox cboEmployee;
         private Label lblEmployee;
         private ComboBox cboYear;
-        private Label lblYear;
     }
 }

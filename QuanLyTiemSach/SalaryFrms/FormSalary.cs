@@ -23,6 +23,26 @@ namespace QuanLyTiemSach.SalaryFrms
             LoadEmployees();
             ConfigureDataGridView();
             LoadSalaryData();
+            ConfigureLayout();
+        }
+
+
+        private void ConfigureLayout()
+        {
+            lblTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+
+            groupBoxInput.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+            groupBoxList.Anchor =
+                AnchorStyles.Top | AnchorStyles.Bottom |
+                AnchorStyles.Left | AnchorStyles.Right;
+
+            dgvSalary.Dock = DockStyle.Fill;
+
+            btnCalculate.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnClear.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         }
 
         private void LoadEmployees()

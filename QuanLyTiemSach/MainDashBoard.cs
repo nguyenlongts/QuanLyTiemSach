@@ -22,6 +22,11 @@ namespace QuanLyTiemSach
             InitializeComponent();
             ApplyAuthorization();
             btnHome_Click(btnHome, EventArgs.Empty);
+            this.FormClosed += (s, e) =>
+            {
+                Application.Exit();
+            };
+
         }
 
         private void OpenChildForm(Form childForm)

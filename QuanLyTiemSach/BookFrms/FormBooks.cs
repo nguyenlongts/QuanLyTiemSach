@@ -200,24 +200,22 @@ namespace QuanLyTiemSach
 
                 if (confirm == DialogResult.Yes)
                 {
-                    var (success, message) = await _bookService.DeleteBookAsync(_selectedBookId);
+                    await _bookService.DeleteBookAsync(_selectedBookId);
 
-                    MessageBox.Show(message, success ? "Thành công" : "Lỗi",
-                        MessageBoxButtons.OK, success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+                    MessageBox.Show("Xóa sách thành công!", "Thành công",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    if (success)
-                    {
-                        _selectedBookId = string.Empty;
-                        LoadData();
-                    }
+                    _selectedBookId = string.Empty;
+                    LoadData();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
+                MessageBox.Show(ex.Message, "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {

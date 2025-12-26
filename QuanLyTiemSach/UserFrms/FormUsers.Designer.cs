@@ -137,7 +137,7 @@
             lblTitle.Size = new Size(355, 41);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "QUẢN LÝ NGƯỜI DÙNG";
-            lblTitle.Click += lblTitle_Click;
+
             // 
             // pnlCenter
             // 
@@ -149,7 +149,7 @@
             pnlCenter.Padding = new Padding(11, 13, 11, 13);
             pnlCenter.Size = new Size(977, 293);
             pnlCenter.TabIndex = 1;
-            pnlCenter.Paint += pnlCenter_Paint;
+
             // 
             // dgvUsers
             // 
@@ -180,7 +180,17 @@
             dgvUsers.Size = new Size(955, 267);
             dgvUsers.TabIndex = 0;
             dgvUsers.CellClick += dgvUsers_CellClick;
-            dgvUsers.CellContentClick += dgvUsers_CellContentClick;
+            dgvUsers.RowHeadersVisible = false;
+            dgvUsers.Dock = DockStyle.Fill;
+            dgvUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvUsers.AllowUserToResizeColumns = false;
+            dgvUsers.AllowUserToResizeRows = false;
+            dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvUsers.MultiSelect = false;
+            dgvUsers.ReadOnly = true;
+            dgvUsers.AutoGenerateColumns = true;
+
+
             // 
             // pnlBottom
             // 
@@ -219,7 +229,6 @@
             grpUserInfo.TabIndex = 0;
             grpUserInfo.TabStop = false;
             grpUserInfo.Text = "Thông tin người dùng";
-            grpUserInfo.Enter += grpUserInfo_Enter;
             // 
             // btnDelete
             // 

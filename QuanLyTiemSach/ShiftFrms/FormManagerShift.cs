@@ -35,6 +35,21 @@ namespace WorkShiftManagement.Forms
             LoadEmployees();
             LoadShiftTypes();
             LoadWeekSchedule();
+            ConfigureLayout();
+        }
+
+        private void ConfigureLayout()
+        {
+            panelTop.Dock = DockStyle.Top;
+            groupBoxAdd.Dock = DockStyle.Top;
+            panelSchedule.Dock = DockStyle.Fill;
+
+            btnPreviousWeek.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+            btnNextWeek.Anchor = AnchorStyles.Right | AnchorStyles.Top;
+            lblWeekRange.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+
+            btnAddShift.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            dgvSchedule.Dock = DockStyle.Fill;
         }
 
         private void LoadEmployees()

@@ -1,6 +1,4 @@
-﻿using QuanLyTiemSach.BLL.Services;
-using QuanLyTiemSach.BLL.Services.Implements;
-using QuanLyTiemSach.BLL.Services.Interfaces;
+﻿using QuanLyTiemSach.BLL.Services.Interfaces;
 using System;
 using System.Windows.Forms;
 
@@ -12,29 +10,53 @@ namespace QuanLyTiemSach
 
         public LoginForm()
         {
-            _userService = new UserService();
             InitializeComponent();
+            _userService = ServiceDI.GetUserService();
             btnLogin.Click += BtnLogin_Click;
         }
 
-        private void BtnLogin_Click(object sender, EventArgs e)
+        private async void BtnLogin_Click(object sender, EventArgs e)
         {
-            string username = txtUser.Text.Trim();
-            string password = txtPass.Text;
+            btnLogin.Enabled = false;
 
-            var user = _userService.Login(username, password);
-
-            if (user == null)
+            try
             {
-                MessageBox.Show("Sai tài khoản hoặc mật khẩu", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            AuthenSession.CurrentUser = user;
+                string username = txtUser.Text.Trim();
+                string password = txtPass.Text;
 
-            MainDashboard dashboard = new MainDashboard();
-            dashboard.Show();
-            this.Hide();
+                if (string.IsNullOrWhiteSpace(username) ||
+                    string.IsNullOrWhiteSpace(password))
+                {
+                    MessageBox.Show("Vui lòng nhập đầy đủ tài khoản và mật khẩu!","Cảnh báo",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var user = await _userService.LoginAsync(username, password);
+
+                if (user == null)
+                {
+                    MessageBox.Show("Sai tài khoản hoặc mật khẩu!","Đăng nhập thất bại",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    txtPass.Clear();
+                    txtPass.Focus();
+                    return;
+                }
+
+                AuthenSession.CurrentUser = user;
+
+                var dashboard = new MainDashboard();
+                dashboard.Show();
+
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,"Lỗi",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnLogin.Enabled = true;
+            }
         }
     }
 }
