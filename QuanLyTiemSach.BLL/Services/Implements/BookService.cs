@@ -15,101 +15,138 @@ namespace QuanLyTiemSach.BLL.Services.Implements
 
         public async Task<List<Book>> GetAllBooksAsync()
         {
-            return await _bookRepository.GetAllAsync();
+            try
+            {
+                return await _bookRepository.GetAllAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Không thể tải danh sách sách.", ex);
+            }
         }
 
         public async Task<Book?> GetBookByIdAsync(string bookId)
         {
             if (string.IsNullOrWhiteSpace(bookId))
-                throw new ArgumentException("BookID không được để trống");
-
-            return await _bookRepository.GetByIdAsync(bookId);
-        }
-
-        public async Task<(bool success, string message)> AddBookAsync(Book book)
-        {
-            if (!book.IsValid(out string validationMsg))
-                return (false, validationMsg);
-
-            if (await _bookRepository.ExistsByBookIdAsync(book.BookID))
-                return (false, "Mã sách đã tồn tại!");
-
-            if (await _bookRepository.ExistsByTitleAsync(book.Title))
-                return (false, "Tên sách đã tồn tại!");
-
-            if (!string.IsNullOrWhiteSpace(book.Publisher) && book.Publisher.Length > 100)
-                return (false, "Tên nhà xuất bản quá dài!");
-
-            bool result = await _bookRepository.AddAsync(book);
-
-            return result
-                ? (true, "Thêm sách thành công!")
-                : (false, "Thêm sách thất bại!");
-        }
-
-        public async Task<(bool success, string message)> UpdateBookAsync(Book book)
-        {
-            if (!book.IsValid(out string validationMsg))
-                return (false, validationMsg);
-
-            var existing = await _bookRepository.GetByIdAsync(book.BookID);
-            if (existing == null)
-                return (false, "Sách không tồn tại!");
-
-            if (await _bookRepository.ExistsByTitleAsync(book.Title, book.BookID))
-                return (false, "Tên sách đã tồn tại!");
-
-            bool result = await _bookRepository.UpdateAsync(book);
-
-            return result
-                ? (true, "Cập nhật sách thành công!")
-                : (false, "Cập nhật sách thất bại!");
-        }
-
-        public async Task<(bool success, string message)> DeleteBookAsync(string bookId)
-        {
-            if (string.IsNullOrWhiteSpace(bookId))
-                return (false, "BookID không được để trống!");
-
-            var existing = await _bookRepository.GetByIdAsync(bookId);
-            if (existing == null)
-                return (false, "Sách không tồn tại!");
+                throw new Exception("BookID không được để trống.");
 
             try
             {
-                bool result = await _bookRepository.DeleteAsync(bookId);
-                return result
-                    ? (true, "Xóa sách thành công!")
-                    : (false, "Xóa sách thất bại!");
+                return await _bookRepository.GetByIdAsync(bookId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Không thể lấy thông tin sách.", ex);
+            }
+        }
+
+        public async Task AddBookAsync(Book book)
+        {
+            if (!book.IsValid(out string validationMsg))
+                throw new Exception(validationMsg);
+
+            if (await _bookRepository.ExistsByBookIdAsync(book.BookID))
+                throw new Exception("Mã sách đã tồn tại!");
+
+            if (await _bookRepository.ExistsByTitleAsync(book.Title))
+                throw new Exception("Tên sách đã tồn tại!");
+
+            if (!string.IsNullOrWhiteSpace(book.Publisher) &&
+                book.Publisher.Length > 100)
+                throw new Exception("Tên nhà xuất bản quá dài!");
+
+            await _bookRepository.AddAsync(book);
+        }
+
+
+        public async Task UpdateBookAsync(Book book)
+        {
+            try
+            {
+                if (!book.IsValid(out string validationMsg))
+                    throw new Exception(validationMsg);
+
+                var existing = await _bookRepository.GetByIdAsync(book.BookID);
+                if (existing == null)
+                    throw new Exception("Sách không tồn tại!");
+
+                if (await _bookRepository.ExistsByTitleAsync(book.Title, book.BookID))
+                    throw new Exception("Tên sách đã tồn tại!");
+
+                bool result = await _bookRepository.UpdateAsync(book);
+                if (!result)
+                    throw new Exception("Cập nhật sách thất bại!");
             }
             catch
             {
-                return (false, "Không thể xóa sách vì đang được sử dụng.");
+                throw;
+            }
+        }
+
+        public async Task DeleteBookAsync(string bookId)
+        {
+            if (string.IsNullOrWhiteSpace(bookId))
+                throw new Exception("BookID không được để trống.");
+
+            try
+            {
+                var existing = await _bookRepository.GetByIdAsync(bookId);
+                if (existing == null)
+                    throw new Exception("Sách không tồn tại!");
+
+                bool result = await _bookRepository.DeleteAsync(bookId);
+                if (!result)
+                    throw new Exception("Xóa sách thất bại!");
+            }
+            catch
+            {
+                throw new Exception("Không thể xóa sách vì đang được sử dụng.");
             }
         }
 
         public async Task<List<Book>> SearchBooksAsync(string keyword)
         {
-            if (string.IsNullOrWhiteSpace(keyword))
-                return await GetAllBooksAsync();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(keyword))
+                    return await GetAllBooksAsync();
 
-            return await _bookRepository.SearchAsync(keyword.Trim());
+                return await _bookRepository.SearchAsync(keyword.Trim());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm sách.", ex);
+            }
         }
 
         public async Task<List<Book>> GetBooksByCategoryAsync(int categoryId)
         {
             if (categoryId <= 0)
-                throw new ArgumentException("CategoryId không hợp lệ");
+                throw new Exception("CategoryId không hợp lệ.");
 
-            return await _bookRepository.GetByCategoryAsync(categoryId);
+            try
+            {
+                return await _bookRepository.GetByCategoryAsync(categoryId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Không thể tải sách theo danh mục.", ex);
+            }
         }
 
         public async Task<bool> IsBookIdExistsAsync(string bookId)
         {
-            if (string.IsNullOrWhiteSpace(bookId))
-                return false;
+            try
+            {
+                if (string.IsNullOrWhiteSpace(bookId))
+                    return false;
 
-            return await _bookRepository.ExistsByBookIdAsync(bookId);
+                return await _bookRepository.ExistsByBookIdAsync(bookId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi kiểm tra mã sách.", ex);
+            }
         }
     }
 }

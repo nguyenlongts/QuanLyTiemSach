@@ -35,46 +35,41 @@ namespace QuanLyTiemSach.BLL.Services.Implements
             return await _categoryRepository.ExistsByNameAsync(name, excludeId);
         }
 
-        public async Task<bool> AddCategoryAsync(Category category)
+        public async Task AddCategoryAsync(Category category)
         {
-            if (!category.IsValid(out _))
-                return false;
+            if (!category.IsValid(out string msg))
+                throw new Exception(msg);
 
             if (await _categoryRepository.ExistsByNameAsync(category.Name))
-                return false;
+                throw new Exception("Tên danh mục đã tồn tại!");
 
-            return await _categoryRepository.AddAsync(category);
+            await _categoryRepository.AddAsync(category);
         }
 
-        public async Task<bool> UpdateCategoryAsync(Category category)
+        public async Task UpdateCategoryAsync(Category category)
         {
             var existing = await _categoryRepository.GetByIdAsync(category.Id);
             if (existing == null)
-                return false;
+                throw new Exception("Danh mục không tồn tại!");
 
             if (await _categoryRepository.ExistsByNameAsync(category.Name, category.Id))
-                return false;
+                throw new Exception("Tên danh mục đã tồn tại!");
 
-            return await _categoryRepository.UpdateAsync(category);
+            await _categoryRepository.UpdateAsync(category);
         }
 
-        public async Task<bool> DeleteCategoryAsync(int id)
+        public async Task DeleteCategoryAsync(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
             if (category == null)
-                return false;
+                throw new Exception("Danh mục không tồn tại!");
 
             var books = await _bookRepository.GetByCategoryAsync(id);
 
             if (books.Any())
-            {
-                foreach (var book in books)
-                {
-                    await _bookRepository.DeleteAsync(book.BookID);
-                }
-            }
+                throw new Exception("Không thể xoá danh mục đang chứa sách!");
 
-            return await _categoryRepository.DeleteAsync(id);
+            await _categoryRepository.DeleteAsync(id);
         }
 
         public async Task<List<Category>> SearchCategoriesAsync(string keyword)
