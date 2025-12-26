@@ -3,6 +3,7 @@ using QuanLyTiemSach.DAL;
 using QuanLyTiemSach.Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace QuanLyTiemSach.Data.Repositories
 {
@@ -15,68 +16,69 @@ namespace QuanLyTiemSach.Data.Repositories
             _context = context;
         }
 
-        public List<Salary> GetAll()
+        public async Task<List<Salary>> GetAllAsync()
         {
-            return _context.Salaries
-                .OrderByDescending(s => s.Id)
-                .ToList();
+            return await _context.Salaries
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public Salary GetById(int id)
+        public async Task<Salary?> GetByIdAsync(int id)
         {
-            return _context.Salaries.Find(id);
+            return await _context.Salaries
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public Salary GetByEmployeeAndMonth(int employeeId, int month)
+        public async Task<Salary?> GetByEmployeeAndMonthAsync(int employeeId, int month)
         {
-            return _context.Salaries
-                .FirstOrDefault(s => s.EmployeeId == employeeId && s.Month == month);
+            return await _context.Salaries
+                .FirstOrDefaultAsync(s =>
+                    s.EmployeeId == employeeId &&
+                    s.Month == month);
         }
 
-        public List<Salary> GetByEmployeeId(int employeeId)
+        public async Task<List<Salary>> GetByEmployeeIdAsync(int employeeId)
         {
-            return _context.Salaries
+            return await _context.Salaries
                 .Where(s => s.EmployeeId == employeeId)
                 .OrderByDescending(s => s.Month)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Salary> GetByMonth(int month)
+        public async Task<List<Salary>> GetByMonthAsync(int month)
         {
-            return _context.Salaries
+            return await _context.Salaries
                 .Where(s => s.Month == month)
                 .OrderBy(s => s.EmployeeId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public void Add(Salary salary)
+        public async Task AddAsync(Salary salary)
         {
-            _context.Salaries.Add(salary);
+            await _context.Salaries.AddAsync(salary);
         }
 
-        public void Update(Salary salary)
+        public Task UpdateAsync(Salary salary)
         {
             _context.Salaries.Update(salary);
+            return Task.CompletedTask;
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(Salary salary)
         {
-            var salary = GetById(id);
-            if (salary != null)
-            {
-                _context.Salaries.Remove(salary);
-            }
+            _context.Salaries.Remove(salary);
+            await Task.CompletedTask;
         }
 
-        public bool Exists(int employeeId, int month)
+        public async Task<bool> ExistsAsync(int employeeId, int month)
         {
-            return _context.Salaries
-                .Any(s => s.EmployeeId == employeeId && s.Month == month);
+            return await _context.Salaries
+                .AnyAsync(s => s.EmployeeId == employeeId && s.Month == month);
         }
 
-        public void SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

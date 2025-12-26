@@ -13,5 +13,6 @@ namespace QuanLyTiemSach.DAL.Repositories
         Task<List<Book>> GetByCategoryAsync(int categoryId);
         Task<bool> ExistsByBookIdAsync(string bookId);
         Task<bool> ExistsByTitleAsync(string title, string? excludeBookId = null);
+        Task SaveChangeAsync();
     }
 }

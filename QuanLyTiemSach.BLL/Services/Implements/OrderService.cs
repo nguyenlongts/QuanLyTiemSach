@@ -36,7 +36,7 @@ namespace QuanLyTiemSach.BLL.Services.Implements
 
         public async Task<Order> CreateOrderAsync(Order order, List<OrderDetail> orderDetails)
         {
-            if (orderDetails == null || !orderDetails.Any())
+            if (!orderDetails.Any())
                 throw new Exception("Hóa đơn phải có ít nhất một sản phẩm");
 
             order.TotalAmount = await CalculateTotalAmountAsync(orderDetails);
@@ -44,25 +44,22 @@ namespace QuanLyTiemSach.BLL.Services.Implements
             foreach (var detail in orderDetails)
             {
                 var book = await _bookRepository.GetByIdAsync(detail.BookID);
+
                 if (book == null)
-                    throw new Exception($"Không tìm thấy sách với ID: {detail.BookID}");
+                    throw new Exception($"Không tìm thấy sách ID {detail.BookID}");
 
                 if (book.Quantity < detail.Quantity)
-                    throw new Exception($"Sách '{book.Title}' không đủ số lượng trong kho. Còn lại: {book.Quantity}");
+                    throw new Exception($"Sách '{book.Title}' không đủ số lượng");
+
+                book.Quantity -= detail.Quantity;
             }
 
             order.OrderDetails = orderDetails;
 
-            var createdOrder = await _orderRepository.CreateOrderAsync(order);
+            await _orderRepository.CreateOrderAsync(order);
+            await _bookRepository.SaveChangeAsync();
 
-            foreach (var detail in orderDetails)
-            {
-                var book = await _bookRepository.GetByIdAsync(detail.BookID);
-                book.Quantity -= detail.Quantity;
-                await _bookRepository.UpdateAsync(book);
-            }
-
-            return createdOrder;
+            return order;
         }
 
         public async Task<Order> UpdateOrderAsync(Order order)

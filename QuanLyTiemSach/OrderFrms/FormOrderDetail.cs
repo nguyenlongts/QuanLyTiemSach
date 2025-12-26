@@ -175,7 +175,6 @@ namespace QuanLyTiemSach.OrderFrms
                         _orderDetails.Add(new OrderDetail
                         {
                             BookID = selectedBook.BookID,
-                            Book = selectedBook,
                             Quantity = quantity,
                             UnitPrice = selectedBook.Price
                         });

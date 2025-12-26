@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using QuanLyTiemSach;
+using QuanLyTiemSach.BLL.Services.Implements;
+using QuanLyTiemSach.DAL;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore;
-using QuanLyTiemSach.BLL.Services.Implements;
-using QuanLyTiemSach.DAL;
 //using WorkShiftManagement.Data;
 using WorkShiftManagement.Models;
 
@@ -14,8 +15,7 @@ namespace WorkShiftManagement.Forms
 {
     public partial class FormManagerShift : Form
     {
-        private readonly WorkShiftService _service;
-        private readonly BookStoreDbContext _context;
+        private readonly IShiftService _service;
         private DateTime _currentWeekStart;
         private List<Employee> _employees;
 
@@ -23,20 +23,20 @@ namespace WorkShiftManagement.Forms
         {
             InitializeComponent();
 
-            _context = new BookStoreDbContext();
-            _service = new WorkShiftService(_context);
-
-            // Set tuần hiện tại
+            _service = ServiceDI.GetWorkShiftService();
             _currentWeekStart = GetMondayOfWeek(DateTime.Now);
         }
 
-        private void WorkShiftForm_Load(object sender, EventArgs e)
+
+
+        private async void WorkShiftForm_Load(object sender, EventArgs e)
         {
-            LoadEmployees();
-            LoadShiftTypes();
-            LoadWeekSchedule();
             ConfigureLayout();
+            await LoadEmployeesAsync();
+            LoadShiftTypes();
+            await LoadWeekScheduleAsync();
         }
+
 
         private void ConfigureLayout()
         {
@@ -52,13 +52,14 @@ namespace WorkShiftManagement.Forms
             dgvSchedule.Dock = DockStyle.Fill;
         }
 
-        private void LoadEmployees()
+        private async Task LoadEmployeesAsync()
         {
-            _employees = _service.GetAllEmployees();
+            _employees = await _service.GetAllEmployeesAsync();
             cboEmployee.DataSource = _employees;
             cboEmployee.DisplayMember = "FullName";
             cboEmployee.ValueMember = "EmployeeId";
         }
+
 
         private void LoadShiftTypes()
         {
@@ -81,15 +82,15 @@ namespace WorkShiftManagement.Forms
             return date.AddDays(-daysUntilMonday).Date;
         }
 
-        private void LoadWeekSchedule()
+        private async Task LoadWeekScheduleAsync()
         {
             DateTime endDate = _currentWeekStart.AddDays(6);
             lblWeekRange.Text = $"Tuần từ {_currentWeekStart:dd/MM/yyyy} đến {endDate:dd/MM/yyyy}";
 
-            var workShifts = _service.GetWorkShiftsByWeek(_currentWeekStart);
-
+            var workShifts = await _service.GetWeeklyShiftsAsync(_currentWeekStart);
             BuildScheduleTable(workShifts);
         }
+
 
         private void BuildScheduleTable(List<WorkShift> workShifts)
         {
@@ -173,19 +174,11 @@ namespace WorkShiftManagement.Forms
             dgvSchedule.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
         }
 
-        private void btnAddShift_Click(object sender, EventArgs e)
+        private async void btnAddShift_Click(object sender, EventArgs e)
         {
-            if (cboEmployee.SelectedValue == null)
+            if (cboEmployee.SelectedValue == null || cboShiftType.SelectedValue == null)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (cboShiftType.SelectedValue == null)
-            {
-                MessageBox.Show("Vui lòng chọn ca làm!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn đầy đủ thông tin!");
                 return;
             }
 
@@ -194,63 +187,56 @@ namespace WorkShiftManagement.Forms
             int shiftType = (int)cboShiftType.SelectedValue;
             string note = txtNote.Text.Trim();
 
-            string error = _service.AddWorkShift(employeeId, workDate, shiftType, note);
+            var result = await _service.AssignShiftAsync(employeeId, workDate, shiftType, note);
 
-            if (error == null)
+            if (result.success)
             {
-                MessageBox.Show("Thêm ca làm việc thành công!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                MessageBox.Show(result.message, "Thông báo");
                 txtNote.Clear();
-                LoadWeekSchedule();
+                await LoadWeekScheduleAsync();
             }
             else
             {
-                MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.message, "Lỗi");
             }
         }
 
-        private void btnPreviousWeek_Click(object sender, EventArgs e)
+
+        private async void btnPreviousWeek_Click(object sender, EventArgs e)
         {
             _currentWeekStart = _currentWeekStart.AddDays(-7);
-            LoadWeekSchedule();
+            await LoadWeekScheduleAsync();
         }
 
-        private void btnNextWeek_Click(object sender, EventArgs e)
+        private async void btnNextWeek_Click(object sender, EventArgs e)
         {
             _currentWeekStart = _currentWeekStart.AddDays(7);
-            LoadWeekSchedule();
+            await LoadWeekScheduleAsync();
         }
 
-        private void dgvSchedule_CellContentClick(object sender, DataGridViewCellEventArgs e)
+
+        private async void dgvSchedule_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 1) return;
 
             var cell = dgvSchedule.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString())) return;
+            if (cell.Tag == null) return;
 
-            // Hiển thị menu xóa ca làm
-            var result = MessageBox.Show(
+            var confirm = MessageBox.Show(
                 "Bạn có muốn xóa ca làm việc này không?",
                 "Xác nhận",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                MessageBoxButtons.YesNo);
 
-            if (result == DialogResult.Yes && cell.Tag != null)
+            if (confirm == DialogResult.Yes)
             {
                 int workShiftId = (int)cell.Tag;
-                if (_service.DeleteWorkShift(workShiftId))
-                {
-                    MessageBox.Show("Xóa ca làm việc thành công!", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadWeekSchedule();
-                }
-                else
-                {
-                    MessageBox.Show("Xóa ca làm việc thất bại!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                bool success = await _service.DeleteWorkShiftAsync(workShiftId);
+
+                MessageBox.Show(success ? "Xóa thành công!" : "Xóa thất bại!");
+                if (success)
+                    await LoadWeekScheduleAsync();
             }
         }
+
     }
 }

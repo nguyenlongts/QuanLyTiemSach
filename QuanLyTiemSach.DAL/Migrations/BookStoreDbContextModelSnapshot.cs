@@ -205,32 +205,6 @@ namespace QuanLyTiemSach.DAL.Migrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("QuanLyTiemSach.Domain.Model.Salary", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Month")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId", "Month")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Salary_EmployeeId_Month");
-
-                    b.ToTable("Salary", (string)null);
-                });
-
             modelBuilder.Entity("QuanLyTiemSach.Domain.Model.User", b =>
                 {
                     b.Property<int>("UserID")
@@ -271,6 +245,38 @@ namespace QuanLyTiemSach.DAL.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Salary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId", "Month")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Salary_EmployeeId_Month");
+
+                    b.ToTable("Salary", (string)null);
+                });
+
             modelBuilder.Entity("WorkShiftManagement.Models.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
@@ -304,10 +310,15 @@ namespace QuanLyTiemSach.DAL.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("EmployeeId");
 
                     b.HasIndex("EmployeeCode")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Employees", (string)null);
                 });
@@ -393,6 +404,16 @@ namespace QuanLyTiemSach.DAL.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("WorkShiftManagement.Models.Employee", b =>
+                {
+                    b.HasOne("QuanLyTiemSach.Domain.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WorkShiftManagement.Models.WorkShift", b =>

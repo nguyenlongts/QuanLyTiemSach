@@ -9,11 +9,13 @@ namespace QuanLyTiemSach.DAL.Repositories
 {
     public interface IEmployeeRepository
     {
-        List<Employee> GetAll();
-        Employee GetById(int id);
-        int Add(Employee employee);
-        bool Update(Employee employee);
-        bool Delete(int id);
-        bool Exists(int id);
+        Task<int> CountAsync();
+        Task<List<Employee>> GetAllAsync();
+        Task<Employee?> GetByIdAsync(int id);
+        Task AddAsync(Employee employee);
+        Task UpdateAsync(Employee employee);
+        Task DeleteAsync(Employee employee);
+        Task<bool> ExistsAsync(int id);
     }
+
 }

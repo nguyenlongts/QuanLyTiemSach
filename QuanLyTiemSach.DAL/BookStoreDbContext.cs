@@ -71,6 +71,11 @@ namespace QuanLyTiemSach.DAL
 
                 entity.HasIndex(e => e.Name).IsUnique();
             });
+            modelBuilder.Entity<Employee>()
+    .HasOne(e => e.User)
+    .WithMany()
+    .HasForeignKey(e => e.UserId)
+    .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Customer>(entity =>
             {

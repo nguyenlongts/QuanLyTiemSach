@@ -1,15 +1,20 @@
-﻿using QuanLyTiemSach.Domain.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WorkShiftManagement.Models;
 
 public interface IShiftService
 {
-    void AssignShift(
+    Task<(bool success, string message)> AssignShiftAsync(
         int employeeId,
         DateTime workDate,
-        TimeSpan start,
-        TimeSpan end,
-        decimal hourlyRate
+        int shiftType,
+        string note
     );
 
-    List<WorkShift> GetWeeklyShifts(DateTime monday);
+    Task<List<WorkShift>> GetWeeklyShiftsAsync(DateTime monday);
+
+    Task<bool> DeleteWorkShiftAsync(int workShiftId);
+
+    Task<List<Employee>> GetAllEmployeesAsync();
 }

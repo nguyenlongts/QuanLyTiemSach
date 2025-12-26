@@ -4,21 +4,15 @@ using QuanLyTiemSach.BLL.Services.Interfaces;
 using QuanLyTiemSach.DAL;
 using QuanLyTiemSach.DAL.Repositories;
 using QuanLyTiemSach.Data.Repositories;
-using WorkShiftManagement.Repositories;
 
 namespace QuanLyTiemSach
 {
     public static class ServiceDI
     {
-        private static BookStoreDbContext _dbContext;
 
         public static BookStoreDbContext GetDbContext()
         {
-            if (_dbContext == null)
-            {
-                _dbContext = new BookStoreDbContext();
-            }
-            return _dbContext;
+            return new BookStoreDbContext();
         }
 
         public static ICategoryService GetCategoryService()
@@ -63,7 +57,7 @@ namespace QuanLyTiemSach
             var dbContext = GetDbContext();
             ISalaryRepository salaryRepository = new SalaryRepository(dbContext);
             IEmployeeRepository employeeRepository = new EmployeeRepository(dbContext);
-            WorkShiftRepository workShiftRepository = new WorkShiftRepository(dbContext);
+            IShiftRepository workShiftRepository = new WorkShiftRepository(dbContext);
 
             return new SalaryService(salaryRepository, employeeRepository, workShiftRepository);
         }
@@ -78,13 +72,19 @@ namespace QuanLyTiemSach
         {
             var dbContext = GetDbContext();
             IUserRepository repository = new UserRepository(dbContext);
-            return new UserService(repository);
+            IEmployeeRepository employeeRepository = new EmployeeRepository(dbContext);
+            return new UserService(repository, employeeRepository, dbContext);
         }
 
-        public static WorkShiftService GetWorkShiftService()
+        public static IShiftService GetWorkShiftService()
         {
             var dbContext = GetDbContext();
-            return new WorkShiftService(dbContext);
+
+            IShiftRepository shiftRepository = new WorkShiftRepository(dbContext);
+            IEmployeeRepository employeeRepository = new EmployeeRepository(dbContext);
+
+            return new WorkShiftService(shiftRepository, employeeRepository);
         }
+
     }
 }

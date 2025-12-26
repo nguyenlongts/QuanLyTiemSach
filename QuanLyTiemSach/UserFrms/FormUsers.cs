@@ -102,6 +102,16 @@ namespace QuanLyTiemSach.UserFrms
             dgvUsers.AllowUserToAddRows = false;
             dgvUsers.ReadOnly = true;
         }
+        private void cboRole_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool isStaff = cboRole.Text == "Staff";
+
+            lblPhone.Visible = isStaff;
+            txtPhone.Visible = isStaff;
+
+            if (!isStaff)
+                txtPhone.Clear();
+        }
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
@@ -120,8 +130,8 @@ namespace QuanLyTiemSach.UserFrms
                     Role = cboRole.Text,
                     Status = cboStatus.Text
                 };
-
-                await _userService.AddAsync(user);
+                await _userService.AddAsync(user,
+                    cboRole.Text == "Staff" ? txtPhone.Text.Trim() : null);
                 MessageBox.Show("Thêm người dùng thành công!");
                 await LoadUsersAsync();
                 ClearInputs();
@@ -288,6 +298,17 @@ namespace QuanLyTiemSach.UserFrms
                 MessageBox.Show("Vui lòng chọn vai trò và trạng thái!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+            if (cboRole.Text == "Staff")
+            {
+                if (string.IsNullOrWhiteSpace(txtPhone.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập số điện thoại nhân viên!",
+                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtPhone.Focus();
+                    return false;
+                }
+            }
+
 
             return true;
         }

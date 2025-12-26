@@ -71,6 +71,9 @@
             txtEmployeeId.ReadOnly = true;
             txtEmployeeId.Size = new Size(232, 23);
             txtEmployeeId.TabIndex = 2;
+            txtEmployeeId.ReadOnly = true;
+            txtEmployeeId.Enabled = false;
+
             // 
             // lblMonth
             // 
@@ -148,7 +151,7 @@
             btnCalculate.TabIndex = 9;
             btnCalculate.Text = "Tải Số Ca";
             btnCalculate.UseVisualStyleBackColor = false;
-            btnCalculate.Click += btnCalculate_Click;
+            //btnCalculate.Click += btnCalculate_Click;
             // 
             // btnSave
             // 

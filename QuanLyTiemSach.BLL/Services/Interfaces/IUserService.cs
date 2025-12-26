@@ -6,7 +6,7 @@ namespace QuanLyTiemSach.BLL.Services.Interfaces
     {
         Task<List<User>> GetAllAsync();
         Task<User?> GetByIdAsync(int id);
-        Task AddAsync(User user);
+        Task AddAsync(User user, string employeePhone);
         Task UpdateAsync(User user);
         Task DeleteAsync(int id);
         Task<List<User>> SearchAsync(string keyword);

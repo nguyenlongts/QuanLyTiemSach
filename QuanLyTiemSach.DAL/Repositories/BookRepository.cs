@@ -114,5 +114,10 @@ namespace QuanLyTiemSach.DAL.Repositories
 
             return await query.AnyAsync();
         }
+
+        public Task SaveChangeAsync()
+        {
+            return _context.SaveChangesAsync();
+        }
     }
 }

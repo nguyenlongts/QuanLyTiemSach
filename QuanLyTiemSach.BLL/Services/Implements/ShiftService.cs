@@ -1,71 +1,65 @@
-﻿using QuanLyTiemSach.DAL;
-using System;
-using System.Collections.Generic;
-
-//using WorkShiftManagement.Data;
+﻿using QuanLyTiemSach.DAL.Repositories;
 using WorkShiftManagement.Models;
-using WorkShiftManagement.Repositories;
+namespace QuanLyTiemSach.BLL.Services.Implements;
 
-namespace QuanLyTiemSach.BLL.Services.Implements
+public class WorkShiftService : IShiftService
 {
-    public class WorkShiftService
+    private readonly IShiftRepository _shiftRepository;
+    private readonly IEmployeeRepository _employeeRepository;
+
+    public WorkShiftService(
+        IShiftRepository shiftRepository,
+        IEmployeeRepository employeeRepository)
     {
-        private readonly WorkShiftRepository _workShiftRepo;
-        private readonly EmployeeRepository _employeeRepo;
+        _shiftRepository = shiftRepository;
+        _employeeRepository = employeeRepository;
+    }
 
-        public WorkShiftService(BookStoreDbContext context)
+    public async Task<List<Employee>> GetAllEmployeesAsync()
+    {
+        return await _employeeRepository.GetAllAsync();
+    }
+
+    public async Task<(bool success, string message)> AssignShiftAsync(
+        int employeeId,
+        DateTime workDate,
+        int shiftType,
+        string note)
+    {
+        var employee = await _employeeRepository.GetByIdAsync(employeeId);
+        if (employee == null)
+            return (false, "Nhân viên không tồn tại!");
+
+        if (shiftType < 1 || shiftType > 4)
+            return (false, "Ca làm việc không hợp lệ!");
+
+        if (await _shiftRepository.CheckDuplicateAsync(employeeId, workDate, shiftType))
+            return (false, "Nhân viên đã được phân ca này rồi!");
+
+        var shift = new WorkShift
         {
-            _workShiftRepo = new WorkShiftRepository(context);
-            _employeeRepo = new EmployeeRepository(context);
-        }
+            EmployeeId = employeeId,
+            WorkDate = workDate.Date,
+            ShiftType = shiftType,
+            Note = note,
+            CreatedAt = DateTime.Now
+        };
 
-        public List<Employee> GetAllEmployees()
-        {
-            return _employeeRepo.GetAll();
-        }
+        int id = await _shiftRepository.AddAsync(shift);
+        return id > 0
+            ? (true, "Phân ca thành công!")
+            : (false, "Thêm ca làm thất bại!");
+    }
 
-        public string AddWorkShift(int employeeId, DateTime workDate, int shiftType, string note)
-        {
-            // Validate
-            var employee = _employeeRepo.GetById(employeeId);
-            if (employee == null)
-            {
-                return "Nhân viên không tồn tại!";
-            }
+    public async Task<List<WorkShift>> GetWeeklyShiftsAsync(DateTime monday)
+    {
+        DateTime start = monday.Date;
+        DateTime end = start.AddDays(6);
+        return await _shiftRepository.GetByDateRangeAsync(start, end);
+    }
 
-            if (shiftType < 1 || shiftType > 4)
-            {
-                return "Ca làm việc không hợp lệ!";
-            }
-
-            // Check duplicate
-            if (_workShiftRepo.CheckDuplicate(employeeId, workDate, shiftType))
-            {
-                return "Nhân viên đã được phân ca này rồi!";
-            }
-
-            var workShift = new WorkShift
-            {
-                EmployeeId = employeeId,
-                WorkDate = workDate,
-                ShiftType = shiftType,
-                Note = note,
-                CreatedAt = DateTime.Now
-            };
-
-            int id = _workShiftRepo.Add(workShift);
-            return id > 0 ? null : "Thêm ca làm thất bại!";
-        }
-
-        public List<WorkShift> GetWorkShiftsByWeek(DateTime startDate)
-        {
-            DateTime endDate = startDate.AddDays(6);
-            return _workShiftRepo.GetByDateRange(startDate, endDate);
-        }
-
-        public bool DeleteWorkShift(int workShiftId)
-        {
-            return _workShiftRepo.Delete(workShiftId);
-        }
+    public async Task<bool> DeleteWorkShiftAsync(int workShiftId)
+    {
+        return await _shiftRepository.DeleteAsync(workShiftId);
     }
 }

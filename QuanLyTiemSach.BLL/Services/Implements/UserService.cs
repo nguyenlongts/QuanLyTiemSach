@@ -1,21 +1,32 @@
 ﻿using QuanLyTiemSach.BLL.Services.Interfaces;
+using QuanLyTiemSach.DAL;
 using QuanLyTiemSach.DAL.Repositories;
 
 using QuanLyTiemSach.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WorkShiftManagement.Models;
 
 namespace QuanLyTiemSach.BLL.Services.Implements
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly BookStoreDbContext _context;
 
-        public UserService(IUserRepository userRepository)
+
+        public UserService(
+       IUserRepository userRepository,
+       IEmployeeRepository employeeRepository,
+       BookStoreDbContext context)
         {
             _userRepository = userRepository;
+            _employeeRepository = employeeRepository;
+            _context = context;
         }
+
 
         public async Task<List<User>> GetAllAsync()
         {
@@ -44,49 +55,46 @@ namespace QuanLyTiemSach.BLL.Services.Implements
             }
         }
 
-        public async Task AddAsync(User user)
+        public async Task AddAsync(User user, string employeePhone)
         {
+            using var tx = await _context.Database.BeginTransactionAsync();
             try
             {
-                if (user == null)
-                    throw new Exception("Dữ liệu người dùng không hợp lệ.");
-
-                user.Username = user.Username?.Trim();
-                user.Email = user.Email?.Trim();
-                user.FullName = user.FullName?.Trim();
-
-                if (string.IsNullOrWhiteSpace(user.Username))
-                    throw new Exception("Tên đăng nhập không được để trống.");
-
-                if (string.IsNullOrWhiteSpace(user.Password))
-                    throw new Exception("Mật khẩu không được để trống.");
-
-                if (string.IsNullOrWhiteSpace(user.Email))
-                    throw new Exception("Email không được để trống.");
-
-                var existedUser =
-                    await _userRepository.GetByUsernameAsync(user.Username);
-                if (existedUser != null)
-                    throw new Exception("Tên đăng nhập đã tồn tại.");
-
-                var existedEmail =
-                    await _userRepository.GetByEmailAsync(user.Email);
-                if (existedEmail != null)
-                    throw new Exception("Email đã được sử dụng.");
-
-                user.Status = string.IsNullOrEmpty(user.Status)
-                    ? "Active"
-                    : user.Status;
-
                 user.CreatedDate = DateTime.Now;
+                user.Status ??= "Active";
 
                 await _userRepository.AddAsync(user);
+                await _context.SaveChangesAsync();
+
+                if (user.Role == "Staff")
+                {
+                    if (string.IsNullOrWhiteSpace(employeePhone))
+                        throw new Exception("Nhân viên phải có số điện thoại.");
+
+                    var employee = new Employee
+                    {
+                        UserId = user.UserID,
+                        FullName= user.FullName,
+                        EmployeeCode = await GenerateEmployeeCodeAsync(),
+                        PhoneNumber = employeePhone,
+                        CreatedAt = DateTime.Now,
+                        IsActive = true
+                    };
+
+                    await _employeeRepository.AddAsync(employee);
+                    await _context.SaveChangesAsync();
+                }
+
+                await tx.CommitAsync();
             }
             catch (Exception ex)
             {
-                throw new Exception("Thêm người dùng thất bại: " + ex.Message, ex);
+                var inner = ex.InnerException?.Message;
+                throw new Exception($"Lỗi khi lưu dữ liệu: {inner}", ex);
             }
+
         }
+
 
         public async Task UpdateAsync(User user)
         {
@@ -200,6 +208,13 @@ namespace QuanLyTiemSach.BLL.Services.Implements
 
                 throw new Exception("Lỗi.", ex);
             }
+        }
+        private async Task<string> GenerateEmployeeCodeAsync()
+        {
+            int count = await _employeeRepository.CountAsync();
+            int nextNumber = count + 1;
+
+            return $"NV{nextNumber:D3}";
         }
 
     }

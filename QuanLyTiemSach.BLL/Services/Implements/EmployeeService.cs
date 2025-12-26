@@ -2,11 +2,8 @@
 using QuanLyTiemSach.DAL.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WorkShiftManagement.Models;
-using WorkShiftManagement.Repositories;
 
 namespace QuanLyTiemSach.BLL.Services.Implements
 {
@@ -19,96 +16,78 @@ namespace QuanLyTiemSach.BLL.Services.Implements
             _employeeRepository = employeeRepository;
         }
 
-        public List<Employee> GetAllEmployees()
+        public async Task<List<Employee>> GetAllEmployeesAsync()
         {
             try
             {
-                return _employeeRepository.GetAll();
+                return await _employeeRepository.GetAllAsync();
             }
             catch (Exception ex)
             {
-                throw new Exception($"Lỗi khi lấy danh sách nhân viên: {ex.Message}", ex);
+                throw new Exception("Lỗi khi lấy danh sách nhân viên.", ex);
             }
         }
 
-        public Employee GetEmployeeById(int id)
+        public async Task<Employee?> GetEmployeeByIdAsync(int id)
         {
-            try
-            {
-                return _employeeRepository.GetById(id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Lỗi khi lấy thông tin nhân viên: {ex.Message}", ex);
-            }
+            if (id <= 0)
+                throw new Exception("ID không hợp lệ.");
+
+            return await _employeeRepository.GetByIdAsync(id);
         }
 
-        public bool CreateEmployee(Employee employee, out string message)
+        public async Task<bool> CreateEmployeeAsync(Employee employee)
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(employee.FullName))
-                {
-                    message = "Tên nhân viên không được để trống!";
-                    return false;
-                }
+            if (employee == null)
+                throw new Exception("Dữ liệu nhân viên không hợp lệ.");
 
-                _employeeRepository.Add(employee);
-                message = "Thêm nhân viên thành công!";
-                return true;
-            }
-            catch (Exception ex)
-            {
-                message = $"Lỗi: {ex.Message}";
-                return false;
-            }
+            if (string.IsNullOrWhiteSpace(employee.FullName))
+                throw new Exception("Tên nhân viên không được để trống.");
+
+            employee.EmployeeCode = await GenerateEmployeeCodeAsync();
+            employee.CreatedAt = DateTime.Now;
+            employee.IsActive = true;
+
+            await _employeeRepository.AddAsync(employee);
+            return true;
         }
 
-        public bool UpdateEmployee(Employee employee, out string message)
+        public async Task<bool> UpdateEmployeeAsync(Employee employee)
         {
-            try
-            {
-                if (!_employeeRepository.Exists(employee.EmployeeId))
-                {
-                    message = "Nhân viên không tồn tại!";
-                    return false;
-                }
+            if (employee == null)
+                throw new Exception("Dữ liệu nhân viên không hợp lệ.");
 
-                _employeeRepository.Update(employee);
-                message = "Cập nhật nhân viên thành công!";
-                return true;
-            }
-            catch (Exception ex)
-            {
-                message = $"Lỗi: {ex.Message}";
-                return false;
-            }
+            if (!await _employeeRepository.ExistsAsync(employee.EmployeeId))
+                throw new Exception("Nhân viên không tồn tại.");
+
+            await _employeeRepository.UpdateAsync(employee);
+            return true;
         }
 
-        public bool DeleteEmployee(int id, out string message)
+        public async Task<bool> DeleteEmployeeAsync(int id)
         {
-            try
-            {
-                if (!_employeeRepository.Exists(id))
-                {
-                    message = "Nhân viên không tồn tại!";
-                    return false;
-                }
+            if (id <= 0)
+                throw new Exception("ID không hợp lệ.");
 
-                _employeeRepository.Delete(id);
-                message = "Xóa nhân viên thành công!";
-                return true;
-            }
-            catch (Exception ex)
-            {
-                message = $"Lỗi: {ex.Message}";
-                return false;
-            }
+            var employee = await _employeeRepository.GetByIdAsync(id);
+            if (employee == null)
+                throw new Exception("Nhân viên không tồn tại.");
+
+            await _employeeRepository.DeleteAsync(employee);
+            return true;
         }
 
-        public bool EmployeeExists(int id)
+        public async Task<bool> EmployeeExistsAsync(int id)
         {
-            return _employeeRepository.Exists(id);
+            return await _employeeRepository.ExistsAsync(id);
+        }
+
+
+        private async Task<string> GenerateEmployeeCodeAsync()
+        {
+            int count = await _employeeRepository.CountAsync();
+            int next = count + 1;
+            return $"NV{next:D3}";
         }
     }
 }

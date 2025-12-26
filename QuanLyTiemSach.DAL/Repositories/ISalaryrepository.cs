@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using QuanLyTiemSach.Domain.Model;
 
 namespace QuanLyTiemSach.Data.Repositories
@@ -8,51 +9,51 @@ namespace QuanLyTiemSach.Data.Repositories
         /// <summary>
         /// Lấy tất cả bản ghi lương
         /// </summary>
-        List<Salary> GetAll();
+        Task<List<Salary>> GetAllAsync();
 
         /// <summary>
         /// Lấy lương theo ID
         /// </summary>
-        Salary GetById(int id);
+        Task<Salary?> GetByIdAsync(int id);
 
         /// <summary>
         /// Lấy lương theo nhân viên và tháng
         /// </summary>
-        Salary GetByEmployeeAndMonth(int employeeId, int month);
+        Task<Salary?> GetByEmployeeAndMonthAsync(int employeeId, int month);
 
         /// <summary>
         /// Lấy tất cả lương của một nhân viên
         /// </summary>
-        List<Salary> GetByEmployeeId(int employeeId);
+        Task<List<Salary>> GetByEmployeeIdAsync(int employeeId);
 
         /// <summary>
         /// Lấy tất cả lương trong một tháng
         /// </summary>
-        List<Salary> GetByMonth(int month);
+        Task<List<Salary>> GetByMonthAsync(int month);
 
         /// <summary>
         /// Thêm bản ghi lương mới
         /// </summary>
-        void Add(Salary salary);
+        Task AddAsync(Salary salary);
 
         /// <summary>
         /// Cập nhật bản ghi lương
         /// </summary>
-        void Update(Salary salary);
+        Task UpdateAsync(Salary salary);
 
         /// <summary>
         /// Xóa bản ghi lương
         /// </summary>
-        void Delete(int id);
+        Task DeleteAsync(Salary salary);
 
         /// <summary>
         /// Kiểm tra xem lương đã tồn tại chưa
         /// </summary>
-        bool Exists(int employeeId, int month);
+        Task<bool> ExistsAsync(int employeeId, int month);
 
         /// <summary>
         /// Lưu thay đổi vào database
         /// </summary>
-        void SaveChanges();
+        Task SaveChangesAsync();
     }
 }

@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuanLyTiemSach.DAL;
 using QuanLyTiemSach.DAL.Repositories;
-using System.Collections.Generic;
-using System.Linq;
-//using WorkShiftManagement.Data;
 using WorkShiftManagement.Models;
 
-namespace WorkShiftManagement.Repositories
+namespace QuanLyTiemSach.DAL.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
@@ -17,41 +14,41 @@ namespace WorkShiftManagement.Repositories
             _context = context;
         }
 
-        public List<Employee> GetAll()
+        public async Task<List<Employee>> GetAllAsync()
         {
-            return _context.Employees.ToList();
+            return await _context.Employees.AsNoTracking().ToListAsync();
         }
 
-        public Employee GetById(int id)
+        public async Task<Employee?> GetByIdAsync(int id)
         {
-            return _context.Employees.Find(id);
+            return await _context.Employees.FindAsync(id);
         }
 
-        public int Add(Employee employee)
+        public async Task AddAsync(Employee employee)
         {
-            _context.Employees.Add(employee);
-            _context.SaveChanges();
-            return employee.EmployeeId;
+            await _context.Employees.AddAsync(employee);
         }
 
-        public bool Update(Employee employee)
+        public async Task UpdateAsync(Employee employee)
         {
             _context.Employees.Update(employee);
-            return _context.SaveChanges() > 0;
+            await Task.CompletedTask;
         }
 
-        public bool Delete(int id)
+        public async Task DeleteAsync(Employee employee)
         {
-            var employee = GetById(id);
-            if (employee == null) return false;
-
             _context.Employees.Remove(employee);
-            return _context.SaveChanges() > 0;
+            await Task.CompletedTask;
         }
 
-        public bool Exists(int id)
+        public async Task<bool> ExistsAsync(int id)
         {
-            return _context.Employees.Any(e => e.EmployeeId == id);
+            return await _context.Employees.AnyAsync(e => e.EmployeeId == id);
         }
+        public async Task<int> CountAsync()
+        {
+            return await _context.Employees.CountAsync();
+        }
+
     }
 }

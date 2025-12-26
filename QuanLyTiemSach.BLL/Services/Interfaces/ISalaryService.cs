@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using QuanLyTiemSach.Domain.Model;
 using WorkShiftManagement.Models;
 
@@ -6,16 +7,24 @@ namespace QuanLyTiemSach.BLL.Services.Interfaces
 {
     public interface ISalaryService
     {
-        List<Employee> GetAllEmployees();
-        int GetShiftCountByMonth(int employeeId, int month, int year);
+        Task<List<Employee>> GetAllEmployeesAsync();
+
+        Task<int> GetShiftCountByMonthAsync(int employeeId, int month, int year);
+
         decimal CalculateSalary(int shifts);
-        List<Salary> GetAllSalaries();
-        Salary GetSalaryById(int id);
-        Salary GetSalaryByEmployeeAndMonth(int employeeId, int month);
-        List<Salary> GetSalariesByEmployee(int employeeId);
-        List<Salary> GetSalariesByMonth(int month);
-        bool CreateOrUpdateSalary(int employeeId, int month, int year, out string message);
-        bool DeleteSalary(int id, out string message);
-        bool IsSalaryExists(int employeeId, int month);
+
+        Task<List<Salary>> GetAllSalariesAsync();
+        Task<Salary?> GetSalaryByIdAsync(int id);
+        Task<Salary?> GetSalaryByEmployeeAndMonthAsync(int employeeId, int month);
+        Task<List<Salary>> GetSalariesByEmployeeAsync(int employeeId);
+        Task<List<Salary>> GetSalariesByMonthAsync(int month);
+
+        Task<(bool success, string message)> CreateOrUpdateSalaryAsync(
+            int employeeId, int month, int year
+        );
+
+        Task<(bool success, string message)> DeleteSalaryAsync(int id);
+
+        Task<bool> IsSalaryExistsAsync(int employeeId, int month);
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using QuanLyTiemSach.DAL;
-//using WorkShiftManagement.Data;
+
 using WorkShiftManagement.Models;
 
-namespace WorkShiftManagement.Repositories
+namespace QuanLyTiemSach.DAL.Repositories
 {
-    public class WorkShiftRepository
+    public class WorkShiftRepository : IShiftRepository
     {
         private readonly BookStoreDbContext _context;
 
@@ -17,49 +17,48 @@ namespace WorkShiftManagement.Repositories
             _context = context;
         }
 
-        public int Add(WorkShift workShift)
+        public async Task<int> AddAsync(WorkShift workShift)
         {
-            _context.WorkShifts.Add(workShift);
-            _context.SaveChanges();
+            await _context.WorkShifts.AddAsync(workShift);
+            await _context.SaveChangesAsync();
             return workShift.WorkShiftId;
         }
 
-        public List<WorkShift> GetByDateRange(DateTime startDate, DateTime endDate)
+        public async Task<List<WorkShift>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            return _context.WorkShifts
+            return await _context.WorkShifts
                 .Include(w => w.Employee)
-                .Where(w => w.WorkDate >= startDate && w.WorkDate <= endDate)
+                .Where(w => w.WorkDate >= startDate.Date &&
+                            w.WorkDate <= endDate.Date)
                 .OrderBy(w => w.WorkDate)
                 .ThenBy(w => w.ShiftType)
                 .ThenBy(w => w.Employee.FullName)
-                .ToList();
+                .ToListAsync();
         }
 
-        public bool Delete(int workShiftId)
+        public async Task<bool> DeleteAsync(int workShiftId)
         {
-            var workShift = _context.WorkShifts.Find(workShiftId);
-            if (workShift != null)
-            {
-                _context.WorkShifts.Remove(workShift);
-                _context.SaveChanges();
-                return true;
-            }
-            return false;
+            var workShift = await _context.WorkShifts.FindAsync(workShiftId);
+            if (workShift == null) return false;
+
+            _context.WorkShifts.Remove(workShift);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public bool CheckDuplicate(int employeeId, DateTime workDate, int shiftType)
+        public async Task<bool> CheckDuplicateAsync(int employeeId, DateTime workDate, int shiftType)
         {
-            return _context.WorkShifts.Any(w =>
+            return await _context.WorkShifts.AnyAsync(w =>
                 w.EmployeeId == employeeId &&
                 w.WorkDate == workDate.Date &&
                 w.ShiftType == shiftType);
         }
 
-        public WorkShift GetById(int id)
+        public async Task<WorkShift?> GetByIdAsync(int id)
         {
-            return _context.WorkShifts
+            return await _context.WorkShifts
                 .Include(w => w.Employee)
-                .FirstOrDefault(w => w.WorkShiftId == id);
+                .FirstOrDefaultAsync(w => w.WorkShiftId == id);
         }
     }
 }

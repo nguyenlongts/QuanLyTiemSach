@@ -112,6 +112,7 @@ namespace QuanLyTiemSach
         {
             try
             {
+                var shiftService = ServiceDI.GetWorkShiftService();
                 OpenChildForm(new FormManagerShift());
                 SetActiveButton(sender as Button);
             }

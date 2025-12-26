@@ -51,6 +51,8 @@
             dgvUsers = new DataGridView();
             pnlBottom = new Panel();
             grpUserInfo = new GroupBox();
+            txtPhone = new TextBox();
+            lblPhone = new Label();
             btnDelete = new Button();
             btnUpdate = new Button();
             btnAdd = new Button();
@@ -82,9 +84,8 @@
             pnlTop.Controls.Add(lblTitle);
             pnlTop.Dock = DockStyle.Top;
             pnlTop.Location = new Point(0, 0);
-            pnlTop.Margin = new Padding(3, 4, 3, 4);
             pnlTop.Name = "pnlTop";
-            pnlTop.Size = new Size(977, 107);
+            pnlTop.Size = new Size(855, 80);
             pnlTop.TabIndex = 0;
             // 
             // btnRefresh
@@ -93,10 +94,9 @@
             btnRefresh.FlatStyle = FlatStyle.Flat;
             btnRefresh.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnRefresh.ForeColor = Color.White;
-            btnRefresh.Location = new Point(428, 64);
-            btnRefresh.Margin = new Padding(3, 4, 3, 4);
+            btnRefresh.Location = new Point(374, 48);
             btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(103, 40);
+            btnRefresh.Size = new Size(90, 30);
             btnRefresh.TabIndex = 4;
             btnRefresh.Text = "Làm mới";
             btnRefresh.UseVisualStyleBackColor = false;
@@ -108,10 +108,9 @@
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnSearch.ForeColor = Color.White;
-            btnSearch.Location = new Point(313, 64);
-            btnSearch.Margin = new Padding(3, 4, 3, 4);
+            btnSearch.Location = new Point(274, 48);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(103, 40);
+            btnSearch.Size = new Size(90, 30);
             btnSearch.TabIndex = 3;
             btnSearch.Text = "Tìm kiếm";
             btnSearch.UseVisualStyleBackColor = false;
@@ -120,10 +119,9 @@
             // txtSearch
             // 
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(16, 66);
-            txtSearch.Margin = new Padding(3, 4, 3, 4);
+            txtSearch.Location = new Point(14, 50);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(285, 30);
+            txtSearch.Size = new Size(250, 25);
             txtSearch.TabIndex = 2;
             txtSearch.KeyPress += txtSearch_KeyPress;
             // 
@@ -132,27 +130,27 @@
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             lblTitle.ForeColor = Color.White;
-            lblTitle.Location = new Point(12, 9);
+            lblTitle.Location = new Point(10, 7);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(355, 41);
+            lblTitle.Size = new Size(285, 32);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "QUẢN LÝ NGƯỜI DÙNG";
-
             // 
             // pnlCenter
             // 
             pnlCenter.Controls.Add(dgvUsers);
             pnlCenter.Dock = DockStyle.Fill;
-            pnlCenter.Location = new Point(0, 107);
-            pnlCenter.Margin = new Padding(3, 4, 3, 4);
+            pnlCenter.Location = new Point(0, 80);
             pnlCenter.Name = "pnlCenter";
-            pnlCenter.Padding = new Padding(11, 13, 11, 13);
-            pnlCenter.Size = new Size(977, 293);
+            pnlCenter.Padding = new Padding(10);
+            pnlCenter.Size = new Size(855, 220);
             pnlCenter.TabIndex = 1;
-
             // 
             // dgvUsers
             // 
+            dgvUsers.AllowUserToResizeColumns = false;
+            dgvUsers.AllowUserToResizeRows = false;
+            dgvUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUsers.BackgroundColor = Color.White;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = SystemColors.Control;
@@ -172,39 +170,31 @@
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
             dgvUsers.DefaultCellStyle = dataGridViewCellStyle4;
             dgvUsers.Dock = DockStyle.Fill;
-            dgvUsers.Location = new Point(11, 13);
-            dgvUsers.Margin = new Padding(3, 4, 3, 4);
+            dgvUsers.Location = new Point(10, 10);
+            dgvUsers.MultiSelect = false;
             dgvUsers.Name = "dgvUsers";
+            dgvUsers.ReadOnly = true;
+            dgvUsers.RowHeadersVisible = false;
             dgvUsers.RowHeadersWidth = 51;
-            dgvUsers.RowTemplate.Height = 25;
-            dgvUsers.Size = new Size(955, 267);
+            dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvUsers.Size = new Size(835, 200);
             dgvUsers.TabIndex = 0;
             dgvUsers.CellClick += dgvUsers_CellClick;
-            dgvUsers.RowHeadersVisible = false;
-            dgvUsers.Dock = DockStyle.Fill;
-            dgvUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvUsers.AllowUserToResizeColumns = false;
-            dgvUsers.AllowUserToResizeRows = false;
-            dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvUsers.MultiSelect = false;
-            dgvUsers.ReadOnly = true;
-            dgvUsers.AutoGenerateColumns = true;
-
-
             // 
             // pnlBottom
             // 
             pnlBottom.BackColor = Color.FromArgb(236, 240, 241);
             pnlBottom.Controls.Add(grpUserInfo);
             pnlBottom.Dock = DockStyle.Bottom;
-            pnlBottom.Location = new Point(0, 400);
-            pnlBottom.Margin = new Padding(3, 4, 3, 4);
+            pnlBottom.Location = new Point(0, 300);
             pnlBottom.Name = "pnlBottom";
-            pnlBottom.Size = new Size(977, 285);
+            pnlBottom.Size = new Size(855, 214);
             pnlBottom.TabIndex = 2;
             // 
             // grpUserInfo
             // 
+            grpUserInfo.Controls.Add(txtPhone);
+            grpUserInfo.Controls.Add(lblPhone);
             grpUserInfo.Controls.Add(btnDelete);
             grpUserInfo.Controls.Add(btnUpdate);
             grpUserInfo.Controls.Add(btnAdd);
@@ -221,14 +211,31 @@
             grpUserInfo.Controls.Add(txtUsername);
             grpUserInfo.Controls.Add(lblUsername);
             grpUserInfo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            grpUserInfo.Location = new Point(11, 9);
-            grpUserInfo.Margin = new Padding(3, 4, 3, 4);
+            grpUserInfo.Location = new Point(10, 7);
             grpUserInfo.Name = "grpUserInfo";
-            grpUserInfo.Padding = new Padding(3, 4, 3, 4);
-            grpUserInfo.Size = new Size(954, 272);
+            grpUserInfo.Size = new Size(835, 204);
             grpUserInfo.TabIndex = 0;
             grpUserInfo.TabStop = false;
             grpUserInfo.Text = "Thông tin người dùng";
+            // 
+            // txtPhone
+            // 
+            txtPhone.Font = new Font("Segoe UI", 9F);
+            txtPhone.Location = new Point(696, 40);
+            txtPhone.Name = "txtPhone";
+            txtPhone.PasswordChar = '*';
+            txtPhone.Size = new Size(129, 23);
+            txtPhone.TabIndex = 16;
+            // 
+            // lblPhone
+            // 
+            lblPhone.AutoSize = true;
+            lblPhone.Font = new Font("Segoe UI", 9F);
+            lblPhone.Location = new Point(616, 43);
+            lblPhone.Name = "lblPhone";
+            lblPhone.Size = new Size(79, 15);
+            lblPhone.TabIndex = 15;
+            lblPhone.Text = "Số diện thoại:";
             // 
             // btnDelete
             // 
@@ -237,10 +244,9 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(552, 207);
-            btnDelete.Margin = new Padding(3, 4, 3, 4);
+            btnDelete.Location = new Point(483, 155);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(137, 53);
+            btnDelete.Size = new Size(120, 40);
             btnDelete.TabIndex = 14;
             btnDelete.Text = "Xóa";
             btnDelete.UseVisualStyleBackColor = false;
@@ -253,10 +259,9 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(323, 207);
-            btnUpdate.Margin = new Padding(3, 4, 3, 4);
+            btnUpdate.Location = new Point(283, 155);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(137, 53);
+            btnUpdate.Size = new Size(120, 40);
             btnUpdate.TabIndex = 13;
             btnUpdate.Text = "Cập nhật";
             btnUpdate.UseVisualStyleBackColor = false;
@@ -268,10 +273,9 @@
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(95, 207);
-            btnAdd.Margin = new Padding(3, 4, 3, 4);
+            btnAdd.Location = new Point(83, 155);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(137, 53);
+            btnAdd.Size = new Size(120, 40);
             btnAdd.TabIndex = 12;
             btnAdd.Text = "Thêm mới";
             btnAdd.UseVisualStyleBackColor = false;
@@ -283,19 +287,18 @@
             cboStatus.Font = new Font("Segoe UI", 9F);
             cboStatus.FormattingEnabled = true;
             cboStatus.Items.AddRange(new object[] { "Active", "Inactive" });
-            cboStatus.Location = new Point(502, 156);
-            cboStatus.Margin = new Padding(3, 4, 3, 4);
+            cboStatus.Location = new Point(417, 117);
             cboStatus.Name = "cboStatus";
-            cboStatus.Size = new Size(213, 28);
+            cboStatus.Size = new Size(187, 23);
             cboStatus.TabIndex = 11;
             // 
             // lblStatus
             // 
             lblStatus.AutoSize = true;
             lblStatus.Font = new Font("Segoe UI", 9F);
-            lblStatus.Location = new Point(420, 160);
+            lblStatus.Location = new Point(346, 120);
             lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(78, 20);
+            lblStatus.Size = new Size(62, 15);
             lblStatus.TabIndex = 10;
             lblStatus.Text = "Trạng thái:";
             // 
@@ -305,109 +308,104 @@
             cboRole.Font = new Font("Segoe UI", 9F);
             cboRole.FormattingEnabled = true;
             cboRole.Items.AddRange(new object[] { "Admin", "Staff" });
-            cboRole.Location = new Point(502, 103);
-            cboRole.Margin = new Padding(3, 4, 3, 4);
+            cboRole.Location = new Point(417, 77);
             cboRole.Name = "cboRole";
-            cboRole.Size = new Size(213, 28);
+            cboRole.Size = new Size(187, 23);
             cboRole.TabIndex = 9;
+            cboRole.SelectedIndexChanged += cboRole_SelectedIndexChanged;
             // 
             // lblRole
             // 
             lblRole.AutoSize = true;
             lblRole.Font = new Font("Segoe UI", 9F);
-            lblRole.Location = new Point(420, 107);
+            lblRole.Location = new Point(346, 80);
             lblRole.Name = "lblRole";
-            lblRole.Size = new Size(55, 20);
+            lblRole.Size = new Size(43, 15);
             lblRole.TabIndex = 8;
             lblRole.Text = "Vai trò:";
             // 
             // txtPassword
             // 
             txtPassword.Font = new Font("Segoe UI", 9F);
-            txtPassword.Location = new Point(502, 49);
-            txtPassword.Margin = new Padding(3, 4, 3, 4);
+            txtPassword.Location = new Point(417, 37);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
-            txtPassword.Size = new Size(213, 27);
+            txtPassword.Size = new Size(187, 23);
             txtPassword.TabIndex = 7;
             // 
             // lblPassword
             // 
             lblPassword.AutoSize = true;
             lblPassword.Font = new Font("Segoe UI", 9F);
-            lblPassword.Location = new Point(420, 53);
+            lblPassword.Location = new Point(346, 40);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(73, 20);
+            lblPassword.Size = new Size(60, 15);
             lblPassword.TabIndex = 6;
             lblPassword.Text = "Mật khẩu:";
             // 
             // txtEmail
             // 
             txtEmail.Font = new Font("Segoe UI", 9F);
-            txtEmail.Location = new Point(146, 156);
-            txtEmail.Margin = new Padding(3, 4, 3, 4);
+            txtEmail.Location = new Point(128, 117);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(220, 27);
+            txtEmail.Size = new Size(193, 23);
             txtEmail.TabIndex = 5;
             // 
             // lblEmail
             // 
             lblEmail.AutoSize = true;
             lblEmail.Font = new Font("Segoe UI", 9F);
-            lblEmail.Location = new Point(34, 160);
+            lblEmail.Location = new Point(30, 120);
             lblEmail.Name = "lblEmail";
-            lblEmail.Size = new Size(49, 20);
+            lblEmail.Size = new Size(39, 15);
             lblEmail.TabIndex = 4;
             lblEmail.Text = "Email:";
             // 
             // txtFullName
             // 
             txtFullName.Font = new Font("Segoe UI", 9F);
-            txtFullName.Location = new Point(146, 103);
-            txtFullName.Margin = new Padding(3, 4, 3, 4);
+            txtFullName.Location = new Point(128, 77);
             txtFullName.Name = "txtFullName";
-            txtFullName.Size = new Size(220, 27);
+            txtFullName.Size = new Size(193, 23);
             txtFullName.TabIndex = 3;
             // 
             // lblFullName
             // 
             lblFullName.AutoSize = true;
             lblFullName.Font = new Font("Segoe UI", 9F);
-            lblFullName.Location = new Point(34, 107);
+            lblFullName.Location = new Point(30, 80);
             lblFullName.Name = "lblFullName";
-            lblFullName.Size = new Size(76, 20);
+            lblFullName.Size = new Size(61, 15);
             lblFullName.TabIndex = 2;
             lblFullName.Text = "Họ và tên:";
             // 
             // txtUsername
             // 
             txtUsername.Font = new Font("Segoe UI", 9F);
-            txtUsername.Location = new Point(146, 49);
-            txtUsername.Margin = new Padding(3, 4, 3, 4);
+            txtUsername.Location = new Point(128, 37);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(220, 27);
+            txtUsername.Size = new Size(193, 23);
             txtUsername.TabIndex = 1;
             // 
             // lblUsername
             // 
             lblUsername.AutoSize = true;
             lblUsername.Font = new Font("Segoe UI", 9F);
-            lblUsername.Location = new Point(34, 53);
+            lblUsername.Location = new Point(30, 40);
             lblUsername.Name = "lblUsername";
-            lblUsername.Size = new Size(110, 20);
+            lblUsername.Size = new Size(88, 15);
             lblUsername.TabIndex = 0;
             lblUsername.Text = "Tên đăng nhập:";
             // 
             // FormUsers
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(977, 685);
+            ClientSize = new Size(855, 514);
             Controls.Add(pnlCenter);
             Controls.Add(pnlBottom);
             Controls.Add(pnlTop);
             Font = new Font("Segoe UI", 9F);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "FormUsers";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản lý Người dùng - QuanLyTiemSach";
@@ -421,5 +419,8 @@
             grpUserInfo.PerformLayout();
             ResumeLayout(false);
         }
+
+        private TextBox txtPhone;
+        private Label lblPhone;
     }
 }
