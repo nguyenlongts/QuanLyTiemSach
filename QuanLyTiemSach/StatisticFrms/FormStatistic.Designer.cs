@@ -19,9 +19,9 @@ namespace QuanLyTiemSach.StatisticFrms
 
         private void InitializeComponent()
         {
-            ChartArea chartArea3 = new ChartArea();
-            Legend legend3 = new Legend();
-            Series series3 = new Series();
+            ChartArea chartArea1 = new ChartArea();
+            Legend legend1 = new Legend();
+            Series series1 = new Series();
             pnlHeader = new Panel();
             lblTitle = new Label();
             pnlTopStats = new Panel();
@@ -77,9 +77,9 @@ namespace QuanLyTiemSach.StatisticFrms
             lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(18, 11);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(390, 45);
+            lblTitle.Size = new Size(338, 45);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "📊 Thống Kê Doanh Thu";
+            lblTitle.Text = "Thống Kê Doanh Thu";
             // 
             // pnlTopStats
             // 
@@ -110,9 +110,9 @@ namespace QuanLyTiemSach.StatisticFrms
             // 
             lblTotalRevenueValue.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
             lblTotalRevenueValue.ForeColor = Color.White;
-            lblTotalRevenueValue.Location = new Point(7, 26);
+            lblTotalRevenueValue.Location = new Point(7, 20);
             lblTotalRevenueValue.Name = "lblTotalRevenueValue";
-            lblTotalRevenueValue.Size = new Size(197, 34);
+            lblTotalRevenueValue.Size = new Size(197, 46);
             lblTotalRevenueValue.TabIndex = 1;
             lblTotalRevenueValue.Text = "0 VNĐ";
             lblTotalRevenueValue.TextAlign = ContentAlignment.MiddleCenter;
@@ -121,11 +121,11 @@ namespace QuanLyTiemSach.StatisticFrms
             // 
             lblTotalRevenue.Font = new Font("Segoe UI", 11F);
             lblTotalRevenue.ForeColor = Color.White;
-            lblTotalRevenue.Location = new Point(9, 8);
+            lblTotalRevenue.Location = new Point(9, 4);
             lblTotalRevenue.Name = "lblTotalRevenue";
             lblTotalRevenue.Size = new Size(197, 19);
             lblTotalRevenue.TabIndex = 0;
-            lblTotalRevenue.Text = "💰 Tổng Doanh Thu";
+            lblTotalRevenue.Text = "Tổng Doanh Thu";
             lblTotalRevenue.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pnlTotalOrders
@@ -145,7 +145,7 @@ namespace QuanLyTiemSach.StatisticFrms
             lblTotalOrdersValue.ForeColor = Color.White;
             lblTotalOrdersValue.Location = new Point(9, 26);
             lblTotalOrdersValue.Name = "lblTotalOrdersValue";
-            lblTotalOrdersValue.Size = new Size(200, 34);
+            lblTotalOrdersValue.Size = new Size(200, 40);
             lblTotalOrdersValue.TabIndex = 1;
             lblTotalOrdersValue.Text = "0";
             lblTotalOrdersValue.TextAlign = ContentAlignment.MiddleCenter;
@@ -154,11 +154,11 @@ namespace QuanLyTiemSach.StatisticFrms
             // 
             lblTotalOrders.Font = new Font("Segoe UI", 11F);
             lblTotalOrders.ForeColor = Color.White;
-            lblTotalOrders.Location = new Point(9, 8);
+            lblTotalOrders.Location = new Point(9, 3);
             lblTotalOrders.Name = "lblTotalOrders";
             lblTotalOrders.Size = new Size(200, 19);
             lblTotalOrders.TabIndex = 0;
-            lblTotalOrders.Text = "📦 Tổng Đơn Hàng";
+            lblTotalOrders.Text = "Tổng Đơn Hàng";
             lblTotalOrders.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pnlAvgOrder
@@ -178,7 +178,7 @@ namespace QuanLyTiemSach.StatisticFrms
             lblAvgOrderValue.ForeColor = Color.White;
             lblAvgOrderValue.Location = new Point(9, 26);
             lblAvgOrderValue.Name = "lblAvgOrderValue";
-            lblAvgOrderValue.Size = new Size(197, 34);
+            lblAvgOrderValue.Size = new Size(197, 40);
             lblAvgOrderValue.TabIndex = 1;
             lblAvgOrderValue.Text = "0 VNĐ";
             lblAvgOrderValue.TextAlign = ContentAlignment.MiddleCenter;
@@ -187,11 +187,11 @@ namespace QuanLyTiemSach.StatisticFrms
             // 
             lblAvgOrder.Font = new Font("Segoe UI", 11F);
             lblAvgOrder.ForeColor = Color.White;
-            lblAvgOrder.Location = new Point(9, 8);
+            lblAvgOrder.Location = new Point(9, 3);
             lblAvgOrder.Name = "lblAvgOrder";
             lblAvgOrder.Size = new Size(197, 19);
             lblAvgOrder.TabIndex = 0;
-            lblAvgOrder.Text = "📈 Giá Trị Trung Bình";
+            lblAvgOrder.Text = "Giá Trị Trung Bình";
             lblAvgOrder.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pnlBestMonth
@@ -209,9 +209,9 @@ namespace QuanLyTiemSach.StatisticFrms
             // 
             lblBestMonthValue.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
             lblBestMonthValue.ForeColor = Color.White;
-            lblBestMonthValue.Location = new Point(9, 26);
+            lblBestMonthValue.Location = new Point(9, 23);
             lblBestMonthValue.Name = "lblBestMonthValue";
-            lblBestMonthValue.Size = new Size(197, 34);
+            lblBestMonthValue.Size = new Size(197, 43);
             lblBestMonthValue.TabIndex = 1;
             lblBestMonthValue.Text = "Tháng --";
             lblBestMonthValue.TextAlign = ContentAlignment.MiddleCenter;
@@ -220,11 +220,11 @@ namespace QuanLyTiemSach.StatisticFrms
             // 
             lblBestMonth.Font = new Font("Segoe UI", 11F);
             lblBestMonth.ForeColor = Color.White;
-            lblBestMonth.Location = new Point(9, 8);
+            lblBestMonth.Location = new Point(9, 4);
             lblBestMonth.Name = "lblBestMonth";
             lblBestMonth.Size = new Size(197, 19);
             lblBestMonth.TabIndex = 0;
-            lblBestMonth.Text = "🏆 Cao Nhất";
+            lblBestMonth.Text = "Cao Nhất";
             lblBestMonth.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pnlFilters
@@ -340,7 +340,7 @@ namespace QuanLyTiemSach.StatisticFrms
             btnFilter.Name = "btnFilter";
             btnFilter.Size = new Size(91, 28);
             btnFilter.TabIndex = 7;
-            btnFilter.Text = "🔍 Xem";
+            btnFilter.Text = "Xem";
             btnFilter.UseVisualStyleBackColor = false;
             btnFilter.Click += btnFilter_Click;
             // 
@@ -355,7 +355,7 @@ namespace QuanLyTiemSach.StatisticFrms
             btnExport.Name = "btnExport";
             btnExport.Size = new Size(118, 30);
             btnExport.TabIndex = 8;
-            btnExport.Text = "📥 Xuất Excel";
+            btnExport.Text = "Xuất Excel";
             btnExport.UseVisualStyleBackColor = false;
             btnExport.Click += btnExport_Click;
             // 
@@ -371,29 +371,29 @@ namespace QuanLyTiemSach.StatisticFrms
             // 
             // chartDoanhThu
             // 
-            chartArea3.AxisX.LabelStyle.Font = new Font("Segoe UI", 9F);
-            chartArea3.AxisX.MajorGrid.LineColor = Color.LightGray;
-            chartArea3.AxisX.Title = "Thời gian";
-            chartArea3.AxisX.TitleFont = new Font("Segoe UI", 10F, FontStyle.Bold);
-            chartArea3.AxisY.LabelStyle.Font = new Font("Segoe UI", 9F);
-            chartArea3.AxisY.LabelStyle.Format = "{0:N0}";
-            chartArea3.AxisY.MajorGrid.LineColor = Color.LightGray;
-            chartArea3.AxisY.Title = "Doanh Thu (Triệu VNĐ)";
-            chartArea3.AxisY.TitleFont = new Font("Segoe UI", 10F, FontStyle.Bold);
-            chartArea3.BackColor = Color.White;
-            chartArea3.Name = "ChartArea1";
-            chartDoanhThu.ChartAreas.Add(chartArea3);
-            legend3.Font = new Font("Segoe UI", 9F);
-            legend3.IsTextAutoFit = false;
-            legend3.Name = "Legend1";
-            chartDoanhThu.Legends.Add(legend3);
+            chartArea1.AxisX.LabelStyle.Font = new Font("Segoe UI", 9F);
+            chartArea1.AxisX.MajorGrid.LineColor = Color.LightGray;
+            chartArea1.AxisX.Title = "Thời gian";
+            chartArea1.AxisX.TitleFont = new Font("Segoe UI", 10F, FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new Font("Segoe UI", 9F);
+            chartArea1.AxisY.LabelStyle.Format = "{0:N0}";
+            chartArea1.AxisY.MajorGrid.LineColor = Color.LightGray;
+            chartArea1.AxisY.Title = "Doanh Thu (Triệu VNĐ)";
+            chartArea1.AxisY.TitleFont = new Font("Segoe UI", 10F, FontStyle.Bold);
+            chartArea1.BackColor = Color.White;
+            chartArea1.Name = "ChartArea1";
+            chartDoanhThu.ChartAreas.Add(chartArea1);
+            legend1.Font = new Font("Segoe UI", 9F);
+            legend1.IsTextAutoFit = false;
+            legend1.Name = "Legend1";
+            chartDoanhThu.Legends.Add(legend1);
             chartDoanhThu.Location = new Point(9, 21);
             chartDoanhThu.Margin = new Padding(3, 2, 3, 2);
             chartDoanhThu.Name = "chartDoanhThu";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Doanh Thu";
-            chartDoanhThu.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Doanh Thu";
+            chartDoanhThu.Series.Add(series1);
             chartDoanhThu.Size = new Size(923, 315);
             chartDoanhThu.TabIndex = 0;
             // 

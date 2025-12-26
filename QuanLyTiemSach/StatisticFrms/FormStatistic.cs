@@ -220,7 +220,7 @@ namespace QuanLyTiemSach.StatisticFrms
 
             Title title = new Title
             {
-                Text = $"📊 BIỂU ĐỒ DOANH THU NĂM {year}",
+                Text = $"BIỂU ĐỒ DOANH THU NĂM {year}",
                 Font = new Font("Segoe UI", 14F, FontStyle.Bold),
                 ForeColor = Color.FromArgb(52, 73, 94)
             };
