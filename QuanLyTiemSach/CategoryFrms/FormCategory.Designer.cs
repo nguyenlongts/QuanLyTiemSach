@@ -39,10 +39,8 @@ namespace QuanLyTiemSach
             btnSearch = new Button();
             txtSearch = new TextBox();
             lblTitle = new Label();
-
             pnlCenter = new Panel();
             dgvCategory = new DataGridView();
-
             pnlBottom = new Panel();
             grpCategoryInfo = new GroupBox();
             lblCategoryName = new Label();
@@ -52,14 +50,12 @@ namespace QuanLyTiemSach
             btnAdd = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
-
             pnlTop.SuspendLayout();
             pnlCenter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCategory).BeginInit();
             pnlBottom.SuspendLayout();
             grpCategoryInfo.SuspendLayout();
             SuspendLayout();
-
             // ================= TOP =================
             pnlTop.BackColor = Color.FromArgb(41, 128, 185);
             pnlTop.Dock = DockStyle.Top;
@@ -68,17 +64,14 @@ namespace QuanLyTiemSach
             pnlTop.Controls.Add(btnSearch);
             pnlTop.Controls.Add(txtSearch);
             pnlTop.Controls.Add(lblTitle);
-
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(15, 10);
             lblTitle.Text = "QUẢN LÝ DANH MỤC";
-
             txtSearch.Font = new Font("Segoe UI", 10F);
             txtSearch.Location = new Point(18, 55);
             txtSearch.Size = new Size(260, 30);
-
             btnSearch.BackColor = Color.FromArgb(46, 204, 113);
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.ForeColor = Color.White;
@@ -86,7 +79,6 @@ namespace QuanLyTiemSach
             btnSearch.Size = new Size(100, 30);
             btnSearch.Text = "Tìm kiếm";
             btnSearch.Click += btnSearch_Click;
-
             btnRefresh.BackColor = Color.FromArgb(52, 152, 219);
             btnRefresh.FlatStyle = FlatStyle.Flat;
             btnRefresh.ForeColor = Color.White;
@@ -94,12 +86,10 @@ namespace QuanLyTiemSach
             btnRefresh.Size = new Size(100, 30);
             btnRefresh.Text = "Làm mới";
             btnRefresh.Click += btnRefresh_Click;
-
             // ================= CENTER =================
             pnlCenter.Dock = DockStyle.Fill;
             pnlCenter.Padding = new Padding(10);
             pnlCenter.Controls.Add(dgvCategory);
-
             dgvCategory.Dock = DockStyle.Fill;
             dgvCategory.BackgroundColor = Color.White;
             dgvCategory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -109,29 +99,22 @@ namespace QuanLyTiemSach
             dgvCategory.AllowUserToDeleteRows = false;
             dgvCategory.RowHeadersVisible = false;
             dgvCategory.CellClick += dgvCategory_CellClick;
-
             // ================= BOTTOM =================
             pnlBottom.Dock = DockStyle.Bottom;
             pnlBottom.Height = 250;
             pnlBottom.BackColor = Color.FromArgb(236, 240, 241);
             pnlBottom.Controls.Add(grpCategoryInfo);
-
             grpCategoryInfo.Text = "Thông tin danh mục";
             grpCategoryInfo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             grpCategoryInfo.Dock = DockStyle.Fill;
-
             lblCategoryName.Text = "Tên danh mục:";
             lblCategoryName.Location = new Point(30, 40);
-
             txtCategoryName.Location = new Point(150, 36);
             txtCategoryName.Size = new Size(250, 27);
-
             lblDescription.Text = "Mô tả:";
             lblDescription.Location = new Point(30, 85);
-
             txtDescription.Location = new Point(150, 81);
             txtDescription.Size = new Size(250, 27);
-
             btnAdd.Text = "Thêm";
             btnAdd.BackColor = Color.FromArgb(46, 204, 113);
             btnAdd.ForeColor = Color.White;
@@ -147,7 +130,6 @@ namespace QuanLyTiemSach
             btnUpdate.Size = new Size(110, 40);
             btnUpdate.Enabled = false;
             btnUpdate.Click += btnUpdate_Click;
-
             btnDelete.Text = "Xóa";
             btnDelete.BackColor = Color.FromArgb(231, 76, 60);
             btnDelete.ForeColor = Color.White;
@@ -156,7 +138,6 @@ namespace QuanLyTiemSach
             btnDelete.Size = new Size(110, 40);
             btnDelete.Enabled = false;
             btnDelete.Click += btnDelete_Click;
-
             grpCategoryInfo.Controls.Add(lblCategoryName);
             grpCategoryInfo.Controls.Add(txtCategoryName);
             grpCategoryInfo.Controls.Add(lblDescription);
@@ -164,7 +145,6 @@ namespace QuanLyTiemSach
             grpCategoryInfo.Controls.Add(btnAdd);
             grpCategoryInfo.Controls.Add(btnUpdate);
             grpCategoryInfo.Controls.Add(btnDelete);
-
             // ================= FORM =================
             ClientSize = new Size(980, 680);
             Controls.Add(pnlCenter);
@@ -172,7 +152,6 @@ namespace QuanLyTiemSach
             Controls.Add(pnlTop);
             Font = new Font("Segoe UI", 9F);
             Text = "Quản lý Danh mục";
-
             pnlTop.ResumeLayout(false);
             pnlTop.PerformLayout();
             pnlCenter.ResumeLayout(false);

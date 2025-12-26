@@ -1,6 +1,7 @@
 ﻿using QuanLyTiemSach.BLL.Services.Interfaces;
 using QuanLyTiemSach.Domain.Model;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -9,10 +10,12 @@ namespace QuanLyTiemSach
     public partial class FormCategory : Form
     {
         private readonly ICategoryService _categoryService;
-        private int _selectedCategoryId;
         private readonly IBookService _bookService;
+        private int _selectedCategoryId;
 
-        public FormCategory(ICategoryService categoryService,IBookService bookService)
+        public FormCategory(
+            ICategoryService categoryService,
+            IBookService bookService)
         {
             InitializeComponent();
             _categoryService = categoryService;
@@ -23,9 +26,21 @@ namespace QuanLyTiemSach
 
         private async Task LoadDataAsync()
         {
-            dgvCategory.DataSource = null;
-            dgvCategory.DataSource = await _categoryService.GetAllCategoriesAsync();
-            ClearForm();
+            try
+            {
+                dgvCategory.DataSource = null;
+                dgvCategory.DataSource = await _categoryService.GetAllCategoriesAsync();
+                if (dgvCategory.Columns.Contains("Books"))
+                {
+                    dgvCategory.Columns["Books"].Visible = false;
+                }
+                ClearForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ClearForm()
@@ -42,20 +57,25 @@ namespace QuanLyTiemSach
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            var category = new Category
+            try
             {
-                Name = txtCategoryName.Text.Trim(),
-                Description = txtDescription.Text.Trim()
-            };
+                var category = new Category
+                {
+                    Name = txtCategoryName.Text.Trim(),
+                    Description = txtDescription.Text.Trim()
+                };
 
-            if (await _categoryService.AddCategoryAsync(category))
-            {
-                MessageBox.Show("Thêm danh mục thành công!");
+                await _categoryService.AddCategoryAsync(category);
+
+                MessageBox.Show("Thêm danh mục thành công!", "Thành công",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 await LoadDataAsync();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Thêm danh mục thất bại!");
+                MessageBox.Show(ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -67,21 +87,26 @@ namespace QuanLyTiemSach
                 return;
             }
 
-            var category = new Category
+            try
             {
-                Id = _selectedCategoryId,
-                Name = txtCategoryName.Text.Trim(),
-                Description = txtDescription.Text.Trim()
-            };
+                var category = new Category
+                {
+                    Id = _selectedCategoryId,
+                    Name = txtCategoryName.Text.Trim(),
+                    Description = txtDescription.Text.Trim()
+                };
 
-            if (await _categoryService.UpdateCategoryAsync(category))
-            {
-                MessageBox.Show("Cập nhật thành công!");
+                await _categoryService.UpdateCategoryAsync(category);
+
+                MessageBox.Show("Cập nhật thành công!", "Thành công",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 await LoadDataAsync();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Cập nhật thất bại!");
+                MessageBox.Show(ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -93,52 +118,49 @@ namespace QuanLyTiemSach
                 return;
             }
 
-            var books = await _bookService.GetBooksByCategoryAsync(_selectedCategoryId);
-
-            if (books.Any())
+            try
             {
                 var confirm = MessageBox.Show(
-                    $"Danh mục này có {books.Count} sách.\n" +
-                    "Xóa danh mục sẽ xóa toàn bộ sách.\n\nBạn có chắc chắn?",
+                    "Bạn có chắc chắn muốn xóa danh mục này?",
                     "Xác nhận",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (confirm != DialogResult.Yes)
                     return;
-            }
 
-            bool success = await _categoryService.DeleteCategoryAsync(_selectedCategoryId);
+                await _categoryService.DeleteCategoryAsync(_selectedCategoryId);
 
-            MessageBox.Show(
-                success ? "Xóa thành công!" : "Xóa thất bại!",
-                "Thông báo");
+                MessageBox.Show("Xóa danh mục thành công!", "Thành công",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            if (success)
                 await LoadDataAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            dgvCategory.DataSource = await _categoryService
-                .SearchCategoriesAsync(txtSearch.Text.Trim());
+            try
+            {
+                dgvCategory.DataSource = await _categoryService
+                    .SearchCategoriesAsync(txtSearch.Text.Trim());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
             txtSearch.Clear();
             await LoadDataAsync();
-        }
-
-        private async void txtSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                await Task.Run(() => { });
-                btnSearch.PerformClick();
-                e.SuppressKeyPress = true;
-            }
         }
 
         private void dgvCategory_CellClick(object sender, DataGridViewCellEventArgs e)
