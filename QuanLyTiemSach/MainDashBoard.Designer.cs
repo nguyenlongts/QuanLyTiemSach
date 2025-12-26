@@ -8,7 +8,6 @@ namespace QuanLyTiemSach
         private System.Windows.Forms.Panel headerPanel;
         private System.Windows.Forms.Label lblUser;
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Button btnHome;
         private System.Windows.Forms.Button btnBooks;
         private System.Windows.Forms.Button btnUsers;
         private System.Windows.Forms.Button btnOrders;
@@ -37,7 +36,6 @@ namespace QuanLyTiemSach
             btnCategory = new Button();
             btnOrders = new Button();
             btnBooks = new Button();
-            btnHome = new Button();
             lblTitle = new Label();
             activeIndicator = new Panel();
             headerPanel = new Panel();
@@ -59,7 +57,6 @@ namespace QuanLyTiemSach
             menuPanel.Controls.Add(btnCategory);
             menuPanel.Controls.Add(btnOrders);
             menuPanel.Controls.Add(btnBooks);
-            menuPanel.Controls.Add(btnHome);
             menuPanel.Controls.Add(lblTitle);
             menuPanel.Dock = DockStyle.Left;
             menuPanel.Location = new Point(0, 0);
@@ -213,27 +210,7 @@ namespace QuanLyTiemSach
             btnBooks.Click += btnBooks_Click;
             btnBooks.MouseEnter += Button_MouseEnter;
             btnBooks.MouseLeave += Button_MouseLeave;
-            // 
-            // btnHome
-            // 
-            btnHome.BackColor = Color.Transparent;
-            btnHome.Cursor = Cursors.Hand;
-            btnHome.Dock = DockStyle.Top;
-            btnHome.FlatAppearance.BorderSize = 0;
-            btnHome.FlatStyle = FlatStyle.Flat;
-            btnHome.Font = new Font("Segoe UI", 10F);
-            btnHome.ForeColor = Color.FromArgb(236, 240, 241);
-            btnHome.Location = new Point(0, 80);
-            btnHome.Name = "btnHome";
-            btnHome.Padding = new Padding(20, 0, 0, 0);
-            btnHome.Size = new Size(240, 50);
-            btnHome.TabIndex = 7;
-            btnHome.Text = "  🏠  Trang chủ";
-            btnHome.TextAlign = ContentAlignment.MiddleLeft;
-            btnHome.UseVisualStyleBackColor = false;
-            btnHome.Click += btnHome_Click;
-            btnHome.MouseEnter += Button_MouseEnter;
-            btnHome.MouseLeave += Button_MouseLeave;
+
             // 
             // lblTitle
             // 

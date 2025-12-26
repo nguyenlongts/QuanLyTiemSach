@@ -21,7 +21,7 @@ namespace QuanLyTiemSach
         {
             InitializeComponent();
             ApplyAuthorization();
-            btnHome_Click(btnHome, EventArgs.Empty);
+            btnBooks_Click(btnBooks, EventArgs.Empty);
             this.FormClosed += (s, e) =>
             {
                 Application.Exit();
@@ -64,19 +64,6 @@ namespace QuanLyTiemSach
             }
         }
 
-        private void btnHome_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                OpenChildForm(new FormHome());
-                SetActiveButton(sender as Button);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi mở trang chủ: {ex.Message}",
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void btnBooks_Click(object sender, EventArgs e)
         {

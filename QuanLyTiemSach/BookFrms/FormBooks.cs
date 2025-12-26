@@ -283,8 +283,8 @@ namespace QuanLyTiemSach
         }
         private void ApplyStyles()
         {
-            lblHeader.Text = "📚 Quản lý Sách";
-            lblSearch.Text = "🔍 Tìm kiếm";
+            lblTitle.Text = "📚 Quản lý Sách";
+            txtSearchBook.Text = "🔍 Tìm kiếm";
 
             StyleButton(btnAdd, "Thêm", Color.FromArgb(46, 204, 113), "➕");
             StyleButton(btnEdit, "Sửa", Color.FromArgb(52, 152, 219), "✏️");
