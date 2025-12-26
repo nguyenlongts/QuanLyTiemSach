@@ -74,6 +74,12 @@ namespace QuanLyTiemSach
             IEmployeeRepository repository = new EmployeeRepository(dbContext);
             return new EmployeeService(repository);
         }
+        public static IUserService GetUserService()
+        {
+            var dbContext = GetDbContext();
+            IUserRepository repository = new UserRepository(dbContext);
+            return new UserService(repository);
+        }
 
         public static WorkShiftService GetWorkShiftService()
         {
